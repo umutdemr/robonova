@@ -1,0 +1,26 @@
+{
+  "canisters": {
+    "mulakatapp_final_backend": {
+      "main": "src/mulakatapp_final_backend/main.mo",
+      "type": "motoko"
+    },
+    "mulakatapp_final_frontend": {
+      "dependencies": [
+        "mulakatapp_final_backend"
+      ],
+      "source": [
+        "src/mulakatapp_final_frontend/dist"
+      ],
+      "type": "assets",
+      "workspace": "mulakatapp_final_frontend"
+    }
+  },
+  "defaults": {
+    "build": {
+      "args": "",
+      "packtool": ""
+    }
+  },
+  "output_env_file": ".env",
+  "version": 1
+}
