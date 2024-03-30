@@ -1,59 +1,169 @@
-# mulakatapp_final
 
-Welcome to your new mulakatapp_final project and to the internet computer development community. By default, creating a new project adds this README and some template files to your project directory. You can edit these template files to customize your project and to include your own code to speed up the development cycle.
+# Quiz Uygulaması - Internet Bilgisayar (ICP) için Motoko Uygulaması
 
-To get started, you might want to explore the project directory structure and the default configuration file. Working with this project in your development environment will not affect any production deployment or identity tokens.
+## Açıklama
+Bu proje, Motoko programlama dili ve React kullanılarak Internet Bilgisayar (ICP) için geliştirilmiş bir Quiz Uygulamasıdır.
+Projenin temel amacı, kimlik doğrulaması yapılmış kullanıcıların katılabileceği 
+iş görüşmelerine hazırlanmaları için bir quiz uygulamasıdır.
+Kullanıcılar bu uygulama üzerinden quiz sorularını cevaplayabilir ve sonuçlarını görebilirler. 
 
-To learn more before you start working with mulakatapp_final, see the following documentation available online:
+## Kurulum
 
-- [Quick Start](https://internetcomputer.org/docs/current/developer-docs/setup/deploy-locally)
-- [SDK Developer Tools](https://internetcomputer.org/docs/current/developer-docs/setup/install)
-- [Motoko Programming Language Guide](https://internetcomputer.org/docs/current/motoko/main/motoko)
-- [Motoko Language Quick Reference](https://internetcomputer.org/docs/current/motoko/main/language-manual)
-
-If you want to start working on your project right away, you might want to try the following commands:
+Projeyi klonlayın ve gerekli bağımlılıkları yükleyin:
 
 ```bash
-cd mulakatapp_final/
-dfx help
-dfx canister --help
+git clone https://github.com/umutdemr/MulakatApp.git
+cd MulakatApp
+npm install
 ```
+## Arka Uç İşlevselliği
+Projeyi oluşturan arka uç, Motoko'da uygulanmış olup, quiz uygulamasının omurgasını oluşturur. Temel özellikleri şunları içerir:
 
-## Running the project locally
+### Quiz Soru Yönetimi
+- Quiz Sorularını Alma: Sorular, HTTP istekleri kullanılarak harici bir API'den alınır.
+- Soruları Saklama: Alınan sorular, kesintisiz quiz oturumları için yerel olarak saklanır.
 
-If you want to test your project locally, you can use the following commands:
+## Kullanıcı Kimlik Doğrulama
+- Kimlik Doğrulama Sağlayıcısı: Kullanıcı kimlik doğrulaması için Internet Kimlik İstemcisi ile entegrasyon.
+- Oturum Açma Durumu Yönetimi: Kullanıcıların oturum açma durumunu yönetme ve buna göre uygun içeriği görüntüleme.
 
-```bash
-# Starts the replica, running in the background
-dfx start --background
+### Quiz İşleme
+- Quiz Formu Gönderimi: Kullanıcıların quiz soruları için gönderimlerini ele alma.
+- Puanlama Mekanizması: Kullanıcı cevaplarına göre puanlama yapma ve quiz sonuçlarını görüntüleme.
 
-# Deploys your canisters to the replica and generates your candid interface
-dfx deploy
-```
+## Kullanım
+Bu projeyi kullanmak için aşağıdaki adımları izleyin:
 
-Once the job completes, your application will be available at `http://localhost:4943?canisterId={asset_canister_id}`.
+1. **Internet Bilgisayar Ortamını Başlatın**: Internet Bilgisayar ortamını başlatmak için `dfx start --clean` komutunu çalıştırın.
 
-If you have made changes to your backend canister, you can generate a new candid interface with
+2. **Canister'lar Oluşturun**: Projeye ait canister'ları oluşturmak için `dfx canister create --all` komutunu çalıştırın.
 
-```bash
-npm run generate
-```
+3. **Projeyi Derleyin**: Projeyi derlemek için `dfx build` komutunu çalıştırın.
 
-at any time. This is recommended before starting the frontend development server, and will be run automatically any time you run `dfx deploy`.
+4. **Canister'ları Yükleyin**: Oluşturulan canister'ları yüklemek için `dfx canister install --all` komutunu çalıştırın.
 
-If you are making frontend changes, you can start a development server with
+5. **Gerekli Paketleri Yükleyin**: Gerekli paketleri yüklemek için `npm install @mui/material @emotion/react @emotion/styled` komutunu çalıştırın.
 
-```bash
-npm start
-```
+6. **Uygulamayı Başlatın**: Uygulamayı başlatmak için `npm start` komutunu çalıştırın.
 
-Which will start a server at `http://localhost:8080`, proxying API requests to the replica at port 4943.
+Ortam kurulduktan ve komutlar çalıştırıldıktan sonra, kullanıcılar ön uç uygulamasına erişebilir, quizlere katılabilir ve quiz sonuçlarını görebilirler.
 
-### Note on frontend environment variables
+Motoko ve Internet Bilgisayar'ı kullanarak, bu proje Internet Bilgisayar platformunda merkezi olmayan uygulamaların yeteneklerini gösterirken, eğlenceli ve eğitici bir quiz deneyimi sunmayı amaçlamaktadır.
 
-If you are hosting frontend code somewhere without using DFX, you may need to make one of the following adjustments to ensure your project does not fetch the root key in production:
+## 1. App Bileşeni
+Bu bileşen, uygulamanın ana bileşenidir ve quiz uygulamasının genel akışını yönetir. İşlevleri şunlardır:
 
-- set`DFX_NETWORK` to `ic` if you are using Webpack
-- use your own preferred method to replace `process.env.DFX_NETWORK` in the autogenerated declarations
-  - Setting `canisters -> {asset_canister_id} -> declarations -> env_override to a string` in `dfx.json` will replace `process.env.DFX_NETWORK` with the string in the autogenerated declarations
-- Write your own `createActor` constructor
+useState Hook'ları: Quiz uygulamasının durumunu yönetmek için kullanılır. Bu durumlar arasında sorular, mevcut soru indeksi, kullanıcının cevabı, doğru cevap durumu, skor, kalan süre, doğru cevap sayısı, yanlış cevap sayısı, cevaplanan sorular gibi bilgiler bulunur.
+useEffect Hook'ları: Kullanıcının kimlik doğrulamasının durumunu izler ve kullanıcı doğrulandığında soruları getirir.
+fetchQuestions Fonksiyonu: Quiz sorularını getirmek için kullanılan asenkron bir işlevdir.
+handleNextQuestion Fonksiyonu: Kullanıcının bir sonraki soruya geçmesini sağlar.
+handleSubmit Fonksiyonu: Kullanıcının cevabını işler, skoru günceller ve bir sonraki soruya geçer.
+Render İşlevi: Kullanıcının kimlik durumuna ve quiz ilerleyişine göre uygun bileşenleri render eder.
+
+## 2. LoggedIn Bileşeni
+Bu bileşen, kullanıcının oturum açmış olduğu durumda görüntülenen bileşendir. İşlevleri şunlardır:
+
+useAuth Hook'u: Kimlik doğrulaması bilgilerine erişimi sağlar.
+Render İşlevi: Kullanıcının oturum açmış olduğu durumda kimlik bilgisini ve çıkış düğmesini görüntüler.
+
+## 3. LoggedOut Bileşeni
+Bu bileşen, kullanıcının oturum açmadığı durumda görüntülenen bileşendir. İşlevleri şunlardır:
+
+useAuth Hook'u: Kimlik doğrulaması bilgilerine erişimi sağlar.
+Render İşlevi: Kullanıcının oturum açmadığı durumda oturum açma düğmesini görüntüler.
+
+## 4. QuizForm Bileşeni
+Bu bileşen, kullanıcının quiz sorularını görüntüleyip cevaplayabileceği bir formu içerir. İşlevleri şunlardır:
+
+Render İşlevi: Mevcut soruyu ve seçenekleri görüntüler ve kullanıcının cevaplarını işler.
+
+## 5. QuizResults Bileşeni
+Bu bileşen, quiz'in sonuçlarını görüntüler. İşlevleri şunlardır:
+
+Render İşlevi: Doğru cevap sayısını, yanlış cevap sayısını ve cevaplanan soruların ayrıntılarını görüntüler.
+
+## 6.Use Auth Client Bileşeni
+-1. useAuthClient Hook'u
+Bu Hook, kimlik doğrulama istemcisini oluşturur ve kimlik doğrulama durumunu yönetir. İşlevleri şunlardır:
+
+useState Hook'ları: Kimlik doğrulama durumunu ve ilişkili bilgileri yönetmek için kullanılır.
+useEffect Hook'u: İstemci oluşturulduğunda ve bileşen yüklendiğinde kimlik doğrulama durumunu günceller.
+login Fonksiyonu: Kullanıcıyı giriş yaptırır ve kimlik doğrulama durumunu günceller.
+updateAuthState Fonksiyonu: Kimlik doğrulama durumunu günceller ve kullanıcı kimlik bilgilerini alır.
+logout Fonksiyonu: Kullanıcıyı çıkış yaptırır ve kimlik doğrulama durumunu günceller.
+return Değeri: Kimlik doğrulama durumunu ve işlevleri içeren bir nesne döndürür.
+-2. AuthProvider Bileşeni
+Bu bileşen, useAuthClient Hook'unu kullanarak kimlik doğrulama sağlayıcısını sağlar. İşlevleri şunlardır:
+
+useAuthClient Hook'unu Kullanma: Kimlik doğrulama istemcisini oluşturur ve kimlik doğrulama durumunu yönetmek için kullanır.
+Render İşlevi: Kimlik doğrulama durumunu sağlayan bir bağlam değeriyle birlikte çocuk bileşenlerini oluşturur.
+-3. useAuth Hook'u
+Bu Hook, kimlik doğrulama bilgilerine erişim sağlar. İşlevi şunlardır:
+
+useContext Hook'u Kullanma: Kimlik doğrulama bilgilerini içeren bağlam değerine erişim sağlar.
+return Değeri: Kimlik doğrulama bilgilerini içeren bir nesneyi döndürür.
+Bu bileşenler, kimlik doğrulama işlevselliğini sağlar ve React uygulamasında kimlik doğrulama ile ilgili işlemleri yönetir.
+
+## Backend
+
+## main.mo 
+
+Internet Computer (ICP) aktörüdür ve harici bir API'den quiz sorularını almak için bir HTTP isteği gönderir. İşlevleri şu şekildedir:
+## 1. makeHttpRequest Fonksiyonu
+Bu fonksiyon, harici bir API'den quiz sorularını almak için bir HTTP isteği gönderir. İşlevleri şunlardır:
+
+URL Tanımlama: Quiz sorularını almak için kullanılacak URL tanımlanır.
+Başlık Bilgileri Oluşturma: HTTP isteği için gerekli başlık bilgileri oluşturulur.
+HTTP İsteği Oluşturma: HTTP isteği argümanları oluşturulur ve URL ile başlık bilgileri atanır.
+HTTP İsteği Gönderme: Oluşturulan HTTP isteği gönderilir ve yanıt beklenir.
+Yanıtın İşlenmesi: Yanıtın gövdesi blob olarak alınır ve metne dönüştürülür.
+Yanıtı Döndürme: Alınan metin yanıt olarak döndürülür.
+Bu kod parçacığı, ICP üzerinde bir aktör olarak çalışır ve dış bir API ile etkileşim kurarak quiz sorularını alır.
+
+## Types.mo
+
+Types adlı bir Modül içinde yer alan ve HTTP istekleri ve yanıtları ile ilgili türleri tanımlayan bir Motoko Modülüdür. İşlevleri şunlardır:
+##  1. HttpRequestArgs Türü
+Bu tür, HTTP isteklerini tanımlamak için kullanılır. İçindeki alanlar şunlardır:
+
+url: İstek yapılacak olan URL'i temsil eder.
+headers: İstek başlıklarını temsil eden bir dizi.
+method: HTTP metodunu belirten bir değer.
+## 2. HttpResponsePayload Türü
+Bu tür, HTTP yanıtlarını temsil etmek için kullanılır. İçindeki alanlar şunlardır:
+
+status: HTTP yanıt durum kodunu temsil eder.
+headers: Yanıt başlıklarını temsil eden bir dizi.
+body: Yanıtın gövdesini temsil eden bir Blob.
+## 3. HttpHeader Türü
+Bu tür, HTTP başlıklarını temsil etmek için kullanılır. İçindeki alanlar şunlardır:
+
+name: Başlık adını temsil eder.
+value: Başlık değerini temsil eder.
+## 4. HttpMethod Türü
+Bu tür, HTTP metodlarını temsil etmek için kullanılır. İçindeki değerler şunlardır:
+
+#get: GET HTTP metodunu temsil eder.
+#post: POST HTTP metodunu temsil eder.
+#head: HEAD HTTP metodunu temsil eder.
+## 5. IC Türü
+Bu tür, IC yönetim canister'ını temsil etmek için kullanılır. İçindeki alanlar şunlardır:
+
+http_request: HTTP isteklerini alıp yanıtlarını döndüren bir işlevi temsil eder.
+Bu Modül, HTTP istekleri ve yanıtları ile ilgili türleri tanımlar ve kullanımı kolaylaştırır.
+
+-----------------------------------------------------------------------------------------------
+![1](https://github.com/umutdemr/MulakatApp/assets/84879807/c0c4c246-a6e4-4363-b04d-00639d590b27)
+
+![2_5](https://github.com/umutdemr/MulakatApp/assets/84879807/e9024aea-e5d0-4a87-a922-ed8aa04e0fd6)
+
+![3](https://github.com/umutdemr/MulakatApp/assets/84879807/7bca29d0-1baf-49fc-91e4-21e1a0421b8d)
+
+https://github.com/umutdemr/MulakatApp/assets/84879807/971ebac4-d155-43e2-8d90-8ad1dd0eebfe
+
+https://github.com/umutdemr/MulakatApp/assets/84879807/b25dda58-560f-4a3a-98b1-07426f6b6dfd
+
+
+
+
+
