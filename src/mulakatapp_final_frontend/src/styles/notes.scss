@@ -1,0 +1,79 @@
+// notes.scss
+
+// Çerçeve stilleri
+.notes-container {
+    width: 400px; // Çerçevenin genişliği
+    margin: 0 auto; // Sayfanın ortasına hizalanması için otomatik marj
+    padding: 20px; // Çerçeve iç boşluğu
+    border: 1px solid #ccc; // Çerçeve kenarlık
+    border-radius: 10px; // Köşelerin yuvarlatılması
+    background-color: #f9f9f9; // Çerçeve arka plan rengi
+  }
+  
+  // Başlık stilleri
+  h1 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  // Not ekleme alanı stilleri
+  input[type="text"] {
+    width: calc(100% - 85px); // Button genişliği dikkate alınarak input genişliği ayarlanıyor
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  // Not ekleme butonu stilleri
+  button {
+    width: 90px;
+    padding: 10px;
+    margin-left: 5px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  
+  // Not listesi stilleri
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  li {
+    margin-bottom: 10px;
+  }
+  
+  // Tamamlanmış notlar için stil
+  span.completed {
+    text-decoration: line-through;
+    color: #999;
+  }
+  
+  // Düğme stilleri
+  button.complete, button.delete {
+    padding: 5px 10px;
+    margin-left: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button.complete:hover {
+    background-color: #28a745; // Yeşil renk
+  }
+  
+  button.delete:hover {
+    background-color: #dc3545; // Kırmızı renk
+  }
+  

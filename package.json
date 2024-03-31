@@ -16,6 +16,9 @@
     "src/mulakatapp_final_frontend"
   ],
   "dependencies": {
-    "@dfinity/auth-client": "^1.2.0"
+    "@dfinity/auth-client": "^1.2.0",
+    "@emotion/styled": "^11.11.5",
+    "@mui/material": "^5.15.14",
+    "@mui/styled-engine": "^5.15.14"
   }
 }

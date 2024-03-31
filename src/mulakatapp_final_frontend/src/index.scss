@@ -1,3 +1,4 @@
+// Renkler
 $primary-color: #007bff;
 $secondary-color: #6c757d;
 $success-color: #28a745;
@@ -6,7 +7,7 @@ $warning-color: #ffc107;
 $light-color: #f8f9fa;
 $dark-color: #343a40;
 
-// Ana sayfa stilleri
+// Ana stil
 .quiz-app {
   font-family: Arial, sans-serif;
   display: flex;
@@ -149,17 +150,20 @@ $dark-color: #343a40;
       background-color: darken($error-color, 10%);
     }
   }
+
   #loginButton {
-      background-color: $primary-color; // Buton arka plan rengi
-      color: white; // Buton metin rengi
-      border: none; // Buton kenarlığı yok
-      padding: 10px 20px; // Buton iç boşluğu
-      border-radius: 5px; // Buton kenar yumuşatma
-      cursor: pointer; // İmleci el işareti yap
-    
-      &:hover {
-        background-color: darken($primary-color, 10%); // Butonun hafifçe koyulaşması
-      }
+    background-color: $primary-color;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: darken($primary-color, 10%);
+    }
+  }
 }
 
 // Küçük ekranlar için stiller
@@ -192,20 +196,9 @@ $dark-color: #343a40;
     #logout {
       font-size: 1rem;
     }
+
     #loginButton {
-      background-color: $primary-color; // Buton arka plan rengi
-      color: white; // Buton metin rengi
-      border: none; // Buton kenarlığı yok
-      padding: 10px 20px; // Buton iç boşluğu
-      border-radius: 5px; // Buton kenar yumuşatma
-      cursor: pointer; // İmleci el işareti yap
-    
-      &:hover {
-        background-color: darken($primary-color, 10%); // Butonun hafifçe koyulaşması
-      }
+      font-size: 1rem;
     }
-    
   }
- 
-}
 }

@@ -1,6 +1,6 @@
 import React from "react";
 import { useAuth } from "./use-auth-client";
-import './index.scss';
+import '../index.scss';
 function LoggedOut() {
   const { login } = useAuth();
 

@@ -1,12 +1,13 @@
-// App.jsx
 import React, { useState, useEffect } from 'react';
 import { mulakatapp_final_backend } from 'declarations/mulakatapp_final_backend';
 import './index.scss';
-import LoggedIn from "./LoggedIn";
-import { useAuth, AuthProvider } from "./use-auth-client";
-import LoggedOut from "./LoggedOut";
-import QuizForm from './QuizForm';
-import QuizResults from './QuizResults';
+import LoggedIn from "./components/LoggedIn";
+import { useAuth, AuthProvider } from "./components/use-auth-client";
+import LoggedOut from "./components/LoggedOut";
+import QuizForm from './components/QuizForm';
+import QuizResults from './components/QuizResults';
+import Notes from './components/Notes'; // Notes componentini ekliyoruz
+import { Button, Dialog, DialogContent, DialogTitle } from '@mui/material'; // Dialog bileşenlerini içe aktarıyoruz
 
 function App() {
   const [questions, setQuestions] = useState([]);
@@ -18,6 +19,7 @@ function App() {
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const [incorrectAnswers, setIncorrectAnswers] = useState(0);
   const [answeredQuestions, setAnsweredQuestions] = useState([]);
+  const [isNotesDialogOpen, setIsNotesDialogOpen] = useState(false); // Notes dialogunu kontrol etmek için bir state ekliyoruz
   const { isAuthenticated } = useAuth();
 
   useEffect(() => {
@@ -75,30 +77,39 @@ function App() {
 
   return (
     <>
-    <main className="quiz-app" id="pageContent">
-      <h1>Quiz App</h1>
-      <div className="quiz-container">
-        {isAuthenticated && questions.length > 0 && currentQuestionIndex < questions.length && (
-          <QuizForm
-            questions={questions}
-            currentQuestionIndex={currentQuestionIndex}
-            userAnswer={userAnswer}
-            setUserAnswer={setUserAnswer}
-            handleSubmit={handleSubmit}
+      <main className="quiz-app" id="pageContent">
+        <h1>Quiz App</h1>
+        <div className="quiz-container">
+          {isAuthenticated && questions.length > 0 && currentQuestionIndex < questions.length && (
+            <QuizForm
+              questions={questions}
+              currentQuestionIndex={currentQuestionIndex}
+              userAnswer={userAnswer}
+              setUserAnswer={setUserAnswer}
+              handleSubmit={handleSubmit}
+            />
+          )}
+{isAuthenticated && questions.length > 0 && currentQuestionIndex < questions.length && (
+            <p>Time Left: {timeLeft} seconds</p>
+          )}        </div>
+          <div>
+             {/* Notes dialogu */}
+        <Dialog open={isNotesDialogOpen} onClose={() => setIsNotesDialogOpen(false)}>
+          <DialogContent>
+            <Notes />
+          </DialogContent>
+        </Dialog>
+        <Button variant="contained" onClick={() => setIsNotesDialogOpen(true)}>Open Notes</Button> {/* Notları açmak için bir buton ekliyoruz */}
+          </div>
+        {isAuthenticated ? <LoggedIn /> : <LoggedOut />}
+        {currentQuestionIndex === questions.length && (
+          <QuizResults
+            correctAnswers={correctAnswers}
+            incorrectAnswers={incorrectAnswers}
+            answeredQuestions={answeredQuestions}
           />
         )}
-        <p>Time Left: {timeLeft} seconds</p>
-
-      </div>
-      {isAuthenticated ? <LoggedIn /> : <LoggedOut />}
-      {currentQuestionIndex === questions.length && (
-        <QuizResults
-          correctAnswers={correctAnswers}
-          incorrectAnswers={incorrectAnswers}
-          answeredQuestions={answeredQuestions}
-        />
-      )}
-    </main>
+      </main>
     </>
   );
 }

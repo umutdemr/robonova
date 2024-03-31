@@ -1,6 +1,6 @@
 // QuizResults.jsx
 import React from 'react';
-import './results.scss';
+import '../styles/results.scss';
 function QuizResults({ correctAnswers, incorrectAnswers, answeredQuestions }) {
   return (
     <div className="result-container">
