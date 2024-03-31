@@ -82,6 +82,20 @@ Bu bileşen, quiz'in sonuçlarını görüntüler. İşlevleri şunlardır:
 
 Render İşlevi: Doğru cevap sayısını, yanlış cevap sayısını ve cevaplanan soruların ayrıntılarını görüntüler.
 
+## 6. Notes Bileşeni
+Bu bileşen, kullanıcının notlarını yönetmesini sağlar. Aşağıdaki işlevleri gerçekleştirir:
+
+Notları Getirme: fetchNotes fonksiyonu, başlangıçta ve her not ekleme, tamamlama veya silme işleminden sonra notları getirir.
+
+-Not Ekleme: handleAddNote fonksiyonu, kullanıcının girdiği yeni notu ekler ve ardından notları güncellemek için fetchNotes fonksiyonunu çağırır.
+
+-Not Tamamlama: handleCompleteNote fonksiyonu, kullanıcının belirli bir notu tamamlamasını sağlar ve ardından notları güncellemek için fetchNotes fonksiyonunu çağırır.
+
+-Not Silme: handleDeleteNote fonksiyonu, kullanıcının belirli bir notu silmesini sağlar ve ardından notları güncellemek için fetchNotes fonksiyonunu çağırır.
+
+-Tamamlanmış Notları Temizleme: handleClearCompleted fonksiyonu, tamamlanmış tüm notları siler ve ardından notları güncellemek için fetchNotes fonksiyonunu çağırır.
+
+Bu bileşen, kullanıcının not eklemesine, notları tamamlamasına, silebilmesine ve tamamlanmış notları temizlemesine olanak tanır.
 ## 6.Use Auth Client Bileşeni
 -1. useAuthClient Hook'u
 Bu Hook, kimlik doğrulama istemcisini oluşturur ve kimlik doğrulama durumunu yönetir. İşlevleri şunlardır:
@@ -104,6 +118,7 @@ useContext Hook'u Kullanma: Kimlik doğrulama bilgilerini içeren bağlam değer
 return Değeri: Kimlik doğrulama bilgilerini içeren bir nesneyi döndürür.
 Bu bileşenler, kimlik doğrulama işlevselliğini sağlar ve React uygulamasında kimlik doğrulama ile ilgili işlemleri yönetir.
 
+
 ## Backend
 
 ## main.mo 
@@ -119,6 +134,35 @@ HTTP İsteği Gönderme: Oluşturulan HTTP isteği gönderilir ve yanıt bekleni
 Yanıtın İşlenmesi: Yanıtın gövdesi blob olarak alınır ve metne dönüştürülür.
 Yanıtı Döndürme: Alınan metin yanıt olarak döndürülür.
 Bu kod parçacığı, ICP üzerinde bir aktör olarak çalışır ve dış bir API ile etkileşim kurarak quiz sorularını alır.
+
+## Notları Getirme (fetchNotes):
+
+fetchNotes fonksiyonu, notları getirmek için getNotes adlı bir endpoint'i çağırır.
+Bu endpoint, notları içeren bir dizi döndürür.
+Döndürülen notlar, frontendde görüntülenmek üzere kullanılır.
+
+## Not Ekleme (addNote):
+
+addNote fonksiyonu, yeni bir not eklemek için addNote adlı bir endpoint'i çağırır.
+Endpoint, bir not açıklamasını parametre olarak alır ve yeni bir not oluşturur.
+Oluşturulan notun kimliği (ID), frontendde notun benzersiz bir şekilde tanımlanmasına yardımcı olmak için kullanılır.
+
+## Not Tamamlama (completeNote):
+
+completeNote fonksiyonu, belirli bir notun tamamlandığını işaretlemek için completeNote adlı bir endpoint'i çağırır.
+Endpoint, bir notun kimliğini (ID) parametre olarak alır ve bu notun tamamlanmış olarak işaretlenmesini sağlar.
+
+## Notları Gösterme (showNote):
+
+showNote fonksiyonu, tüm notları metin olarak göstermek için showNote adlı bir endpoint'i çağırır.
+Endpoint, tüm notları metin olarak içeren bir dize döndürür.
+Bu metin, yönetici veya kullanıcılar tarafından görüntülenebilir veya raporlanabilir.
+
+## Tamamlanmış Notları Temizleme (clearNote):
+
+clearNote fonksiyonu, tamamlanmış notları temizlemek için clearNote adlı bir endpoint'i çağırır.
+Endpoint, tamamlanmış notları veri yapısından kaldırır ve sadece tamamlanmamış notları tutar.
+Bu fonksiyonlar, backend servisinde notları yönetmek için kullanılır. Kullanıcılar, bu fonksiyonları kullanarak not ekleyebilir, düzenleyebilir, tamamlayabilir, silebilir ve listeyebilirler. Bu, kullanıcıların notları etkili bir şekilde yönetmelerini sağlar.
 
 ## Types.mo
 
