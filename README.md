@@ -207,4 +207,8 @@ https://github.com/umutdemr/MulakatApp/assets/84879807/971ebac4-d155-43e2-8d90-8
 
 https://github.com/umutdemr/mulakatapp_final/assets/84879807/bc86c9ef-b5eb-411f-92aa-e77722aa8eab
 
+
+Uploading MulakatApp - Google Chrome 2024-03-31 08-48-02.mp4…
+
+
 https://github.com/umutdemr/MulakatApp/assets/84879807/b25dda58-560f-4a3a-98b1-07426f6b6dfd
