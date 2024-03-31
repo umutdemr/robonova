@@ -202,3 +202,19 @@ Bu Modül, HTTP istekleri ve yanıtları ile ilgili türleri tanımlar ve kullan
 ![3-3](https://github.com/umutdemr/mulakatapp_final/assets/84879807/6d07d69b-e99f-4f4a-be23-8b16f20e9f8d)
 
 
+
+https://github.com/umutdemr/mulakatapp_final/assets/84879807/37a89fcc-2fa0-47a8-8bb4-02197054c8f3
+
+
+
+https://github.com/umutdemr/mulakatapp_final/assets/84879807/a9821a30-41bb-40a0-b405-2c8d7ad0e0ab
+
+
+https://github.com/umutdemr/mulakatapp_final/assets/84879807/fd3840fe-e974-49b3-b389-c01838031bab
+
+
+
+
+
+
+
