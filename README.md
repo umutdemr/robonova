@@ -197,18 +197,8 @@ http_request: HTTP isteklerini alıp yanıtlarını döndüren bir işlevi temsi
 Bu Modül, HTTP istekleri ve yanıtları ile ilgili türleri tanımlar ve kullanımı kolaylaştırır.
 
 -----------------------------------------------------------------------------------------------
-![1](https://github.com/umutdemr/MulakatApp/assets/84879807/c0c4c246-a6e4-4363-b04d-00639d590b27)
-
-![2_5](https://github.com/umutdemr/MulakatApp/assets/84879807/e9024aea-e5d0-4a87-a922-ed8aa04e0fd6)
-
-![3](https://github.com/umutdemr/MulakatApp/assets/84879807/7bca29d0-1baf-49fc-91e4-21e1a0421b8d)
-
-https://github.com/umutdemr/MulakatApp/assets/84879807/971ebac4-d155-43e2-8d90-8ad1dd0eebfe
-
-https://github.com/umutdemr/mulakatapp_final/assets/84879807/bc86c9ef-b5eb-411f-92aa-e77722aa8eab
+![1-1](https://github.com/umutdemr/mulakatapp_final/assets/84879807/b61c6211-3f9f-47b0-bb23-de578c2b555f)
+![2-2](https://github.com/umutdemr/mulakatapp_final/assets/84879807/9c1f119d-a283-494b-8f59-acc75852e802)
+![3-3](https://github.com/umutdemr/mulakatapp_final/assets/84879807/6d07d69b-e99f-4f4a-be23-8b16f20e9f8d)
 
 
-Uploading MulakatApp - Google Chrome 2024-03-31 08-48-02.mp4…
-
-
-https://github.com/umutdemr/MulakatApp/assets/84879807/b25dda58-560f-4a3a-98b1-07426f6b6dfd
