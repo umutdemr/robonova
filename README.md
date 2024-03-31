@@ -205,9 +205,6 @@ Bu Modül, HTTP istekleri ve yanıtları ile ilgili türleri tanımlar ve kullan
 
 https://github.com/umutdemr/MulakatApp/assets/84879807/971ebac4-d155-43e2-8d90-8ad1dd0eebfe
 
+https://github.com/umutdemr/mulakatapp_final/assets/84879807/bc86c9ef-b5eb-411f-92aa-e77722aa8eab
+
 https://github.com/umutdemr/MulakatApp/assets/84879807/b25dda58-560f-4a3a-98b1-07426f6b6dfd
-
-
-
-
-
