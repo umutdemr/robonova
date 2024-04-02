@@ -49,6 +49,7 @@ actor{
 
   // Notları temsil eden veri yapısı
    type Notes = { 
+    id : Nat;
     description : Text; 
     completed : Bool;
   };
@@ -69,17 +70,17 @@ actor{
 
   // Yeni bir not eklemek için işlev
   public func addNote(description : Text) : async Nat { 
-    let id = nextId; 
-    notes.put(id, { description = description; completed = false }); 
-    nextId += 1; 
-    id 
-  };
+  let id = nextId; 
+  notes.put(id, { id = id; description = description; completed = false }); 
+  nextId += 1; 
+  id 
+};
 
   // Bir notun tamamlandığını işaretlemek için işlev
   public func completeNote(id : Nat) : async () { 
     ignore do ? { 
       let description = notes.get(id)!.description; 
-      notes.put(id, { description; completed = true }); 
+      notes.put(id, {id=id; description; completed = true }); 
     };
   };
 
@@ -93,14 +94,19 @@ actor{
     output # "\n"; 
   };
 
-  // Tamamlanmış notları temizlemek için işlev
-  public func clearNote() : async () { 
-    notes := Map.mapFilter<Nat, Notes, Notes>( 
-      notes, 
-      Nat.equal, 
-      natHash,
-      func(_, note) { if (note.completed) null else ?note },
-    );
-  };
+  // // Tamamlanmış notları temizlemek için işlev
+  // public func clearNote() : async () { 
+  //   notes := Map.mapFilter<Nat, Notes, Notes>( 
+  //     notes, 
+  //     Nat.equal, 
+  //     natHash,
+  //     func(_, note) { if (note.completed) null else ?note },
+  //   );
+  // };
+  public func deleteNote(id : Nat) : async () {
+    ignore do {
+        notes.delete(id);
+    };
+};
 
 };

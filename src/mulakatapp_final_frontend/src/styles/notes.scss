@@ -1,79 +1,104 @@
-// notes.scss
+// Global variables
+$primary-color: #007bff; // Ana renk
+$secondary-color: #28a745; // İkincil renk
+$error-color: #dc3545; // Hata rengi
 
-// Çerçeve stilleri
+// Container styles
 .notes-container {
-    width: 400px; // Çerçevenin genişliği
-    margin: 0 auto; // Sayfanın ortasına hizalanması için otomatik marj
-    padding: 20px; // Çerçeve iç boşluğu
-    border: 1px solid #ccc; // Çerçeve kenarlık
-    border-radius: 10px; // Köşelerin yuvarlatılması
-    background-color: #f9f9f9; // Çerçeve arka plan rengi
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 50px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+// Typography styles
+h1 {
+  font-size: 32px;
+  color: $primary-color;
+  margin-bottom: 20px;
+}
+
+// Input field styles
+input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  transition: border-color 0.3s ease;
+
+  &:focus {
+    border-color: $primary-color;
+    outline: none;
   }
-  
-  // Başlık stilleri
-  h1 {
-    font-size: 24px;
-    color: #333;
-    margin-bottom: 20px;
-  }
-  
-  // Not ekleme alanı stilleri
-  input[type="text"] {
-    width: calc(100% - 85px); // Button genişliği dikkate alınarak input genişliği ayarlanıyor
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  // Not ekleme butonu stilleri
-  button {
-    width: 90px;
-    padding: 10px;
-    margin-left: 5px;
-    background-color: #007bff;
+}
+
+// Button styles
+button {
+  padding: 10px 20px;
+  margin-top: 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &.btn-primary {
+    background-color: $primary-color;
     color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: darken($primary-color, 10%);
+    }
   }
-  
-  button:hover {
-    background-color: #0056b3;
+
+  &.btn-secondary {
+    background-color: $secondary-color;
+    color: #fff;
+
+    &:hover {
+      background-color: darken($secondary-color, 10%);
+    }
   }
-  
-  // Not listesi stilleri
-  ul {
-    list-style-type: none;
-    padding: 0;
+
+  &.btn-error {
+    background-color: $error-color;
+    color: #fff;
+
+    &:hover {
+      background-color: darken($error-color, 10%);
+    }
   }
-  
-  li {
-    margin-bottom: 10px;
-  }
-  
-  // Tamamlanmış notlar için stil
-  span.completed {
-    text-decoration: line-through;
-    color: #999;
-  }
-  
-  // Düğme stilleri
-  button.complete, button.delete {
-    padding: 5px 10px;
-    margin-left: 5px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  button.complete:hover {
-    background-color: #28a745; // Yeşil renk
-  }
-  
-  button.delete:hover {
-    background-color: #dc3545; // Kırmızı renk
-  }
-  
+}
+
+// List styles
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  margin-bottom: 20px;
+}
+
+// Completed note styles
+.completed-note {
+  text-decoration: line-through;
+  color: #999;
+}
+
+// Snackbar styles
+.snackbar {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 300px;
+}
+
+// Alert styles
+.alert {
+  width: 100%;
+}

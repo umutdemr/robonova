@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { mulakatapp_final_backend } from 'declarations/mulakatapp_final_backend';
-import '../styles/notes.scss';
+import { Button, TextField, Typography, Snackbar } from '@mui/material';
+import { Alert } from '@mui/material';
 
 const Notes = () => {
   const [notes, setNotes] = useState([]);
   const [newNoteDescription, setNewNoteDescription] = useState('');
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState('success');
 
   useEffect(() => {
     fetchNotes();
@@ -24,8 +28,10 @@ const Notes = () => {
       await mulakatapp_final_backend.addNote(newNoteDescription);
       setNewNoteDescription('');
       fetchNotes();
+      showSnackbar('Note added successfully', 'success');
     } catch (error) {
       console.error('Error adding note:', error);
+      showSnackbar('Error adding note', 'error');
     }
   };
 
@@ -33,17 +39,22 @@ const Notes = () => {
     try {
       await mulakatapp_final_backend.completeNote(note.id);
       fetchNotes();
+      showSnackbar('Note completed successfully', 'success');
     } catch (error) {
       console.error('Error completing note:', error);
+      showSnackbar('Error completing note', 'error');
     }
   };
 
   const handleDeleteNote = async (note) => {
     try {
       await mulakatapp_final_backend.deleteNote(note.id);
-      fetchNotes();
+      const updatedNotes = notes.filter((n) => n.id !== note.id);
+      setNotes(updatedNotes);
+      showSnackbar('Note deleted successfully', 'success');
     } catch (error) {
       console.error('Error deleting note:', error);
+      showSnackbar('Error deleting note', 'error');
     }
   };
 
@@ -51,31 +62,56 @@ const Notes = () => {
     try {
       await mulakatapp_final_backend.clearNote();
       fetchNotes();
+      showSnackbar('Completed notes cleared successfully', 'success');
     } catch (error) {
       console.error('Error clearing completed notes:', error);
+      showSnackbar('Error clearing completed notes', 'error');
     }
+  };
+
+  const showSnackbar = (message, severity) => {
+    setSnackbarMessage(message);
+    setSnackbarSeverity(severity);
+    setOpenSnackbar(true);
+  };
+
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false);
+  };
+
+  const handleNoteClick = (note) => {
+    // Notun tamamını göstermek için gerekli işlemleri yapabilirsiniz
+    console.log('Clicked note:', note);
   };
 
   return (
     <div className="notes-container">
       <h1>My Notes</h1>
-      <input 
-        type="text" 
-        value={newNoteDescription} 
-        onChange={(e) => setNewNoteDescription(e.target.value)} 
+      <TextField
+        type="text"
+        value={newNoteDescription}
+        onChange={(e) => setNewNoteDescription(e.target.value)}
       />
-      <button onClick={handleAddNote}>Add Note</button>
+      <Button variant="contained" onClick={handleAddNote}>Add Note</Button>
       <ul>
-  {notes.map((note) => (
-    <li key={note.id}>
-      <span style={{ textDecoration: note.completed ? 'line-through' : 'none' }}>{note.description}</span>
-      <button onClick={() => handleCompleteNote(note)}>Complete</button>
-      <button onClick={() => handleDeleteNote(note)}>Delete</button>
-    </li>
-  ))}
-</ul>
+        {notes.map((note) => (
+          <li key={note.id} onClick={() => handleNoteClick(note)}>
+            <span style={{ textDecoration: note.completed ? 'line-through' : 'none' }}>
+              {note.description.length > 20 ? `${note.description.substring(0, 20)}...` : note.description}
+            </span>
+            <Button variant="outlined" onClick={() => handleCompleteNote(note)}>Complete</Button>
+            <Button variant="outlined" onClick={() => handleDeleteNote(note)}>Delete</Button>
+          </li>
+        ))}
+      </ul>
 
-      <button onClick={handleClearCompleted}>Clear Completed</button>
+      <Button variant="contained" onClick={handleClearCompleted}>Clear Completed</Button>
+
+      <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
+        <Alert onClose={handleCloseSnackbar} severity={snackbarSeverity} sx={{ width: '100%' }}>
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </div>
   );
 };
