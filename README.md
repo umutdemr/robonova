@@ -197,6 +197,10 @@ http_request: HTTP isteklerini alıp yanıtlarını döndüren bir işlevi temsi
 Bu Modül, HTTP istekleri ve yanıtları ile ilgili türleri tanımlar ve kullanımı kolaylaştırır.
 
 -----------------------------------------------------------------------------------------------
+https://medium.com/@umut.demir/internet-bilgisayar-icp-i%CC%87%C3%A7in-motoko-ve-react-kullanarak-quiz-uygulamas%C4%B1-geli%C5%9Ftirme-merkezi-238f83a9e74d
+
+https://medium.com/@umut.demir/internet-bilgisayar-icp-merkezi-olmayan-uygulamalar-i%CC%87%C3%A7in-yeni-bir-%C3%A7a%C4%9F-bb205cc90314
+-----------------------------------------------------------------------------------------------
 ![1-1](https://github.com/umutdemr/mulakatapp_final/assets/84879807/b61c6211-3f9f-47b0-bb23-de578c2b555f)
 ![2-2](https://github.com/umutdemr/mulakatapp_final/assets/84879807/9c1f119d-a283-494b-8f59-acc75852e802)
 ![3-3](https://github.com/umutdemr/mulakatapp_final/assets/84879807/6d07d69b-e99f-4f4a-be23-8b16f20e9f8d)
