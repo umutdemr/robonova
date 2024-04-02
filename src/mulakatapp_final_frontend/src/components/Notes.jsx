@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { mulakatapp_final_backend } from 'declarations/mulakatapp_final_backend';
 import { Button, TextField, Typography, Snackbar } from '@mui/material';
 import { Alert } from '@mui/material';
-
+import '../styles/notes.scss';
 const Notes = () => {
   const [notes, setNotes] = useState([]);
   const [newNoteDescription, setNewNoteDescription] = useState('');
@@ -79,11 +79,6 @@ const Notes = () => {
     setOpenSnackbar(false);
   };
 
-  const handleNoteClick = (note) => {
-    // Notun tamamını göstermek için gerekli işlemleri yapabilirsiniz
-    console.log('Clicked note:', note);
-  };
-
   return (
     <div className="notes-container">
       <h1>My Notes</h1>
@@ -95,10 +90,8 @@ const Notes = () => {
       <Button variant="contained" onClick={handleAddNote}>Add Note</Button>
       <ul>
         {notes.map((note) => (
-          <li key={note.id} onClick={() => handleNoteClick(note)}>
-            <span style={{ textDecoration: note.completed ? 'line-through' : 'none' }}>
-              {note.description.length > 20 ? `${note.description.substring(0, 20)}...` : note.description}
-            </span>
+          <li key={note.id}>
+            <span style={{ textDecoration: note.completed ? 'line-through' : 'none' }}>{note.description}</span>
             <Button variant="outlined" onClick={() => handleCompleteNote(note)}>Complete</Button>
             <Button variant="outlined" onClick={() => handleDeleteNote(note)}>Delete</Button>
           </li>
