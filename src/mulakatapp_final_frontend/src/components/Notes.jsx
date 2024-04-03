@@ -1,8 +1,10 @@
+// Notes.jsx
 import React, { useState, useEffect } from 'react';
 import { mulakatapp_final_backend } from 'declarations/mulakatapp_final_backend';
-import { Button, TextField, Typography, Snackbar } from '@mui/material';
+import { Button, TextField, Snackbar } from '@mui/material';
 import { Alert } from '@mui/material';
 import '../styles/notes.scss';
+
 const Notes = () => {
   const [notes, setNotes] = useState([]);
   const [newNoteDescription, setNewNoteDescription] = useState('');
@@ -86,22 +88,25 @@ const Notes = () => {
         type="text"
         value={newNoteDescription}
         onChange={(e) => setNewNoteDescription(e.target.value)}
+        label="Add a new note"
+        variant="outlined"
+        fullWidth
       />
-      <Button variant="contained" onClick={handleAddNote}>Add Note</Button>
+      <Button variant="contained" onClick={handleAddNote} className="btn-primary">Add Note</Button>
       <ul>
         {notes.map((note) => (
           <li key={note.id}>
-            <span style={{ textDecoration: note.completed ? 'line-through' : 'none' }}>{note.description}</span>
-            <Button variant="outlined" onClick={() => handleCompleteNote(note)}>Complete</Button>
-            <Button variant="outlined" onClick={() => handleDeleteNote(note)}>Delete</Button>
+            <span className={note.completed ? 'completed-note' : ''}>{note.description}</span>
+            <Button variant="outlined" onClick={() => handleCompleteNote(note)} className="btn-secondary">Complete</Button>
+            <Button variant="outlined" onClick={() => handleDeleteNote(note)} className="btn-error">Delete</Button>
           </li>
         ))}
       </ul>
 
-      <Button variant="contained" onClick={handleClearCompleted}>Clear Completed</Button>
+      <Button variant="contained" onClick={handleClearCompleted} className="btn-secondary">Clear Completed</Button>
 
-      <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
-        <Alert onClose={handleCloseSnackbar} severity={snackbarSeverity} sx={{ width: '100%' }}>
+      <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} className="snackbar">
+        <Alert onClose={handleCloseSnackbar} severity={snackbarSeverity} className="alert">
           {snackbarMessage}
         </Alert>
       </Snackbar>

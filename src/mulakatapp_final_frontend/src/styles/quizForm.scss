@@ -1,0 +1,81 @@
+.quiz-container {
+    font-family: 'Roboto', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+  
+    .quiz-form {
+      width: 200%;
+      max-width: 90%;
+      padding: 100px;
+      border-radius: 10px;
+  
+      .question {
+        font-size: 50px;
+        font-weight: bold;
+        margin-bottom: 40px;
+      }
+  
+      .answer-options {
+        display: flex;
+        flex-direction: column;
+  
+        .answer-option {
+          display: flex;
+          align-items: center;
+          margin-bottom: 10px;
+  
+          input[type='radio'] {
+            margin-right: 10px;
+          }
+  
+          span {
+            font-size: 40px;
+          }
+        }
+      }
+  
+      .submit-button {
+        padding: 10px 20px;
+        margin-top: 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+  
+        &:hover {
+          background-color: #0056b3;
+        }
+      }
+  
+      .time-left {
+        margin-top: 30px;
+        font-size: 30px;
+      }
+    }
+  
+    .notes-button {
+      margin-top: 20px;
+      background-color: #28a745;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+  
+      &:hover {
+        background-color: #218838;
+      }
+    }
+  }
+  
+  // Dialog içeriğini stilize etmek için
+  .MuiDialog-paper {
+    width: 80%;
+    max-width: 800px;
+  }
+  

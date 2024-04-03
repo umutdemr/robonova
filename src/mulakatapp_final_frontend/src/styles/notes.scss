@@ -1,3 +1,5 @@
+// notes.scss
+
 // Global variables
 $primary-color: #007bff; // Ana renk
 $secondary-color: #28a745; // İkincil renk
@@ -22,25 +24,13 @@ h1 {
 }
 
 // Input field styles
-input[type="text"] {
-  width: 100%;
-  padding: 10px;
+.MuiTextField-root {
   margin-bottom: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  transition: border-color 0.3s ease;
-
-  &:focus {
-    border-color: $primary-color;
-    outline: none;
-  }
 }
 
 // Button styles
-button {
-  padding: 10px 20px;
+.MuiButton-root {
   margin-top: 20px;
-  border: none;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
