@@ -8,15 +8,147 @@ import Nat "mo:base/Nat";
 import Iter "mo:base/Iter"; 
 
 actor{
-
-   // HTTP isteği gönderen işlev
-  // Bu işlev, belirtilen URL'e bir HTTP GET isteği gönderir.
-  // Parametreler: Yok
-  // Dönüş Değeri: HTTP yanıtının metin içeriği
+ 
   public func makeHttpRequest() : async Text {
     // İstek için URL
-    let url = "https://quizapi.io/api/v1/questions?apiKey=fS8DeJcObeIb6xG1cYBKpNyuEMNx3Rp1ZaJsbiRj&limit=20";
-    Cycles.add(1_603_106_800);
+    let url = "https://quizapi.io/api/v1/questions?apiKey=ktXJ4SvCcvLbTWaYbPpDdWv0xzdGJay6vaeHvlMV&limit=20";
+      Cycles.add(1603118800);
+
+    // İstek için başlık bilgileri
+    let request_headers = [
+      { name = "User-Agent"; value = "ICP HTTP Client" }
+    ];
+
+    // HTTP istek argümanları oluşturuluyor
+    let http_request : Types.HttpRequestArgs = {
+      url = url;
+      headers = request_headers;
+      method = #get;
+    };
+
+    // HTTP isteği gönderiliyor
+    let ic : Types.IC = actor "aaaaa-aa"; // IC yönetim canister'ı
+    let http_response : Types.HttpResponsePayload = await ic.http_request(http_request);
+
+    // Yanıtın gövdesi blob olarak alınıyor
+    let response_body: Blob = http_response.body;
+
+    // Blob'dan metne dönüştürme işlemi
+    let decoded_text: Text = switch (Text.decodeUtf8(response_body)) {
+      case (null) { "No value returned" };
+      case (?text) { text };
+    };
+
+    // Yanıt metni döndürülüyor
+    return decoded_text;
+  };
+
+  public func makeHtmlRequest() : async Text {
+    // İstek için URL
+    let url = "https://quizapi.io/api/v1/questions?apiKey=ktXJ4SvCcvLbTWaYbPpDdWv0xzdGJay6vaeHvlMV&category=code&limit=10&tags=HTML";
+      Cycles.add(1603118800);
+
+    // İstek için başlık bilgileri
+    let request_headers = [
+      { name = "User-Agent"; value = "ICP HTTP Client" }
+    ];
+
+    // HTTP istek argümanları oluşturuluyor
+    let http_request : Types.HttpRequestArgs = {
+      url = url;
+      headers = request_headers;
+      method = #get;
+    };
+
+    // HTTP isteği gönderiliyor
+    let ic : Types.IC = actor "aaaaa-aa"; // IC yönetim canister'ı
+    let http_response : Types.HttpResponsePayload = await ic.http_request(http_request);
+
+    // Yanıtın gövdesi blob olarak alınıyor
+    let response_body: Blob = http_response.body;
+
+    // Blob'dan metne dönüştürme işlemi
+    let decoded_text: Text = switch (Text.decodeUtf8(response_body)) {
+      case (null) { "No value returned" };
+      case (?text) { text };
+    };
+
+    // Yanıt metni döndürülüyor
+    return decoded_text;
+  };
+
+  public func makeJsRequest() : async Text {
+    // İstek için URL
+    let url = "https://quizapi.io/api/v1/questions?apiKey=ktXJ4SvCcvLbTWaYbPpDdWv0xzdGJay6vaeHvlMV&category=code&limit=10&tags=JavaScript";
+      Cycles.add(1603118800);
+
+    // İstek için başlık bilgileri
+    let request_headers = [
+      { name = "User-Agent"; value = "ICP HTTP Client" }
+    ];
+
+    // HTTP istek argümanları oluşturuluyor
+    let http_request : Types.HttpRequestArgs = {
+      url = url;
+      headers = request_headers;
+      method = #get;
+    };
+
+    // HTTP isteği gönderiliyor
+    let ic : Types.IC = actor "aaaaa-aa"; // IC yönetim canister'ı
+    let http_response : Types.HttpResponsePayload = await ic.http_request(http_request);
+
+    // Yanıtın gövdesi blob olarak alınıyor
+    let response_body: Blob = http_response.body;
+
+    // Blob'dan metne dönüştürme işlemi
+    let decoded_text: Text = switch (Text.decodeUtf8(response_body)) {
+      case (null) { "No value returned" };
+      case (?text) { text };
+    };
+
+    // Yanıt metni döndürülüyor
+    return decoded_text;
+  };
+ 
+  public func makeSQLRequest() : async Text {
+    // İstek için URL
+    let url = "https://quizapi.io/api/v1/questions?apiKey=ktXJ4SvCcvLbTWaYbPpDdWv0xzdGJay6vaeHvlMV&category=sql&limit=10&tags=MySQL";
+      Cycles.add(1603118800);
+
+    // İstek için başlık bilgileri
+    let request_headers = [
+      { name = "User-Agent"; value = "ICP HTTP Client" }
+    ];
+
+    // HTTP istek argümanları oluşturuluyor
+    let http_request : Types.HttpRequestArgs = {
+      url = url;
+      headers = request_headers;
+      method = #get;
+    };
+
+    // HTTP isteği gönderiliyor
+    let ic : Types.IC = actor "aaaaa-aa"; // IC yönetim canister'ı
+    let http_response : Types.HttpResponsePayload = await ic.http_request(http_request);
+
+    // Yanıtın gövdesi blob olarak alınıyor
+    let response_body: Blob = http_response.body;
+
+    // Blob'dan metne dönüştürme işlemi
+    let decoded_text: Text = switch (Text.decodeUtf8(response_body)) {
+      case (null) { "No value returned" };
+      case (?text) { text };
+    };
+
+    // Yanıt metni döndürülüyor
+    return decoded_text;
+  };
+
+  public func makePythonRequest() : async Text {
+    // İstek için URL
+    let url = "https://quizapi.io/api/v1/questions?apiKey=ktXJ4SvCcvLbTWaYbPpDdWv0xzdGJay6vaeHvlMV&limit=10&tags=Python";
+      Cycles.add(1603118800);
 
     // İstek için başlık bilgileri
     let request_headers = [
