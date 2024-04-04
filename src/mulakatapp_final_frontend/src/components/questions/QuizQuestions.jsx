@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useAuth } from "../use-auth-client";
 import { mulakatapp_final_backend } from 'declarations/mulakatapp_final_backend';
-import '../styles/quizForm.scss';
-import { useAuth, AuthProvider } from "../components/use-auth-client";
-import Notes from '../components/Notes'; // Notes componentini ekliyoruz
-import QuizResults from './QuizResults'; // QuizResults bileşenini ekliyoruz
+import '../../styles/quizForm.scss';
+import Notes from '../Notes'; // Notes componentini ekliyoruz
+import QuizResults from '../QuizResults'; // QuizResults bileşenini ekliyoruz
 import { Button, Dialog, DialogContent, DialogTitle } from '@mui/material'; // Dialog bileşenlerini içe aktarıyoruz
 
-function HtmlQuestion() {
+function QuizQuestion({ subject }) {
   const [questions, setQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [userAnswer, setUserAnswer] = useState('');
@@ -40,7 +40,18 @@ function HtmlQuestion() {
 
   async function fetchQuestions() {
     try {
-      const responseText = await mulakatapp_final_backend.makeHtmlRequest();
+      let responseText;
+      if (subject === 'random-questions') {
+        responseText = await mulakatapp_final_backend.makeRandomRequest();
+      } else if (subject === 'html') {
+        responseText = await mulakatapp_final_backend.makeHtmlRequest();
+      } else if (subject === 'javascript') {
+        responseText = await mulakatapp_final_backend.makeJsRequest();
+      } else if (subject === 'sql') {
+        responseText = await mulakatapp_final_backend.makeSQLRequest();
+      } else if (subject === 'python') {
+        responseText = await mulakatapp_final_backend.makePythonRequest();
+      }
       const data = JSON.parse(responseText);
       setQuestions(data);
     } catch (error) {
@@ -61,7 +72,7 @@ function HtmlQuestion() {
     const correctAnswer = currentQuestion.correct_answer;
     const isAnswerCorrect = userAnswer === correctAnswer;
     setAnsweredQuestions(prevQuestions => [
-      ...prevQuestions,
+     ...prevQuestions,
       { question: currentQuestion.question, userAnswer, correctAnswer, isCorrect: isAnswerCorrect }
     ]);
     if (isAnswerCorrect) {
@@ -95,8 +106,9 @@ function HtmlQuestion() {
         <Button onClick={handleShowResults}>Sonuçları Gör</Button>
         {showResults && <QuizResults
           correctAnswers={correctAnswers}
-          incorrectAnswers={incorrectAnswers}
+incorrectAnswers={incorrectAnswers}
           answeredQuestions={answeredQuestions}
+          subject={subject}
         />}
       </div>
     );
@@ -113,13 +125,13 @@ function HtmlQuestion() {
             .filter(([key, value]) => value !== null)
             .map(([key, value]) => (
               <label key={key} className="answer-option">
-                <input 
-                  type="radio" 
-                  name="options" 
-                  value={key} 
-                  checked={userAnswer === key} 
-                  onChange={(e) => setUserAnswer(e.target.value)} 
-                  required 
+                <input
+                  type="radio"
+                  name="options"
+                  value={key}
+                  checked={userAnswer === key}
+                  onChange={(e) => setUserAnswer(e.target.value)}
+                  required
                 />
                 <span>{value}</span>
               </label>
@@ -127,20 +139,26 @@ function HtmlQuestion() {
         </div>
         <button type="submit" className="submit-button">Cevabı Gönder</button>
         <p className="time-left">Kalan Zaman: {timeLeft} saniye</p>
-        <Button variant="contained" onClick={handleAddTime} disabled={isTimeButtonDisabled}>Süreyi Uzat (+10s)</Button> {/* Süreyi uzatma düğmesi */}
+        <Button variant="contained" onClick={handleAddTime} disabled={isTimeButtonDisabled}>
+          Süreyi Uzat (+10s)
+        </Button>
+        {/* Süreyi uzatma düğmesi */}
       </form>
 
       <div>
         {/* Notes dialogu */}
         <Dialog open={isNotesDialogOpen} onClose={() => setIsNotesDialogOpen(false)}>
           <DialogContent>
-            <Notes />
+            <Notes subject={subject} />
           </DialogContent>
         </Dialog>
-        <Button variant="contained" onClick={() => setIsNotesDialogOpen(true)}>Write Questions Notes</Button> {/* Notları açmak için bir buton ekliyoruz */}
+        <Button variant="contained" onClick={() => setIsNotesDialogOpen(true)}>
+          Write Questions Notes
+        </Button>
+        {/* Notları açmak için bir buton ekliyoruz */}
       </div>
     </div>
   );
 }
 
-export default HtmlQuestion;
+export default QuizQuestion;

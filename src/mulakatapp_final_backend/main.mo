@@ -9,7 +9,7 @@ import Iter "mo:base/Iter";
 
 actor{
  
-  public func makeHttpRequest() : async Text {
+  public func makeRandomRequest() : async Text {
     // İstek için URL
     let url = "https://quizapi.io/api/v1/questions?apiKey=ktXJ4SvCcvLbTWaYbPpDdWv0xzdGJay6vaeHvlMV&limit=20";
       Cycles.add(1603118800);
