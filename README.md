@@ -50,74 +50,6 @@ Ortam kurulduktan ve komutlar çalıştırıldıktan sonra, kullanıcılar ön u
 
 Motoko ve Internet Bilgisayar'ı kullanarak, bu proje Internet Bilgisayar platformunda merkezi olmayan uygulamaların yeteneklerini gösterirken, eğlenceli ve eğitici bir quiz deneyimi sunmayı amaçlamaktadır.
 
-## 1. App Bileşeni
-Bu bileşen, uygulamanın ana bileşenidir ve quiz uygulamasının genel akışını yönetir. İşlevleri şunlardır:
-
-useState Hook'ları: Quiz uygulamasının durumunu yönetmek için kullanılır. Bu durumlar arasında sorular, mevcut soru indeksi, kullanıcının cevabı, doğru cevap durumu, skor, kalan süre, doğru cevap sayısı, yanlış cevap sayısı, cevaplanan sorular gibi bilgiler bulunur.
-useEffect Hook'ları: Kullanıcının kimlik doğrulamasının durumunu izler ve kullanıcı doğrulandığında soruları getirir.
-fetchQuestions Fonksiyonu: Quiz sorularını getirmek için kullanılan asenkron bir işlevdir.
-handleNextQuestion Fonksiyonu: Kullanıcının bir sonraki soruya geçmesini sağlar.
-handleSubmit Fonksiyonu: Kullanıcının cevabını işler, skoru günceller ve bir sonraki soruya geçer.
-Render İşlevi: Kullanıcının kimlik durumuna ve quiz ilerleyişine göre uygun bileşenleri render eder.
-
-## 2. LoggedIn Bileşeni
-Bu bileşen, kullanıcının oturum açmış olduğu durumda görüntülenen bileşendir. İşlevleri şunlardır:
-
-useAuth Hook'u: Kimlik doğrulaması bilgilerine erişimi sağlar.
-Render İşlevi: Kullanıcının oturum açmış olduğu durumda kimlik bilgisini ve çıkış düğmesini görüntüler.
-
-## 3. LoggedOut Bileşeni
-Bu bileşen, kullanıcının oturum açmadığı durumda görüntülenen bileşendir. İşlevleri şunlardır:
-
-useAuth Hook'u: Kimlik doğrulaması bilgilerine erişimi sağlar.
-Render İşlevi: Kullanıcının oturum açmadığı durumda oturum açma düğmesini görüntüler.
-
-## 4. QuizForm Bileşeni
-Bu bileşen, kullanıcının quiz sorularını görüntüleyip cevaplayabileceği bir formu içerir. İşlevleri şunlardır:
-
-Render İşlevi: Mevcut soruyu ve seçenekleri görüntüler ve kullanıcının cevaplarını işler.
-
-## 5. QuizResults Bileşeni
-Bu bileşen, quiz'in sonuçlarını görüntüler. İşlevleri şunlardır:
-
-Render İşlevi: Doğru cevap sayısını, yanlış cevap sayısını ve cevaplanan soruların ayrıntılarını görüntüler.
-
-## 6. Notes Bileşeni
-Bu bileşen, kullanıcının notlarını yönetmesini sağlar. Aşağıdaki işlevleri gerçekleştirir:
-
-Notları Getirme: fetchNotes fonksiyonu, başlangıçta ve her not ekleme, tamamlama veya silme işleminden sonra notları getirir.
-
--Not Ekleme: handleAddNote fonksiyonu, kullanıcının girdiği yeni notu ekler ve ardından notları güncellemek için fetchNotes fonksiyonunu çağırır.
-
--Not Tamamlama: handleCompleteNote fonksiyonu, kullanıcının belirli bir notu tamamlamasını sağlar ve ardından notları güncellemek için fetchNotes fonksiyonunu çağırır.
-
--Not Silme: handleDeleteNote fonksiyonu, kullanıcının belirli bir notu silmesini sağlar ve ardından notları güncellemek için fetchNotes fonksiyonunu çağırır.
-
--Tamamlanmış Notları Temizleme: handleClearCompleted fonksiyonu, tamamlanmış tüm notları siler ve ardından notları güncellemek için fetchNotes fonksiyonunu çağırır.
-
-Bu bileşen, kullanıcının not eklemesine, notları tamamlamasına, silebilmesine ve tamamlanmış notları temizlemesine olanak tanır.
-## 6.Use Auth Client Bileşeni
--1. useAuthClient Hook'u
-Bu Hook, kimlik doğrulama istemcisini oluşturur ve kimlik doğrulama durumunu yönetir. İşlevleri şunlardır:
-
-useState Hook'ları: Kimlik doğrulama durumunu ve ilişkili bilgileri yönetmek için kullanılır.
-useEffect Hook'u: İstemci oluşturulduğunda ve bileşen yüklendiğinde kimlik doğrulama durumunu günceller.
-login Fonksiyonu: Kullanıcıyı giriş yaptırır ve kimlik doğrulama durumunu günceller.
-updateAuthState Fonksiyonu: Kimlik doğrulama durumunu günceller ve kullanıcı kimlik bilgilerini alır.
-logout Fonksiyonu: Kullanıcıyı çıkış yaptırır ve kimlik doğrulama durumunu günceller.
-return Değeri: Kimlik doğrulama durumunu ve işlevleri içeren bir nesne döndürür.
--2. AuthProvider Bileşeni
-Bu bileşen, useAuthClient Hook'unu kullanarak kimlik doğrulama sağlayıcısını sağlar. İşlevleri şunlardır:
-
-useAuthClient Hook'unu Kullanma: Kimlik doğrulama istemcisini oluşturur ve kimlik doğrulama durumunu yönetmek için kullanır.
-Render İşlevi: Kimlik doğrulama durumunu sağlayan bir bağlam değeriyle birlikte çocuk bileşenlerini oluşturur.
--3. useAuth Hook'u
-Bu Hook, kimlik doğrulama bilgilerine erişim sağlar. İşlevi şunlardır:
-
-useContext Hook'u Kullanma: Kimlik doğrulama bilgilerini içeren bağlam değerine erişim sağlar.
-return Değeri: Kimlik doğrulama bilgilerini içeren bir nesneyi döndürür.
-Bu bileşenler, kimlik doğrulama işlevselliğini sağlar ve React uygulamasında kimlik doğrulama ile ilgili işlemleri yönetir.
-
 
 ## Backend
 
@@ -201,20 +133,6 @@ https://medium.com/@umut.demir/internet-bilgisayar-icp-i%CC%87%C3%A7in-motoko-ve
 
 https://medium.com/@umut.demir/internet-bilgisayar-icp-merkezi-olmayan-uygulamalar-i%CC%87%C3%A7in-yeni-bir-%C3%A7a%C4%9F-bb205cc90314
 -----------------------------------------------------------------------------------------------
-![1-1](https://github.com/umutdemr/mulakatapp_final/assets/84879807/b61c6211-3f9f-47b0-bb23-de578c2b555f)
-![2-2](https://github.com/umutdemr/mulakatapp_final/assets/84879807/9c1f119d-a283-494b-8f59-acc75852e802)
-![3-3](https://github.com/umutdemr/mulakatapp_final/assets/84879807/6d07d69b-e99f-4f4a-be23-8b16f20e9f8d)
-
-
-
-https://github.com/umutdemr/mulakatapp_final/assets/84879807/37a89fcc-2fa0-47a8-8bb4-02197054c8f3
-
-
-
-https://github.com/umutdemr/mulakatapp_final/assets/84879807/a9821a30-41bb-40a0-b405-2c8d7ad0e0ab
-
-
-https://github.com/umutdemr/mulakatapp_final/assets/84879807/fd3840fe-e974-49b3-b389-c01838031bab
 
 
 
