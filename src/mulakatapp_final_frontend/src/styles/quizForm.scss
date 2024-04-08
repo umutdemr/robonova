@@ -1,81 +1,107 @@
+// Renkler
+$primary-color: #007bff;
+$questions-color: #000000;
+$secondary-color: #6c757d;
+$success-color: #28a745;
+$error-color: #dc3545;
+$warning-color: #ffc107;
+
+// Yazı tipleri
+$font-family: 'Roboto', sans-serif;
+$font-size-base: 24px;
+$heading-font-size: 36px;
+
+// Form elemanları
+$input-padding: 12px;
+$input-border-radius: 8px;
+$input-border-color: #ced4da;
+$input-focus-border-color: $primary-color;
+
 .quiz-container {
-    font-family: 'Roboto', sans-serif;
+  position: relative;
+  margin: 5px auto;
+  padding: 30px;
+  border-radius: 15px;
+  font-family: $font-family;
+
+  .question {
+    font-size: $heading-font-size;
+    margin-bottom: 20px;
+    color: $questions-color;
+  }
+
+  .answer-options {
+    display: grid;
+    gap: 10px;
+  }
+
+  .answer-option {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    margin-top: 10px;
-  
-    .quiz-form {
-      width: 200%;
-      max-width: 90%;
-      padding: 100px;
-      border-radius: 10px;
-  
-      .question {
-        font-size: 50px;
-        font-weight: bold;
-        margin-bottom: 40px;
-      }
-  
-      .answer-options {
-        display: flex;
-        flex-direction: column;
-  
-        .answer-option {
-          display: flex;
-          align-items: center;
-          margin-bottom: 10px;
-  
-          input[type='radio'] {
-            margin-right: 10px;
-          }
-  
-          span {
-            font-size: 40px;
-          }
-        }
-      }
-  
-      .submit-button {
-        padding: 10px 20px;
-        margin-top: 20px;
-        background-color: #007bff;
-        color: #fff;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-  
-        &:hover {
-          background-color: #0056b3;
-        }
-      }
-  
-      .time-left {
-        margin-top: 30px;
-        font-size: 30px;
-      }
+    margin-bottom: 15px;
+    font-size: $font-size-base;
+
+    input[type="radio"] {
+      margin-right: 10px;
     }
-  
-    .notes-button {
-      margin-top: 20px;
-      background-color: #28a745;
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-      padding: 10px 20px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-  
-      &:hover {
-        background-color: #218838;
+  }
+
+  .submit-button,
+  .add-time-button {
+    margin-top: 30px;
+    background-color: $primary-color;
+    color: #fff;
+    border: none;
+    padding: $input-padding;
+    border-radius: $input-border-radius;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: darken($primary-color, 10%);
+    }
+  }
+
+  .time-left {
+    margin-top: 30px;
+    font-size: $font-size-base;
+    color: $secondary-color;
+  }
+
+  .message {
+    font-size: $font-size-base;
+    text-align: center;
+    margin-top: 50px;
+    color: $primary-color;
+  }
+
+  .button-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+
+    button {
+      flex: 1;
+      margin-right: 10px;
+
+      &:last-child {
+        margin-right: 0;
       }
     }
   }
-  
-  // Dialog içeriğini stilize etmek için
-  .MuiDialog-paper {
-    width: 80%;
-    max-width: 800px;
+}
+
+.dialog-button {
+  margin-top: 60px;
+  background-color: $success-color;
+  color: #fff;
+  border: none;
+  padding: $input-padding;
+  border-radius: $input-border-radius;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: darken($success-color, 10%);
   }
-  
+}

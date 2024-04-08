@@ -1,24 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from "../use-auth-client";
 import { mulakatapp_final_backend } from 'declarations/mulakatapp_final_backend';
+import { Button, Dialog, DialogContent, Grid } from '@mui/material';
+import Notes from '../Notes';
+import QuizResults from '../QuizResults';
 import '../../styles/quizForm.scss';
-import Notes from '../Notes'; // Notes componentini ekliyoruz
-import QuizResults from '../QuizResults'; // QuizResults bileşenini ekliyoruz
-import { Button, Dialog, DialogContent, DialogTitle } from '@mui/material'; // Dialog bileşenlerini içe aktarıyoruz
 
 function QuizQuestion({ subject }) {
   const [questions, setQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [userAnswer, setUserAnswer] = useState('');
-  const [isCorrect, setIsCorrect] = useState(null);
-  const [score, setScore] = useState(0);
   const [timeLeft, setTimeLeft] = useState(30);
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const [incorrectAnswers, setIncorrectAnswers] = useState(0);
   const [answeredQuestions, setAnsweredQuestions] = useState([]);
-  const [isNotesDialogOpen, setIsNotesDialogOpen] = useState(false); // Notes dialogunu kontrol etmek için bir state ekliyoruz
-  const [showResults, setShowResults] = useState(false); // QuizResults bileşenini göstermek için state
-  const [isTimeButtonDisabled, setIsTimeButtonDisabled] = useState(false); // Süre uzatma düğmesinin etkinlik durumu
+  const [isNotesDialogOpen, setIsNotesDialogOpen] = useState(false);
+  const [showResults, setShowResults] = useState(false);
+  const [isTimeButtonDisabled, setIsTimeButtonDisabled] = useState(false);
   const { isAuthenticated } = useAuth();
 
   useEffect(() => {
@@ -29,7 +27,7 @@ function QuizQuestion({ subject }) {
 
   useEffect(() => {
     if (timeLeft === 0) {
-      handleNextQuestion();
+      handleQuestionTimeout();
     } else {
       const timer = setTimeout(() => {
         setTimeLeft(timeLeft - 1);
@@ -38,41 +36,42 @@ function QuizQuestion({ subject }) {
     }
   }, [timeLeft]);
 
-  async function fetchQuestions() {
+  const fetchQuestions = async () => {
     try {
-      let responseText;
-      if (subject === 'random-questions') {
-        responseText = await mulakatapp_final_backend.makeRandomRequest();
-      } else if (subject === 'html') {
-        responseText = await mulakatapp_final_backend.makeHtmlRequest();
-      } else if (subject === 'javascript') {
-        responseText = await mulakatapp_final_backend.makeJsRequest();
-      } else if (subject === 'sql') {
-        responseText = await mulakatapp_final_backend.makeSQLRequest();
-      } else if (subject === 'python') {
-        responseText = await mulakatapp_final_backend.makePythonRequest();
-      }
+      const responseText = await getRequestForSubject(subject);
       const data = JSON.parse(responseText);
       setQuestions(data);
     } catch (error) {
       console.error('Error fetching questions:', error);
     }
-  }
+  };
 
-  function handleNextQuestion() {
+  const getRequestForSubject = async (subject) => {
+    const requestMap = {
+      'random-questions': mulakatapp_final_backend.makeRandomRequest,
+      'html': mulakatapp_final_backend.makeHtmlRequest,
+      'javascript': mulakatapp_final_backend.makeJsRequest,
+      'sql': mulakatapp_final_backend.makeSQLRequest,
+      'python': mulakatapp_final_backend.makePythonRequest
+    };
+    const requestFunction = requestMap[subject];
+    return await requestFunction();
+  };
+
+  function handleQuestionTimeout() {
     setCurrentQuestionIndex(prevIndex => prevIndex + 1);
     setUserAnswer('');
     setTimeLeft(30);
-    setIsTimeButtonDisabled(false); // Yeni soru için süre uzatma düğmesini etkinleştir
-  }
+    setIsTimeButtonDisabled(false);
+  };
 
-  function handleSubmit(event) {
+  const handleAnswerSubmit = (event) => {
     event.preventDefault();
     const currentQuestion = questions[currentQuestionIndex];
     const correctAnswer = currentQuestion.correct_answer;
     const isAnswerCorrect = userAnswer === correctAnswer;
     setAnsweredQuestions(prevQuestions => [
-     ...prevQuestions,
+      ...prevQuestions,
       { question: currentQuestion.question, userAnswer, correctAnswer, isCorrect: isAnswerCorrect }
     ]);
     if (isAnswerCorrect) {
@@ -80,37 +79,43 @@ function QuizQuestion({ subject }) {
     } else {
       setIncorrectAnswers(prevIncorrectAnswers => prevIncorrectAnswers + 1);
     }
-    handleNextQuestion();
-  }
+    handleQuestionTimeout();
+  };
 
-  function handleShowResults() {
+  const handleShowResults = () => {
     setShowResults(true);
-  }
+  };
 
-  function handleAddTime() {
+  const handleAddTime = () => {
     setTimeLeft(prevTimeLeft => prevTimeLeft + 10);
-    setIsTimeButtonDisabled(true); // Düğmeyi devre dışı bırak
-  }
+    setIsTimeButtonDisabled(true);
+  };
 
   if (!isAuthenticated) {
-    return <p>Lütfen sorulara erişebilmek için oturum açın.</p>;
+    return <p className="message">Lütfen sorulara erişebilmek için oturum açın.</p>;
   }
 
   if (questions.length === 0) {
-    return <p>Sorular yükleniyor...</p>;
+    return <p className="message">Sorular yükleniyor...</p>;
   }
 
   if (currentQuestionIndex >= questions.length) {
     return (
-      <div className="quiz-container">
-        <Button onClick={handleShowResults}>Sonuçları Gör</Button>
-        {showResults && <QuizResults
-          correctAnswers={correctAnswers}
-incorrectAnswers={incorrectAnswers}
-          answeredQuestions={answeredQuestions}
-          subject={subject}
-        />}
-      </div>
+      <Grid container spacing={2} justifyContent="center">
+        <Grid item xs={12} sm={6}>
+          <Button variant="contained" onClick={handleShowResults} fullWidth>Sonuçları Gör</Button>
+        </Grid>
+        {showResults && 
+          <Grid item xs={12} sm={6}>
+            <QuizResults
+              correctAnswers={correctAnswers}
+              incorrectAnswers={incorrectAnswers}
+              answeredQuestions={answeredQuestions}
+              subject={subject}
+            />
+          </Grid>
+        }
+      </Grid>
     );
   }
 
@@ -118,7 +123,7 @@ incorrectAnswers={incorrectAnswers}
 
   return (
     <div className="quiz-container">
-      <form onSubmit={handleSubmit} className="quiz-form">
+      <form onSubmit={handleAnswerSubmit} className="quiz-form">
         <p className="question">{currentQuestion.question}</p>
         <div className="answer-options">
           {Object.entries(currentQuestion.answers)
@@ -137,16 +142,14 @@ incorrectAnswers={incorrectAnswers}
               </label>
             ))}
         </div>
-        <button type="submit" className="submit-button">Cevabı Gönder</button>
+        <Button type="submit" variant="contained" className="submit-button">Cevabı Gönder</Button>
         <p className="time-left">Kalan Zaman: {timeLeft} saniye</p>
         <Button variant="contained" onClick={handleAddTime} disabled={isTimeButtonDisabled}>
           Süreyi Uzat (+10s)
         </Button>
-        {/* Süreyi uzatma düğmesi */}
       </form>
-
+      <br/>
       <div>
-        {/* Notes dialogu */}
         <Dialog open={isNotesDialogOpen} onClose={() => setIsNotesDialogOpen(false)}>
           <DialogContent>
             <Notes subject={subject} />
@@ -155,7 +158,6 @@ incorrectAnswers={incorrectAnswers}
         <Button variant="contained" onClick={() => setIsNotesDialogOpen(true)}>
           Write Questions Notes
         </Button>
-        {/* Notları açmak için bir buton ekliyoruz */}
       </div>
     </div>
   );

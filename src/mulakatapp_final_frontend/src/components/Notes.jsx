@@ -1,7 +1,6 @@
-// Notes.jsx
 import React, { useState, useEffect } from 'react';
 import { mulakatapp_final_backend } from 'declarations/mulakatapp_final_backend';
-import { Button, TextField, Snackbar } from '@mui/material';
+import { Button, TextField, Snackbar, Grid, Typography } from '@mui/material';
 import { Alert } from '@mui/material';
 import '../styles/notes.scss';
 
@@ -82,35 +81,44 @@ const Notes = () => {
   };
 
   return (
-    <div className="notes-container">
-      <h1>My Notes</h1>
-      <TextField
-        type="text"
-        value={newNoteDescription}
-        onChange={(e) => setNewNoteDescription(e.target.value)}
-        label="Add a new note"
-        variant="outlined"
-        fullWidth
-      />
-      <Button variant="contained" onClick={handleAddNote} className="btn-primary">Add Note</Button>
-      <ul>
-        {notes.map((note) => (
-          <li key={note.id}>
-            <span className={note.completed ? 'completed-note' : ''}>{note.description}</span>
-            <Button variant="outlined" onClick={() => handleCompleteNote(note)} className="btn-secondary">Complete</Button>
-            <Button variant="outlined" onClick={() => handleDeleteNote(note)} className="btn-error">Delete</Button>
-          </li>
-        ))}
-      </ul>
-
-      <Button variant="contained" onClick={handleClearCompleted} className="btn-secondary">Clear Completed</Button>
-
-      <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} className="snackbar">
-        <Alert onClose={handleCloseSnackbar} severity={snackbarSeverity} className="alert">
+    <Grid container spacing={2} className="notes-container">
+      <Grid item xs={12}>
+        <Typography variant="h4">My Notes</Typography>
+      </Grid>
+      <Grid item xs={12}>
+        <TextField
+          multiline
+          rows={4}
+          placeholder="Add a new note"
+          value={newNoteDescription}
+          onChange={(e) => setNewNoteDescription(e.target.value)}
+          variant="outlined"
+          fullWidth
+        />
+      </Grid>
+      <Grid item >
+        <Button variant="contained" onClick={handleAddNote} fullWidth>Add Note</Button>
+      </Grid>
+      <Grid item xs={12}>
+        <ul>
+          {notes.map((note) => (
+            <li key={note.id}>
+              <span className={note.completed ? 'completed-note' : ''}>{note.description}</span>
+              <Button variant="outlined" onClick={() => handleCompleteNote(note)}>Complete</Button>
+              <Button variant="outlined" onClick={() => handleDeleteNote(note)}>Delete</Button>
+            </li>
+          ))}
+        </ul>
+      </Grid>
+      <Grid item>
+        <Button variant="contained" onClick={handleClearCompleted} fullWidth>Clear Completed</Button>
+      </Grid>
+      <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
+        <Alert onClose={handleCloseSnackbar} severity={snackbarSeverity}>
           {snackbarMessage}
         </Alert>
       </Snackbar>
-    </div>
+    </Grid>
   );
 };
 
