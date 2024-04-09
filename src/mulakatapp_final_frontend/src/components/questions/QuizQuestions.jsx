@@ -1,10 +1,78 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth } from "../use-auth-client";
+import { useAuth } from '../use-auth-client';
 import { mulakatapp_final_backend } from 'declarations/mulakatapp_final_backend';
-import { Button, Dialog, DialogContent, Grid } from '@mui/material';
+import { Button, Dialog, DialogContent, Grid, Typography, CircularProgress } from '@mui/material';
 import Notes from '../Notes';
 import QuizResults from '../QuizResults';
-import '../../styles/quizForm.scss';
+import { styled } from '@mui/system';
+
+const QuizContainer = styled('div')({
+  margin: '2rem',
+  fontFamily: 'Arial, sans-serif',
+  color: '#333',
+});
+
+const Message = styled(Typography)({
+  textAlign: 'center',
+  fontSize: '1.5rem',
+  padding: '2rem',
+  backgroundColor: '#f8f9fa',
+  borderRadius: '10px',
+  boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',
+});
+
+const QuizForm = styled('form')({
+  padding: '2rem',
+  backgroundColor: '#fff',
+  borderRadius: '10px',
+  boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',
+  '& .question': {
+    fontSize: '1.8rem',
+    marginBottom: '1rem',
+    fontWeight: 'bold',
+  },
+  '& .answer-options': {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '1rem',
+  },
+  '& .answer-option': {
+    display: 'flex',
+    alignItems: 'center',
+    fontSize: '1.2rem',
+  },
+  '& .submit-button': {
+    marginTop: '1rem',
+    backgroundColor: '#007bff',
+    color: '#fff',
+    transition: 'background-color 0.3s ease',
+    '&:hover': {
+      backgroundColor: '#0056b3',
+    },
+  },
+  '& .time-left': {
+    marginTop: '1rem',
+    fontSize: '1.4rem',
+    color: '#777',
+    transition: 'color 0.3s ease',
+  },
+  '& .add-time-button': {
+    marginTop: '1rem',
+    backgroundColor: '#28a745',
+    color: '#fff',
+    transition: 'background-color 0.3s ease',
+    '&:hover': {
+      backgroundColor: '#218838',
+    },
+  },
+});
+
+const LoadingContainer = styled('div')({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  height: '100vh',
+});
 
 function QuizQuestion({ subject }) {
   const [questions, setQuestions] = useState([]);
@@ -18,6 +86,8 @@ function QuizQuestion({ subject }) {
   const [showResults, setShowResults] = useState(false);
   const [isTimeButtonDisabled, setIsTimeButtonDisabled] = useState(false);
   const { isAuthenticated } = useAuth();
+  const [loading, setLoading] = useState(true);
+  const [timeLeftColor, setTimeLeftColor] = useState('#777'); // varsayılan renk
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -31,6 +101,7 @@ function QuizQuestion({ subject }) {
     } else {
       const timer = setTimeout(() => {
         setTimeLeft(timeLeft - 1);
+        updateTimeLeftColor(timeLeft - 1);
       }, 1000);
       return () => clearTimeout(timer);
     }
@@ -41,6 +112,7 @@ function QuizQuestion({ subject }) {
       const responseText = await getRequestForSubject(subject);
       const data = JSON.parse(responseText);
       setQuestions(data);
+      setLoading(false); // Sorular yüklendiğinde yüklemeyi durdur
     } catch (error) {
       console.error('Error fetching questions:', error);
     }
@@ -63,6 +135,7 @@ function QuizQuestion({ subject }) {
     setUserAnswer('');
     setTimeLeft(30);
     setIsTimeButtonDisabled(false);
+    setTimeLeftColor('#777'); // Zaman bittiğinde varsayılan rengi geri getir
   };
 
   const handleAnswerSubmit = (event) => {
@@ -91,12 +164,28 @@ function QuizQuestion({ subject }) {
     setIsTimeButtonDisabled(true);
   };
 
+  const updateTimeLeftColor = (time) => {
+    if (time <= 10) {
+      setTimeLeftColor('#ff6347'); // 10 saniyeden azsa kırmızıya geç
+    } else {
+      setTimeLeftColor('#777'); // Varsayılan renk
+    }
+  };
+
+  if (loading) {
+    return (
+      <LoadingContainer>
+        <CircularProgress size={80} />
+      </LoadingContainer>
+    );
+  }
+
   if (!isAuthenticated) {
-    return <p className="message">Lütfen sorulara erişebilmek için oturum açın.</p>;
+    return <Message variant="body1">Lütfen sorulara erişebilmek için oturum açın.</Message>;
   }
 
   if (questions.length === 0) {
-    return <p className="message">Sorular yükleniyor...</p>;
+    return <Message variant="body1">Sorular yükleniyor...</Message>;
   }
 
   if (currentQuestionIndex >= questions.length) {
@@ -105,7 +194,7 @@ function QuizQuestion({ subject }) {
         <Grid item xs={12} sm={6}>
           <Button variant="contained" onClick={handleShowResults} fullWidth>Sonuçları Gör</Button>
         </Grid>
-        {showResults && 
+        {showResults &&
           <Grid item xs={12} sm={6}>
             <QuizResults
               correctAnswers={correctAnswers}
@@ -122,9 +211,9 @@ function QuizQuestion({ subject }) {
   const currentQuestion = questions[currentQuestionIndex];
 
   return (
-    <div className="quiz-container">
-      <form onSubmit={handleAnswerSubmit} className="quiz-form">
-        <p className="question">{currentQuestion.question}</p>
+    <QuizContainer>
+      <QuizForm onSubmit={handleAnswerSubmit}>
+        <Typography className="question">{currentQuestion.question}</Typography>
         <div className="answer-options">
           {Object.entries(currentQuestion.answers)
             .filter(([key, value]) => value !== null)
@@ -142,24 +231,40 @@ function QuizQuestion({ subject }) {
               </label>
             ))}
         </div>
-        <Button type="submit" variant="contained" className="submit-button">Cevabı Gönder</Button>
-        <p className="time-left">Kalan Zaman: {timeLeft} saniye</p>
-        <Button variant="contained" onClick={handleAddTime} disabled={isTimeButtonDisabled}>
+        <Button
+          type="submit"
+          variant="contained"
+          className="submit-button"
+          style={{ backgroundColor: '#007bff', color: '#fff' }}
+        >
+          Cevabı Gönder
+        </Button>
+        <Typography className="time-left" style={{ color: timeLeftColor }}>
+          Kalan Zaman: {timeLeft} saniye
+        </Typography>
+        <Button
+          variant="contained"
+          className="add-time-button"
+          onClick={handleAddTime}
+          disabled={isTimeButtonDisabled}
+          style={{ backgroundColor: '#28a745', color: '#fff' }}
+        >
           Süreyi Uzat (+10s)
         </Button>
-      </form>
-      <br/>
-      <div>
-        <Dialog open={isNotesDialogOpen} onClose={() => setIsNotesDialogOpen(false)}>
-          <DialogContent>
-            <Notes subject={subject} />
-          </DialogContent>
-        </Dialog>
-        <Button variant="contained" onClick={() => setIsNotesDialogOpen(true)}>
-          Write Questions Notes
-        </Button>
-      </div>
-    </div>
+      </QuizForm>
+      <Dialog open={isNotesDialogOpen} onClose={() => setIsNotesDialogOpen(false)}>
+        <DialogContent>
+          <Notes subject={subject} />
+        </DialogContent>
+      </Dialog>
+      <Button
+        variant="contained"
+        onClick={() => setIsNotesDialogOpen(true)}
+        style={{ backgroundColor: '#007bff', color: '#fff' }}
+      >
+        Soru Notları Oluştur
+      </Button>
+    </QuizContainer>
   );
 }
 

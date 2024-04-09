@@ -1,8 +1,66 @@
 import React, { useState, useEffect } from 'react';
-import { mulakatapp_final_backend } from 'declarations/mulakatapp_final_backend';
 import { Button, TextField, Snackbar, Grid, Typography } from '@mui/material';
 import { Alert } from '@mui/material';
-import '../styles/notes.scss';
+import { mulakatapp_final_backend } from 'declarations/mulakatapp_final_backend';
+import { styled } from '@mui/system';
+
+const NotesContainer = styled(Grid)({
+  padding: '20px',
+});
+
+const StyledH4 = styled(Typography)({
+  fontSize: '24px',
+  color: '#007bff',
+  marginBottom: '20px',
+});
+
+const StyledList = styled('ul')({
+  listStyle: 'none',
+  padding: 0,
+  margin: 0,
+});
+
+const StyledListItem = styled('li')({
+  marginBottom: '10px',
+  display: 'flex',
+  alignItems: 'center',
+  gap: '10px',
+});
+
+const NoteDescription = styled('span')({
+  flex: 1,
+  fontSize: '16px', // $font-size-base değeri yerine sabit bir değer kullandım
+  color: '#007bff',
+  wordWrap: 'break-word',
+});
+
+const CompletedNote = styled(NoteDescription)({
+  textDecoration: 'line-through',
+});
+
+const StyledButton = styled(Button)({
+  padding: '8px 12px',
+  fontSize: '16px', // $font-size-base değeri yerine sabit bir değer kullandım
+  cursor: 'pointer',
+});
+
+const SecondaryButton = styled(StyledButton)({
+  backgroundColor: '#6c757d',
+  color: '#fff',
+  border: 'none',
+  '&:hover': {
+    backgroundColor: '#5a6268',
+  },
+});
+
+const ErrorButton = styled(StyledButton)({
+  backgroundColor: '#dc3545',
+  color: '#fff',
+  border: 'none',
+  '&:hover': {
+    backgroundColor: '#bb2d3b',
+  },
+});
 
 const Notes = () => {
   const [notes, setNotes] = useState([]);
@@ -81,9 +139,9 @@ const Notes = () => {
   };
 
   return (
-    <Grid container spacing={2} className="notes-container">
+    <NotesContainer container spacing={2} className="notes-container">
       <Grid item xs={12}>
-        <Typography variant="h4">My Notes</Typography>
+        <StyledH4 variant="h4">My Notes</StyledH4>
       </Grid>
       <Grid item xs={12}>
         <TextField
@@ -100,15 +158,15 @@ const Notes = () => {
         <Button variant="contained" onClick={handleAddNote} fullWidth>Add Note</Button>
       </Grid>
       <Grid item xs={12}>
-        <ul>
+        <StyledList>
           {notes.map((note) => (
-            <li key={note.id}>
-              <span className={note.completed ? 'completed-note' : ''}>{note.description}</span>
-              <Button variant="outlined" onClick={() => handleCompleteNote(note)}>Complete</Button>
-              <Button variant="outlined" onClick={() => handleDeleteNote(note)}>Delete</Button>
-            </li>
+            <StyledListItem key={note.id}>
+              <NoteDescription className={note.completed ? 'completed-note' : ''}>{note.description}</NoteDescription>
+              <SecondaryButton variant="outlined" onClick={() => handleCompleteNote(note)}>Complete</SecondaryButton>
+              <ErrorButton variant="outlined" onClick={() => handleDeleteNote(note)}>Delete</ErrorButton>
+            </StyledListItem>
           ))}
-        </ul>
+        </StyledList>
       </Grid>
       <Grid item>
         <Button variant="contained" onClick={handleClearCompleted} fullWidth>Clear Completed</Button>
@@ -118,7 +176,7 @@ const Notes = () => {
           {snackbarMessage}
         </Alert>
       </Snackbar>
-    </Grid>
+    </NotesContainer>
   );
 };
 
