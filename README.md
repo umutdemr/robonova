@@ -136,6 +136,10 @@ https://medium.com/@umut.demir/internet-bilgisayar-icp-merkezi-olmayan-uygulamal
 
 
 
+https://github.com/umutdemr/mulakatapp_final/assets/84879807/0f3cea2b-df32-4109-be79-b3f80c33722c
+
+
+
 
 
 
