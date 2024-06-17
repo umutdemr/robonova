@@ -4,7 +4,7 @@ import { useAuth } from "./use-auth-client";
 import { styled } from '@mui/system';
 
 const HomeContainer = styled('div')({
-    fontFamily: 'Roboto',
+    fontFamily: 'Outfit',
     padding: '50px',
 });
 
