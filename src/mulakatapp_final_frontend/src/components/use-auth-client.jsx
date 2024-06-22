@@ -12,7 +12,7 @@ const defaultOptions = {
   identityProvider:
     process.env.DFX_NETWORK === "ic"
       ? "https://identity.ic0.app"
-      : "http://localhost:4943?canisterId=hptcf-emaaa-aaaaa-qaawq-cai",
+      : "http://localhost:4943?canisterId=dmalx-m4aaa-aaaaa-qaanq-cai",
 };
 
 export const useAuthClient = (options = defaultOptions) => {

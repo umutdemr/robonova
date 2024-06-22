@@ -216,7 +216,7 @@ const BeginnerMotoko = () => {
                     <Typography variant="body2">
                         In this course, we will build a “Robot Factory” using the Motoko language and create an army of robots. In each lesson we will learn the basics of Motoko while at the same time creating a functional robot army. At the end of this project, we will have built a system that can create robots, store their information and perform various functions.
                     </Typography>
-                    <Link to='/Demo'>
+                    <Link to='/Lesson1'>
                         <Button size="small" color="primary" variant="contained" sx={{ marginTop: '10px' }}>
                             Start Now
                         </Button>
@@ -232,7 +232,7 @@ const BeginnerMotoko = () => {
                     <Typography variant="body2">
                         On your first day at the Robot Factory, you dive into the magical world of the Motoko language. You learn why Motoko is the language of choice, its strengths and how to use it to build an army of robots. It's not just a language, it's the key to becoming a robot master.
                     </Typography>
-                    <Link to='/Demo'>
+                    <Link to='/Lesson2'>
                         <Button size="small" color="primary" variant="contained" sx={{ marginTop: '10px' }}>
                             Start Now
                         </Button>
@@ -248,7 +248,7 @@ const BeginnerMotoko = () => {
                     <Typography variant="body2">
                         In the world of our robots, data is the most basic building block. While learning data types such as Text, Nat, Int, Bool and how to work with these types, you also open a window into the inner world of robots. Variables are the areas where robots store their current status and information.
                     </Typography>
-                    <Link to='/Demo'>
+                    <Link to='/Lesson3'>
                         <Button size="small" color="primary" variant="contained" sx={{ marginTop: '10px' }}>
                             Start Now
                         </Button>
@@ -264,7 +264,7 @@ const BeginnerMotoko = () => {
                     <Typography variant="body2">
                         Functions, the brains of robots, are the key to teaching them how to behave. Defining, calling and flow controlling functions will enable our robot army to make the right decisions. If-Else statements, loops and switch structures take us on a journey through the complex world of robots.
                     </Typography>
-                    <Link to='/Demo'>
+                    <Link to='/Lesson4'>
                         <Button size="small" color="primary" variant="contained" sx={{ marginTop: '10px' }}>
                             Start Now
                         </Button>
@@ -280,7 +280,7 @@ const BeginnerMotoko = () => {
                     <Typography variant="body2">
                         Mathematical operations are key to developing robots' thinking and computational capabilities. Primitive structures are the basis for robots' memory management and data processing capabilities. Our robots will now be friends with numbers!
                     </Typography>
-                    <Link to='/Demo'>
+                    <Link to='/Lesson5'>
                         <Button size="small" color="primary" variant="contained" sx={{ marginTop: '10px' }}>
                             Start Now
                         </Button>
@@ -296,7 +296,7 @@ const BeginnerMotoko = () => {
                     <Typography variant="body2">
                         Our robots' decision-making abilities are further developed with Options and Arrays. By providing options, we learn how robots react to different scenarios. We also make our robot army more organized with data collections.
                     </Typography>
-                    <Link to='/Demo'>
+                    <Link to='/Lesson6'>
                         <Button size="small" color="primary" variant="contained" sx={{ marginTop: '10px' }}>
                             Start Now
                         </Button>
@@ -312,7 +312,7 @@ const BeginnerMotoko = () => {
                     <Typography variant="body2">
                         We dive into Records, Objects and Classes to define the unique personalities and characteristics of our robots. Each robot will have a unique identity and function. Now our robots will act like real individuals.
                     </Typography>
-                    <Link to='/Demo'>
+                    <Link to='/Lesson7'>
                         <Button size="small" color="primary" variant="contained" sx={{ marginTop: '10px' }}>
                             Start Now
                         </Button>
@@ -328,7 +328,7 @@ const BeginnerMotoko = () => {
                     <Typography variant="body2">
                         We are introduced to Packs, Modules and Actors to coordinate our robot army. How robots will communicate and exchange information with each other is an important step. Our robots will now act as a team!
                     </Typography>
-                    <Link to='/Demo'>
+                    <Link to='/Lesson8'>
                         <Button size="small" color="primary" variant="contained" sx={{ marginTop: '10px' }}>
                             Start Now
                         </Button>

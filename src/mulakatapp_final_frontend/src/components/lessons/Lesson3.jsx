@@ -36,7 +36,7 @@ const EditorSection = styled('div')({
     padding: '20px',
 });
 
-function Demo() {
+function Lesson3() {
     const editorRef = useRef(null);
     const [code, setCode] = useState(`actor { public func hello() : async Text { "Hello World" } }`);
     const [currentLesson, setCurrentLesson] = useState(1);
@@ -51,55 +51,94 @@ function Demo() {
                 return (
                     <div>
                         <Typography variant="h4" component="h2" sx={{ fontSize: '2rem', color: '#333', marginBottom: '20px' }}>
-                            Motoko Programlama Dili ve Neden Motoko?
+                            Fonksiyonlar ve Akış Kontrolü                        </Typography>
+                        <Typography variant="body1" sx={{ fontSize: '1.2rem', color: '#666', marginBottom: '20px' }}>
+                            Robotlarımızın doğru kararlar alması ve belirli görevleri yerine getirmesi için fonksiyonlar büyük önem taşır. Fonksiyonlar, robotların beyni gibidir ve onlara nasıl davranacaklarını öğretmenin anahtarıdır. Bu dersimizde fonksiyonların ne olduğunu, nasıl tanımlandığını ve kullanıldığını öğreneceğiz. Ayrıca, if-else ifadeleri, döngüler ve switch yapıları ile akış kontrolünü sağlamayı öğreneceğiz.
                         </Typography>
                         <Typography variant="body1" sx={{ fontSize: '1.2rem', color: '#666', marginBottom: '20px' }}>
-                            Robot Fabrikası'na ilk adımını attığın gün, büyülü Motoko dilinin dünyasına dalıyorsun. Motoko'nun neden tercih edildiğini, güçlü yanlarını ve robot ordusu inşa etmede nasıl kullanılabileceğini öğreniyorsun.
-                        </Typography>
+                            Fonksiyonlar Nedir? <br />                        </Typography>
                         <Typography variant="body1" sx={{ fontSize: '1.2rem', color: '#666', marginBottom: '20px' }}>
-                            Motoko, modern web uygulamaları ve hizmetlerini geliştirmek için özel olarak tasarlanmış bir programlama dilidir. Motoko'nun tercih edilme nedenleri arasında şunlar bulunur:
-                        </Typography>
+                            Fonksiyonlar, belirli görevleri yerine getiren ve belirli bir amaç için yapılan kod bloklarıdır. Örneğin, bir "robotUyu" fonksiyonu, robotu uyutabilir veya "robotHareketEt" fonksiyonu, robotun hareket etmesini sağlayabilir.                        </Typography>
+
                         <Typography variant="body1" sx={{ fontSize: '1.2rem', color: '#666', marginBottom: '20px' }}>
-                            Şimdi bir Motoko kod örneğiyle devam edelim. Aşağıdaki kod bloğu, basit bir "Merhaba, Dünya!" uygulamasını göstermektedir:
+                            Fonksiyon Tanımlama <br />
+                            Fonksiyonlar tanımlanırken, fonksiyonun adı, parametreleri (gerekirse) ve işlevi belirtilir. Örneğin:
+
                         </Typography>
                         <pre>
                             <code>
-                                {`actor { public func hello() : async Text { "Hello World" } }`}
+                                {`func robotUyu(sure: Nat) : async () {
+  // Belirli bir süre uyuma işlemi
+  // ...
+}
+
+func robotHareketEt(hiz: Nat) : async () {
+  // Belirli bir hızda hareket etme işlemi
+  // ...
+}
+`}
                             </code>
                         </pre>
                         <Typography variant="body1" sx={{ fontSize: '1.2rem', color: '#666', marginBottom: '20px' }}>
-                            Bu kodda, bir aktör oluşturulmuş ve <code>hello</code> fonksiyonu tanımlanmıştır. Bu fonksiyon, "Merhaba, Dünya!" mesajını konsola yazdırmaktadır. Bu örnek, Motoko'nun basit sözdizimini ve temel yapısını göstermektedir.
-                        </Typography>
+                            Fonksiyon Çağrısı <br />
+                            Tanımladığımız fonksiyonları çağırarak, robotların belirli görevleri yerine getirmesini sağlayabiliriz. Örneğin:                       </Typography>
+                        <pre>
+                            <code>
+                                {`robotUyu(5); // Robotu 5 saniye uyut
+robotHareketEt(10); // Robotu 10 birim hızda hareket ettir
+`}
+                            </code>
+                        </pre>
+
                         <Typography variant="body1" sx={{ fontSize: '1.2rem', color: '#666', marginBottom: '20px' }}>
-                            Artık Motoko dilinin büyüleyici dünyasına ilk adımını atmış oldun! Bir sonraki derste, temel veri türleri ve değişkenlerle ilgili daha fazla bilgi edineceğiz.
-                        </Typography>
-                        <Button variant="contained" color="primary" onClick={nextLesson} style={{ marginTop: '20px' }}>
-                            Sonraki Ders
-                        </Button>
-                    </div>
-                );
-            case 2:
-                return (
-                    <div>
-                        <Typography variant="h4" component="h2" sx={{ fontSize: '2rem', color: '#333', marginBottom: '20px' }}>
-                            Motoko Temel Veri Türleri ve Değişkenler
-                        </Typography>
-                        <Typography variant="body1" sx={{ fontSize: '1.2rem', color: '#666', marginBottom: '20px' }}>
-                            Motoko'da temel veri türlerini ve değişkenlerin nasıl kullanıldığını öğrenelim. Aşağıdaki örneklerde, Motoko dilinde çeşitli veri türlerinin nasıl tanımlandığını göreceksin:
+                            If-Else İfadeleri <br />
+                            If-else ifadeleri, robotların belirli koşullara göre farklı işlemler yapmasını sağlar. Örneğin:
                         </Typography>
                         <pre>
                             <code>
-                                {`
-let myText : Text = "Merhaba";
-let myNumber : Int = 42;
-let myFloat : Float = 3.14;
-let myBool : Bool = true;
-                            `}
+                                {`if (hiz > 0) {
+  robotHareketEt(hiz);
+} else {
+  Debug.print("Hız sıfır olduğu için hareket etmiyor.");
+}
+`}
                             </code>
                         </pre>
                         <Typography variant="body1" sx={{ fontSize: '1.2rem', color: '#666', marginBottom: '20px' }}>
-                            Bu örneklerde, `myText`, `myNumber`, `myFloat` ve `myBool` değişkenlerinin tanımlandığını ve farklı veri türlerinin nasıl kullanıldığını görebilirsin. Motoko'da değişkenler `let` anahtar kelimesi ile tanımlanır.
+                            Döngüler <br />
+                            Döngüler, belirli işlemlerin tekrarlanmasını sağlar. Örneğin:
                         </Typography>
+                        <pre>
+                            <code>
+                                {`for (i in 1..5) {
+  robotHareketEt(i * 10); // Robotu her seferinde farklı hızda hareket ettir
+}
+`}
+                            </code>
+                        </pre>
+
+                        <Typography variant="body1" sx={{ fontSize: '1.2rem', color: '#666', marginBottom: '20px' }}>
+                            Switch İfadeleri <br />
+                            Switch ifadeleri, bir değerin farklı durumlarına göre farklı işlemler yapılmasını sağlar. Örneğin:
+
+                        </Typography>
+                        <pre>
+                            <code>
+                                {`switch (durum) {
+  case "bekle":
+    robotUyu(10);
+    break;
+  case "hareket_et":
+    robotHareketEt(20);
+    break;
+  default:
+    Debug.print("Bilinmeyen durum.");
+}
+`}
+                            </code>
+                        </pre>
+                        <Typography variant="body1" sx={{ fontSize: '1.2rem', color: '#666', marginBottom: '20px' }}>
+                            Bu dersle birlikte, robotlarımızın beyinleri olan fonksiyonları ve akış kontrolünü öğrendik. Artık, robotlarımızı istediğimiz şekilde yönlendirebilir ve görevleri yerine getirmelerini sağlayabiliriz.                        </Typography>
                         <Button variant="contained" color="primary" onClick={nextLesson} style={{ marginTop: '20px' }}>
                             Sonraki Ders
                         </Button>
@@ -155,4 +194,4 @@ let myBool : Bool = true;
     );
 }
 
-export default Demo;
+export default Lesson3;

@@ -36,7 +36,7 @@ const EditorSection = styled('div')({
     padding: '20px',
 });
 
-function Demo() {
+function Lesson5() {
     const editorRef = useRef(null);
     const [code, setCode] = useState(`actor { public func hello() : async Text { "Hello World" } }`);
     const [currentLesson, setCurrentLesson] = useState(1);
@@ -51,54 +51,69 @@ function Demo() {
                 return (
                     <div>
                         <Typography variant="h4" component="h2" sx={{ fontSize: '2rem', color: '#333', marginBottom: '20px' }}>
-                            Motoko Programlama Dili ve Neden Motoko?
+                            Options ve Arrays
                         </Typography>
                         <Typography variant="body1" sx={{ fontSize: '1.2rem', color: '#666', marginBottom: '20px' }}>
-                            Robot Fabrikası'na ilk adımını attığın gün, büyülü Motoko dilinin dünyasına dalıyorsun. Motoko'nun neden tercih edildiğini, güçlü yanlarını ve robot ordusu inşa etmede nasıl kullanılabileceğini öğreniyorsun.
-                        </Typography>
+                            Seçeneklerle Karar Alma (Options)   <br />
+                            Robotlarımızın çeşitli durumlarda karar alabilmesi, onların çevreye uyum sağlama yeteneklerini artırır. Option ve Option Blocks kullanarak, robotlarımızın farklı senaryolara nasıl tepki vereceğini belirleyebiliriz.                          </Typography>
                         <Typography variant="body1" sx={{ fontSize: '1.2rem', color: '#666', marginBottom: '20px' }}>
-                            Motoko, modern web uygulamaları ve hizmetlerini geliştirmek için özel olarak tasarlanmış bir programlama dilidir. Motoko'nun tercih edilme nedenleri arasında şunlar bulunur:
-                        </Typography>
-                        <Typography variant="body1" sx={{ fontSize: '1.2rem', color: '#666', marginBottom: '20px' }}>
-                            Şimdi bir Motoko kod örneğiyle devam edelim. Aşağıdaki kod bloğu, basit bir "Merhaba, Dünya!" uygulamasını göstermektedir:
+                            Options Nedir? <br />
+                            Options, bir değerin mevcut olup olmadığını belirtmek için kullanılır. Bu, robotların bir verinin varlığına veya yokluğuna göre farklı eylemler gerçekleştirmesini sağlar.
+
                         </Typography>
                         <pre>
                             <code>
-                                {`actor { public func hello() : async Text { "Hello World" } }`}
+                                {`// Bir kullanıcının adını opsiyonel olarak saklamak
+var kullaniciAdi : ?Text = null;
+
+// Kullanıcı adı tanımlıysa, ekrana yazdır
+switch (kullaniciAdi) {
+  case (?adi) { Debug.print("Kullanıcı adı: " # adi); };
+  case (null) { Debug.print("Kullanıcı adı bulunamadı."); };
+}
+`}
                             </code>
                         </pre>
                         <Typography variant="body1" sx={{ fontSize: '1.2rem', color: '#666', marginBottom: '20px' }}>
-                            Bu kodda, bir aktör oluşturulmuş ve <code>hello</code> fonksiyonu tanımlanmıştır. Bu fonksiyon, "Merhaba, Dünya!" mesajını konsola yazdırmaktadır. Bu örnek, Motoko'nun basit sözdizimini ve temel yapısını göstermektedir.
+                            Bu kodda, kullanıcı adının olup olmadığını kontrol ediyoruz ve buna göre bir mesaj yazdırıyoruz.
+
                         </Typography>
                         <Typography variant="body1" sx={{ fontSize: '1.2rem', color: '#666', marginBottom: '20px' }}>
-                            Artık Motoko dilinin büyüleyici dünyasına ilk adımını atmış oldun! Bir sonraki derste, temel veri türleri ve değişkenlerle ilgili daha fazla bilgi edineceğiz.
-                        </Typography>
-                        <Button variant="contained" color="primary" onClick={nextLesson} style={{ marginTop: '20px' }}>
-                            Sonraki Ders
-                        </Button>
-                    </div>
-                );
-            case 2:
-                return (
-                    <div>
-                        <Typography variant="h4" component="h2" sx={{ fontSize: '2rem', color: '#333', marginBottom: '20px' }}>
-                            Motoko Temel Veri Türleri ve Değişkenler
-                        </Typography>
+                            Dizilerle Veri Organizasyonu (Arrays) <br />
+                            Robot ordumuzu daha organize hale getirmek için verileri dizilerde saklıyoruz. Immutable ve Mutable Arrays ile verileri düzenlemek, robotların hızlı ve verimli bir şekilde işlem yapmasını sağlar.                        </Typography>
                         <Typography variant="body1" sx={{ fontSize: '1.2rem', color: '#666', marginBottom: '20px' }}>
-                            Motoko'da temel veri türlerini ve değişkenlerin nasıl kullanıldığını öğrenelim. Aşağıdaki örneklerde, Motoko dilinde çeşitli veri türlerinin nasıl tanımlandığını göreceksin:
+                            Mutable Arrays <br />
+                            Mutable Arrays, içerdikleri verilerin değiştirilebildiği dizilerdir. Bu, robotların verileri dinamik olarak güncelleyebilmesini sağlar.                        </Typography>
+                        <pre>
+                            <code>
+                                {`var sayilar : [var Nat] = [var 1, var 2, var 3, var 4, var 5];
+
+// Dizinin bir elemanını güncelle
+sayilar[2] := 10;
+
+// Diziyi ekrana yazdır
+Debug.print("Güncellenmiş Sayılar: " # Debug.show(sayilar));
+`}
+                            </code>
+                        </pre>
+                        <Typography>
+                            Bu kodda, değiştirilebilir bir dizi tanımlanmıştır ve bu dizinin bir elemanı güncellenmiştir.
+                        </Typography>
+
+                        <Typography variant="body1" sx={{ fontSize: '1.2rem', color: '#666', marginBottom: '20px' }}>
+                            Immutable Arrays <br />
+                            Immutable Arrays, içerdikleri verilerin değiştirilemediği dizilerdir. Bu, verilerin güvenliğini sağlar ve beklenmeyen değişiklikleri önler.
                         </Typography>
                         <pre>
                             <code>
-                                {`
-let myText : Text = "Merhaba";
-let myNumber : Int = 42;
-let myFloat : Float = 3.14;
-let myBool : Bool = true;
-                            `}
+                                {`let sayilar : [Nat] = [1, 2, 3, 4, 5];
+                                // Diziyi ekrana yazdır
+                                Debug.print("Sayılar: " # Debug.show(sayilar));`}
                             </code>
                         </pre>
-                        <Typography variant="body1" sx={{ fontSize: '1.2rem', color: '#666', marginBottom: '20px' }}>
-                            Bu örneklerde, `myText`, `myNumber`, `myFloat` ve `myBool` değişkenlerinin tanımlandığını ve farklı veri türlerinin nasıl kullanıldığını görebilirsin. Motoko'da değişkenler `let` anahtar kelimesi ile tanımlanır.
+                        <Typography>
+                            Bu kodda, değiştirilemeyen bir dizi tanımlanmıştır ve bu dizinin elemanları ekrana yazdırılmaktadır. <br />
+                            Bu dersle birlikte, robotlarımızın farklı senaryolara nasıl tepki vereceğini öğrenerek karar alma yeteneklerini geliştirdik. Ayrıca, veri koleksiyonlarını kullanarak robot ordumuzu daha organize ve verimli hale getirdik. Seçeneklerle karar almayı ve dizilerle veri organizasyonunu öğrenen robotlarımız, artık daha akıllı ve etkili olacaklar.
                         </Typography>
                         <Button variant="contained" color="primary" onClick={nextLesson} style={{ marginTop: '20px' }}>
                             Sonraki Ders
@@ -155,4 +170,4 @@ let myBool : Bool = true;
     );
 }
 
-export default Demo;
+export default Lesson5;

@@ -14,7 +14,7 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { Link, useLocation } from 'react-router-dom';
 import image2 from '../../public/image3.png';
-const pages = ['Home', 'Demo', 'Beginner'];
+const pages = ['Home', 'Beginner'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function NavBarComponent() {
@@ -123,7 +123,7 @@ function NavBarComponent() {
                 onClick={handleCloseNavMenu}
                 sx={{
                   my: 2,
-                  color: location.pathname === `/${page}` ? 'rgba(222, 58, 0, 1)' : 'white',
+                  color: location.pathname === `/${page}` ? '#7F7FFF' : 'white',
                   display: 'block',
                   fontFamily: 'Outfit'
                 }}

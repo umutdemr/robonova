@@ -36,10 +36,10 @@ const EditorSection = styled('div')({
     padding: '20px',
 });
 
-function Demo() {
+function Lesson6() {
     const editorRef = useRef(null);
     const [code, setCode] = useState(`actor { public func hello() : async Text { "Hello World" } }`);
-    const [currentLesson, setCurrentLesson] = useState(1);
+    const [currentLesson, setCurrentLesson] = useState(6);
 
     const nextLesson = () => {
         setCurrentLesson(currentLesson + 1);
@@ -47,59 +47,100 @@ function Demo() {
 
     const renderLessonContent = () => {
         switch (currentLesson) {
-            case 1:
+            case 6:
                 return (
                     <div>
                         <Typography variant="h4" component="h2" sx={{ fontSize: '2rem', color: '#333', marginBottom: '20px' }}>
-                            Motoko Programlama Dili ve Neden Motoko?
+                            Kayıtlar, Nesneler ve Sınıflandırmalar
                         </Typography>
                         <Typography variant="body1" sx={{ fontSize: '1.2rem', color: '#666', marginBottom: '20px' }}>
-                            Robot Fabrikası'na ilk adımını attığın gün, büyülü Motoko dilinin dünyasına dalıyorsun. Motoko'nun neden tercih edildiğini, güçlü yanlarını ve robot ordusu inşa etmede nasıl kullanılabileceğini öğreniyorsun.
+                            Robotlarımızın benzersiz kişiliklerini ve özelliklerini tanımlamak için kayıtlar, nesneler ve sınıflar konularına dalıyoruz. Bu dersle, her robotun kendine özgü bir kimliği ve işlevi olacak. Artık robotlarımız gerçek birer birey gibi hareket edebilecekler.
+                        </Typography>
+                        <Typography variant="h5" component="h3" sx={{ fontSize: '1.5rem', color: '#333', marginBottom: '20px' }}>
+                            Kayıtlar (Records)
                         </Typography>
                         <Typography variant="body1" sx={{ fontSize: '1.2rem', color: '#666', marginBottom: '20px' }}>
-                            Motoko, modern web uygulamaları ve hizmetlerini geliştirmek için özel olarak tasarlanmış bir programlama dilidir. Motoko'nun tercih edilme nedenleri arasında şunlar bulunur:
-                        </Typography>
-                        <Typography variant="body1" sx={{ fontSize: '1.2rem', color: '#666', marginBottom: '20px' }}>
-                            Şimdi bir Motoko kod örneğiyle devam edelim. Aşağıdaki kod bloğu, basit bir "Merhaba, Dünya!" uygulamasını göstermektedir:
+                            Kayıtlar, robotlarımızın özelliklerini ve durumlarını saklamak için kullanabileceğimiz yapı taşlarıdır. Bir robotun farklı özelliklerini bir araya getirerek, onun kimliğini tanımlayabiliriz.
                         </Typography>
                         <pre>
                             <code>
-                                {`actor { public func hello() : async Text { "Hello World" } }`}
+                                {`type Robot = {
+  ad: Text;
+  model: Text;
+  aktif: Bool;
+};
+
+let robot1: Robot = {
+  ad = "R2-D2";
+  model = "Astromech";
+  aktif = true;
+};
+
+// Robotun bilgilerini yazdır
+Debug.print("Robot Adı: " # robot1.ad);
+Debug.print("Model: " # robot1.model);
+Debug.print("Aktif: " # Debug.show(robot1.aktif));`}
                             </code>
                         </pre>
-                        <Typography variant="body1" sx={{ fontSize: '1.2rem', color: '#666', marginBottom: '20px' }}>
-                            Bu kodda, bir aktör oluşturulmuş ve <code>hello</code> fonksiyonu tanımlanmıştır. Bu fonksiyon, "Merhaba, Dünya!" mesajını konsola yazdırmaktadır. Bu örnek, Motoko'nun basit sözdizimini ve temel yapısını göstermektedir.
+                        <Typography variant="h5" component="h3" sx={{ fontSize: '1.5rem', color: '#333', marginBottom: '20px' }}>
+                            Nesneler (Objects)
                         </Typography>
                         <Typography variant="body1" sx={{ fontSize: '1.2rem', color: '#666', marginBottom: '20px' }}>
-                            Artık Motoko dilinin büyüleyici dünyasına ilk adımını atmış oldun! Bir sonraki derste, temel veri türleri ve değişkenlerle ilgili daha fazla bilgi edineceğiz.
-                        </Typography>
-                        <Button variant="contained" color="primary" onClick={nextLesson} style={{ marginTop: '20px' }}>
-                            Sonraki Ders
-                        </Button>
-                    </div>
-                );
-            case 2:
-                return (
-                    <div>
-                        <Typography variant="h4" component="h2" sx={{ fontSize: '2rem', color: '#333', marginBottom: '20px' }}>
-                            Motoko Temel Veri Türleri ve Değişkenler
-                        </Typography>
-                        <Typography variant="body1" sx={{ fontSize: '1.2rem', color: '#666', marginBottom: '20px' }}>
-                            Motoko'da temel veri türlerini ve değişkenlerin nasıl kullanıldığını öğrenelim. Aşağıdaki örneklerde, Motoko dilinde çeşitli veri türlerinin nasıl tanımlandığını göreceksin:
+                            Nesneler, robotlarımızın davranışlarını ve özelliklerini bir arada tutan daha karmaşık yapılardır. Bir robotun hem verilerini hem de bu verilere bağlı işlevlerini saklayabiliriz.
                         </Typography>
                         <pre>
                             <code>
-                                {`
-let myText : Text = "Merhaba";
-let myNumber : Int = 42;
-let myFloat : Float = 3.14;
-let myBool : Bool = true;
-                            `}
+                                {`actor Robot {
+  var ad: Text = "R2-D2";
+  var model: Text = "Astromech";
+  var aktif: Bool = true;
+
+  public func bilgileriYazdir() : async () {
+    Debug.print("Robot Adı: " # ad);
+    Debug.print("Model: " # model);
+    Debug.print("Aktif: " # Debug.show(aktif));
+  };
+};
+
+// Robotun bilgilerini yazdırma fonksiyonunu çağır
+await Robot.bilgileriYazdir();`}
                             </code>
                         </pre>
-                        <Typography variant="body1" sx={{ fontSize: '1.2rem', color: '#666', marginBottom: '20px' }}>
-                            Bu örneklerde, `myText`, `myNumber`, `myFloat` ve `myBool` değişkenlerinin tanımlandığını ve farklı veri türlerinin nasıl kullanıldığını görebilirsin. Motoko'da değişkenler `let` anahtar kelimesi ile tanımlanır.
+                        <Typography variant="h5" component="h3" sx={{ fontSize: '1.5rem', color: '#333', marginBottom: '20px' }}>
+                            Sınıflar (Classes)
                         </Typography>
+                        <Typography variant="body1" sx={{ fontSize: '1.2rem', color: '#666', marginBottom: '20px' }}>
+                            Sınıflar, robotlarımızın ortak özelliklerini ve davranışlarını tanımlamak için kullanılır. Aynı sınıftan birden fazla robot türeterek, benzer özelliklere sahip farklı robotlar oluşturabiliriz.
+                        </Typography>
+                        <pre>
+                            <code>
+                                {`class Robot {
+  var ad: Text;
+  var model: Text;
+  var aktif: Bool;
+
+  public func new(ad: Text, model: Text, aktif: Bool) : Robot {
+    ad := ad;
+    model := model;
+    aktif := aktif;
+    return self;
+  };
+
+  public func bilgileriYazdir() : async () {
+    Debug.print("Robot Adı: " # ad);
+    Debug.print("Model: " # model);
+    Debug.print("Aktif: " # Debug.show(aktif));
+  };
+};
+
+let robot1 = Robot("R2-D2", "Astromech", true);
+let robot2 = Robot("C-3PO", "Protocol", false);
+
+// Robotların bilgilerini yazdır
+await robot1.bilgileriYazdir();
+await robot2.bilgileriYazdir();`}
+                            </code>
+                        </pre>
                         <Button variant="contained" color="primary" onClick={nextLesson} style={{ marginTop: '20px' }}>
                             Sonraki Ders
                         </Button>
@@ -134,20 +175,6 @@ let myBool : Bool = true;
                             style={{ border: 0 }}
                             title="Motoko code snippet"
                         />
-                        {/* <Editor
-                            height="90vh"
-                            defaultLanguage="motoko"
-                            value={code}
-                            theme="vs-dark"
-                            onMount={handleEditorDidMount}
-                            onChange={handleCodeChange}
-                        />
-                        <Button variant="contained" color="primary" onClick={runCode} style={{ marginTop: '20px' }}>
-                            Run Code
-                        </Button>
-                        <Button variant="contained" color="secondary" onClick={fetchCodes} style={{ marginTop: '20px' }}>
-                            Check Code
-                        </Button> */}
                     </EditorSection>
                 </EditorContainer>
             </HeroContainer>
@@ -155,4 +182,4 @@ let myBool : Bool = true;
     );
 }
 
-export default Demo;
+export default Lesson6;

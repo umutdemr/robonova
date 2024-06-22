@@ -36,7 +36,7 @@ const EditorSection = styled('div')({
     padding: '20px',
 });
 
-function Demo() {
+function Lesson4() {
     const editorRef = useRef(null);
     const [code, setCode] = useState(`actor { public func hello() : async Text { "Hello World" } }`);
     const [currentLesson, setCurrentLesson] = useState(1);
@@ -51,54 +51,60 @@ function Demo() {
                 return (
                     <div>
                         <Typography variant="h4" component="h2" sx={{ fontSize: '2rem', color: '#333', marginBottom: '20px' }}>
-                            Motoko Programlama Dili ve Neden Motoko?
+                            Sayısal İşlemler ve Primitiv Yapılar
                         </Typography>
                         <Typography variant="body1" sx={{ fontSize: '1.2rem', color: '#666', marginBottom: '20px' }}>
-                            Robot Fabrikası'na ilk adımını attığın gün, büyülü Motoko dilinin dünyasına dalıyorsun. Motoko'nun neden tercih edildiğini, güçlü yanlarını ve robot ordusu inşa etmede nasıl kullanılabileceğini öğreniyorsun.
-                        </Typography>
+                            Robotlarımızın düşünme ve hesaplama yeteneklerini geliştirmek için matematiksel işlemler büyük önem taşır. Sayısal işlemler, robotların sayılarla dost olmasını sağlar. Bu dersimizde, matematiksel işlemleri gerçekleştirmeyi ve primitiv yapılarla veri işleme yeteneklerini öğreneceğiz. Primitiv yapılar, robotların bellek yönetimi ve veri işleme yetenekleri için temel oluşturur.                        </Typography>
                         <Typography variant="body1" sx={{ fontSize: '1.2rem', color: '#666', marginBottom: '20px' }}>
-                            Motoko, modern web uygulamaları ve hizmetlerini geliştirmek için özel olarak tasarlanmış bir programlama dilidir. Motoko'nun tercih edilme nedenleri arasında şunlar bulunur:
-                        </Typography>
+                            <strong>Robotik Zeka</strong><br />
+                            Robotlarımızın en dikkat çekici özelliklerinden biri, gelişmiş robotik zeka sistemidir. Bu sistem, robotların kendi başlarına düşünme, analiz yapma ve karar verme yeteneklerine sahip olmalarını sağlar. Matematiksel işlemler ve primitiv yapılar, robotik zeka sistemini güçlendirmek için kullanılır.                       </Typography>
                         <Typography variant="body1" sx={{ fontSize: '1.2rem', color: '#666', marginBottom: '20px' }}>
-                            Şimdi bir Motoko kod örneğiyle devam edelim. Aşağıdaki kod bloğu, basit bir "Merhaba, Dünya!" uygulamasını göstermektedir:
-                        </Typography>
+                            <strong>Sayısal İşlemler ve Zeka Gelişimi</strong><br />
+                            Robotlarımızın matematiksel işlemleri yapabilmesi, zeka gelişimlerine büyük katkı sağlar. Toplama, çıkarma, çarpma, bölme gibi işlemleri başarıyla gerçekleştirebilen robotlar, problemleri daha hızlı çözebilir ve daha akıllı kararlar alabilir.                        </Typography>
                         <pre>
                             <code>
-                                {`actor { public func hello() : async Text { "Hello World" } }`}
+                                {`// Toplama İşlemi
+func toplama(sayi1: Nat, sayi2: Nat) : Nat {
+  return sayi1 + sayi2;
+}
+
+// Çıkarma İşlemi
+func cikarma(sayi1: Int, sayi2: Int) : Int {
+  return sayi1 - sayi2;
+}
+
+// Çarpma İşlemi
+func carpma(sayi1: Nat, sayi2: Nat) : Nat {
+  return sayi1 * sayi2;
+}
+
+// Bölme İşlemi
+func bolme(sayi1: Nat, sayi2: Nat) : Nat {
+  if (sayi2 == 0) {
+    Debug.print("Bir sayı sıfıra bölünemez.");
+    return 0;
+  } else {
+    return sayi1 / sayi2;
+  }
+}
+`}
                             </code>
                         </pre>
                         <Typography variant="body1" sx={{ fontSize: '1.2rem', color: '#666', marginBottom: '20px' }}>
-                            Bu kodda, bir aktör oluşturulmuş ve <code>hello</code> fonksiyonu tanımlanmıştır. Bu fonksiyon, "Merhaba, Dünya!" mesajını konsola yazdırmaktadır. Bu örnek, Motoko'nun basit sözdizimini ve temel yapısını göstermektedir.
-                        </Typography>
+                            Bu kodlarda, temel matematiksel işlemleri gerçekleştiren fonksiyonlar tanımlanmıştır. Robotlarımız artık bu işlemleri yapabilir hale gelecekler.                        </Typography>
                         <Typography variant="body1" sx={{ fontSize: '1.2rem', color: '#666', marginBottom: '20px' }}>
-                            Artık Motoko dilinin büyüleyici dünyasına ilk adımını atmış oldun! Bir sonraki derste, temel veri türleri ve değişkenlerle ilgili daha fazla bilgi edineceğiz.
-                        </Typography>
-                        <Button variant="contained" color="primary" onClick={nextLesson} style={{ marginTop: '20px' }}>
-                            Sonraki Ders
-                        </Button>
-                    </div>
-                );
-            case 2:
-                return (
-                    <div>
-                        <Typography variant="h4" component="h2" sx={{ fontSize: '2rem', color: '#333', marginBottom: '20px' }}>
-                            Motoko Temel Veri Türleri ve Değişkenler
-                        </Typography>
-                        <Typography variant="body1" sx={{ fontSize: '1.2rem', color: '#666', marginBottom: '20px' }}>
-                            Motoko'da temel veri türlerini ve değişkenlerin nasıl kullanıldığını öğrenelim. Aşağıdaki örneklerde, Motoko dilinde çeşitli veri türlerinin nasıl tanımlandığını göreceksin:
-                        </Typography>
+                            <strong>Sayısal İşlemler ve Zeka Gelişimi</strong><br />
+                            Robotlarımızın matematiksel işlemleri yapabilmesi, zeka gelişimlerine büyük katkı sağlar. Toplama, çıkarma, çarpma, bölme gibi işlemleri başarıyla gerçekleştirebilen robotlar, problemleri daha hızlı çözebilir ve daha akıllı kararlar alabilir.                        </Typography>
                         <pre>
                             <code>
-                                {`
-let myText : Text = "Merhaba";
-let myNumber : Int = 42;
-let myFloat : Float = 3.14;
-let myBool : Bool = true;
-                            `}
+                                {`var sayi : Nat = 42;
+var ondalikSayi : Int = -3;
+var dogru : Bool = true;
+`}
                             </code>
                         </pre>
-                        <Typography variant="body1" sx={{ fontSize: '1.2rem', color: '#666', marginBottom: '20px' }}>
-                            Bu örneklerde, `myText`, `myNumber`, `myFloat` ve `myBool` değişkenlerinin tanımlandığını ve farklı veri türlerinin nasıl kullanıldığını görebilirsin. Motoko'da değişkenler `let` anahtar kelimesi ile tanımlanır.
+                        <Typography>
+                            Bu dersle birlikte, robotlarımızın matematiksel işlemleri gerçekleştirebilmesi için temel primitiv yapıları ve veri türlerini öğrendik. Artık, robotlarımız sayılarla dost olacaklar ve zeka gelişimlerine büyük katkı sağlayacaklar.
                         </Typography>
                         <Button variant="contained" color="primary" onClick={nextLesson} style={{ marginTop: '20px' }}>
                             Sonraki Ders
@@ -155,4 +161,4 @@ let myBool : Bool = true;
     );
 }
 
-export default Demo;
+export default Lesson4;

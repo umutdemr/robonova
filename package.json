@@ -19,13 +19,17 @@
     "@dfinity/auth-client": "^1.2.0",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
+    "@hookform/resolvers": "^3.6.0",
     "@material-ui/icons": "^4.11.3",
     "@monaco-editor/react": "^4.6.0",
-    "@mui/icons-material": "^5.15.14",
+    "@mui/icons-material": "^5.15.20",
+    "@mui/lab": "^5.0.0-alpha.170",
     "@mui/material": "^5.15.14",
     "@mui/styled-engine": "^5.15.14",
+    "react-hook-form": "^7.52.0",
     "react-router": "^6.22.3",
     "react-router-dom": "^6.23.1",
-    "vite": "^5.2.8"
+    "vite": "^5.2.8",
+    "yup": "^1.4.0"
   }
 }
