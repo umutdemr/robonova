@@ -9,9 +9,9 @@ import Button from "@mui/material/Button";
 function LoggedIn({ updateList }) {
     const [result, setResult] = React.useState("");
 
-    const defaultUser = "Paws Friend";
+    const defaultUser = "OneRobox";
 
-    const defaultAvatar = "./defaultAvatar.png";
+    const defaultAvatar = "./image2.png";
 
     const [currentUser, setCurrentUser] = React.useState();
 
@@ -84,10 +84,10 @@ function LoggedIn({ updateList }) {
                             gap={2}
                         >
                             <Button variant="outlined">
-                                My Pets
+                                Courses
                             </Button>
                             <Button variant="outlined">
-                                Add Pet
+                                Progress
                             </Button>
                         </Stack>
                         <Stack

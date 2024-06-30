@@ -13,12 +13,7 @@ import PythonQuestions from './components/questions/PythonQuestions';
 import RandomQuestions from './components/questions/RandomQuestions';
 import HomePage from './components/HomePage';
 import BeginnerMotoko from './components/BeginnerMotoko';
-import Grid from "@mui/material/Grid";
-import Card from "@mui/material/Card";
-import LoggedIn from "./components/LoggedIn";
-import LoggedOut from './components/LoggedOut';
 // import { Box } from '@mui/material';
-import { Box, Button, Typography } from '@mui/material';
 import Lesson1 from './components/lessons/Lesson1';
 import Lesson2 from './components/lessons/Lesson2';
 import Lesson3 from './components/lessons/Lesson3';
@@ -26,45 +21,13 @@ import Lesson4 from './components/lessons/Lesson4';
 import Lesson5 from './components/lessons/Lesson5';
 import Lesson6 from './components/lessons/Lesson6';
 import Lesson7 from './components/lessons/Lesson7';
+import Login from './components/Login';
 
 
 function App() {
-  const { isAuthenticated, principal } = useAuth();
-
-
 
   return (
     <>
-
-      {/* <Box sx={{ paddingTop: '100px' }}>
-        <Grid>
-          <Grid >
-            {<img
-              src="/logo.png"
-              alt="Your logo"
-              height="200"
-              style={{ borderRadius: "10px" }}
-            />}
-          </Grid>
-          <Grid>
-            <Card
-              sx={{
-                minHeight: 200,
-                maxHeight: 200,
-                borderRadius: "10px",
-              }}
-            >
-              {isAuthenticated ? (
-                // <LoggedIn updateList={handlePetCreated} />
-                <LoggedIn />
-              ) : (
-                <LoggedOut />
-              )}
-            </Card>
-          </Grid>
-        </Grid>
-      </Box> */}
-
       <NavBarComponent />
       <Routes>
         <Route path='/' element={<HomePage />} />
@@ -84,11 +47,8 @@ function App() {
         <Route path='/Lesson6' element={<Lesson6 />} />
         <Route path='/Lesson7' element={<Lesson7 />} />
         <Route path='/Beginner' element={<BeginnerMotoko />} />
-
+        <Route path='/Login' element={<Login />} />
       </Routes>
-
-
-
     </>
   );
 }

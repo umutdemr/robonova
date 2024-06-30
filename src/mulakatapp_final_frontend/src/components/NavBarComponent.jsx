@@ -14,8 +14,8 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { Link, useLocation } from 'react-router-dom';
 import image2 from '../../public/image3.png';
-const pages = ['Home', 'Beginner'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const pages = ['Home', 'Beginner', 'Login'];
+// const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function NavBarComponent() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -132,7 +132,7 @@ function NavBarComponent() {
               </Button>
             ))}
           </Box>
-
+          {/* 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -161,7 +161,7 @@ function NavBarComponent() {
                 </MenuItem>
               ))}
             </Menu>
-          </Box>
+          </Box> */}
         </Toolbar>
       </Container>
     </AppBar>

@@ -26,7 +26,7 @@ export default function UserQuickEditForm({
     mutatuePanel,
 }) {
     const { logout } = useAuth();
-    const defaultAvatar = "./defaultAvatar.png";
+    const defaultAvatar = "./image2.png";
     const [imageData, setImageData] = useState(currentUser?.avatar);
 
     const confirm = useBoolean();

@@ -1,157 +1,295 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Button, Typography } from '@mui/material';
+import { Button, Typography, Box, Paper, Grid } from '@mui/material';
 import { styled } from '@mui/system';
 import Editor from '@monaco-editor/react';
+import { mulakatapp_final_backend } from 'declarations/mulakatapp_final_backend';
+import { useNavigate } from 'react-router-dom';
+import { PlayArrow, Check, ArrowForward, ArrowBack } from '@mui/icons-material';
+import Alert from '@mui/material/Alert';
 
-const DemoContainer = styled('div')({
-    fontFamily: 'Outfit',
-    padding: '50px',
-    backgroundColor: 'rgba(0, 5, 57, 1)',
-    paddingTop: '120px'
-});
-
-const HeroContainer = styled('div')({
+const Container = styled('div')({
     display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    backgroundColor: '#f8f9fa',
-    borderRadius: '20px',
-    boxShadow: '0 0 20px rgba(0, 0, 0, 0.1)',
-    padding: '50px',
+    height: '100vh',
+    backgroundColor: 'rgba(8,6,13,255)',
+    flexDirection: 'column',
+    position: 'relative'
 });
 
-const EditorContainer = styled('div')({
+const ContentWrapper = styled('div')({
     display: 'flex',
-    justifyContent: 'space-between',
-    marginTop: '50px',
-});
-
-const TutorialSection = styled('div')({
     flex: '1',
-    padding: '5px',
+    overflow: 'hidden',
+    paddingBottom: '80px' // Make room for the footer
 });
 
-const EditorSection = styled('div')({
+const LessonContent = styled('div')({
     flex: '1',
     padding: '20px',
+    overflowX: 'auto', // Added scroll only for lesson content
+    backgroundColor: 'rgba(8,6,13,255)',
+    color: '#ffffff',
+});
+
+const EditorContent = styled('div')({
+    flex: '1',
+    padding: '20px',
+    backgroundColor: 'rgba(17,13,22,255)',
+    display: 'flex',
+    flexDirection: 'column',
+    paddingTop: '90px',
+    position: 'relative'
+});
+
+const EditorHeader = styled('div')({
+    padding: '10px 0',
+    borderBottom: '1px solid #ffffff',
+    marginBottom: '10px',
+    color: '#ffffff'
+});
+
+const EditorWrapper = styled('div')({
+    flex: '1',
+    display: 'flex',
+    flexDirection: 'column',
+    backgroundColor: '#282c34',
+    borderRadius: '8px',
+    overflow: 'hidden'
+});
+
+const EditorFooter = styled('div')({
+    display: 'flex',
+    justifyContent: 'space-between',
+    padding: '10px',
+    borderTop: '1px solid #ffffff',
+    position: 'fixed',
+    bottom: '0',
+    left: '0',
+    width: '100%',
+    backgroundColor: 'rgba(17,13,22,255)',
+    zIndex: 1000
 });
 
 function Lesson3() {
+    const navigate = useNavigate();
     const editorRef = useRef(null);
     const [code, setCode] = useState(`actor { public func hello() : async Text { "Hello World" } }`);
-    const [currentLesson, setCurrentLesson] = useState(1);
+    const [currentLesson, setCurrentLesson] = useState(3);
+    const [playgroundWindow, setPlaygroundWindow] = useState(null);
+    const [codeValid, setCodeValid] = useState(false);
+    const [alertMessage, setAlertMessage] = useState('');
+    const [alertSeverity, setAlertSeverity] = useState('success');
+
+    const PLAYGROUND_ORIGIN = 'https://play.motoko.org';
+    const APP_ID = 'MyEditor';
+    const fetchCodes = async () => {
+        try {
+            const currentCode = editorRef.current.getValue();
+            const fetchedCode = await mulakatapp_final_backend.checkCode(currentCode);
+
+            if (fetchedCode === 'Kod doğru!') {
+                setCodeValid(true);
+                setAlertSeverity('success');
+                setAlertMessage('The code is correct! Press the "Next Lesson" button to move on to the next lesson.');
+            } else {
+                setCodeValid(false);
+                setAlertSeverity('error');
+                setAlertMessage('The code is wrong! Please check your code.');
+            }
+        } catch (error) {
+            console.error('Error checking code:', error);
+            setAlertSeverity('error');
+            setAlertMessage('The code could not be checked. Please try again.');
+        }
+    };
 
     const nextLesson = () => {
-        setCurrentLesson(currentLesson + 1);
+        if (codeValid || currentLesson > 3) {
+            setCurrentLesson(currentLesson + 1);
+            navigate('/lesson4');
+        } else {
+            setAlertSeverity('warning');
+            setAlertMessage('Verify your code first.');
+        }
+    };
+
+    const previousLesson = () => {
+        if (currentLesson > 2) {
+            setCurrentLesson(currentLesson - 1);
+            navigate('/lesson2');
+        }
+    };
+
+    const handleEditorDidMount = (editor) => {
+        editorRef.current = editor;
+    };
+
+    const handleCodeChange = (newCode) => {
+        setCode(newCode);
+    };
+
+    const runCode = () => {
+        const currentCode = editorRef.current.getValue();
+
+        const request = {
+            type: 'workplace',
+            packages: [],
+            actions: [
+                {
+                    type: 'loadProject',
+                    payload: {
+                        files: {
+                            'Main.mo': currentCode,
+                        },
+                    },
+                },
+            ],
+            deploy: true,
+        };
+
+        const data = APP_ID + JSON.stringify(request);
+
+        if (playgroundWindow && !playgroundWindow.closed) {
+            playgroundWindow.postMessage(data, PLAYGROUND_ORIGIN);
+        } else {
+            if (playgroundWindow) {
+                playgroundWindow.close();
+            }
+            const newWindow = window.open(`${PLAYGROUND_ORIGIN}?post=${APP_ID}`, 'playground');
+            setPlaygroundWindow(newWindow);
+
+            const ackInterval = setInterval(() => {
+                newWindow.postMessage(data, PLAYGROUND_ORIGIN);
+            }, 1000);
+
+            const responseListener = (event) => {
+                if (event.origin === PLAYGROUND_ORIGIN && typeof event.data === 'string' && event.data.startsWith(APP_ID)) {
+                    const response = JSON.parse(event.data.substring(APP_ID.length));
+                    if (response.acknowledge === true) {
+                        clearInterval(ackInterval);
+                        setAck(true);
+                        window.removeEventListener('message', responseListener);
+                        console.log('Response:', response);
+                    }
+                }
+            };
+
+            window.addEventListener('message', responseListener);
+
+            newWindow.onbeforeunload = () => {
+                setPlaygroundWindow(null);
+                setAck(null);
+                window.removeEventListener('message', responseListener);
+                clearInterval(ackInterval);
+            };
+        }
     };
 
     const renderLessonContent = () => {
         switch (currentLesson) {
-            case 1:
+            case 3:
                 return (
                     <div>
-                        <Typography variant="h4" component="h2" sx={{ fontSize: '2rem', color: '#333', marginBottom: '20px' }}>
-                            Fonksiyonlar ve Akış Kontrolü                        </Typography>
-                        <Typography variant="body1" sx={{ fontSize: '1.2rem', color: '#666', marginBottom: '20px' }}>
-                            Robotlarımızın doğru kararlar alması ve belirli görevleri yerine getirmesi için fonksiyonlar büyük önem taşır. Fonksiyonlar, robotların beyni gibidir ve onlara nasıl davranacaklarını öğretmenin anahtarıdır. Bu dersimizde fonksiyonların ne olduğunu, nasıl tanımlandığını ve kullanıldığını öğreneceğiz. Ayrıca, if-else ifadeleri, döngüler ve switch yapıları ile akış kontrolünü sağlamayı öğreneceğiz.
+                        <Typography variant="h4" component="h2" sx={{ fontSize: '2rem', color: '#A301E3', marginBottom: '20px', paddingTop: '80px' }}>
+                            Functions and Flow Control
                         </Typography>
                         <Typography variant="body1" sx={{ fontSize: '1.2rem', color: '#666', marginBottom: '20px' }}>
-                            Fonksiyonlar Nedir? <br />                        </Typography>
+                            Functions are of great importance for our robots to make the right decisions and perform certain tasks. Functions are like the brains of robots and are the key to teaching them how to behave. In this lesson, we will learn what functions are, how they are defined and used. We will also learn to provide flow control with if-else statements, loops and switch structures.
+                        </Typography>
                         <Typography variant="body1" sx={{ fontSize: '1.2rem', color: '#666', marginBottom: '20px' }}>
-                            Fonksiyonlar, belirli görevleri yerine getiren ve belirli bir amaç için yapılan kod bloklarıdır. Örneğin, bir "robotUyu" fonksiyonu, robotu uyutabilir veya "robotHareketEt" fonksiyonu, robotun hareket etmesini sağlayabilir.                        </Typography>
-
+                            What are Functions? <br />
+                        </Typography>
                         <Typography variant="body1" sx={{ fontSize: '1.2rem', color: '#666', marginBottom: '20px' }}>
-                            Fonksiyon Tanımlama <br />
-                            Fonksiyonlar tanımlanırken, fonksiyonun adı, parametreleri (gerekirse) ve işlevi belirtilir. Örneğin:
-
+                            Functions are blocks of code that perform specific tasks and are made for a specific purpose. For example, a "robotSleep" function can put the robot to sleep, or a "robotMove" function can make the robot move.
+                        </Typography>
+                        <Typography variant="body1" sx={{ fontSize: '1.2rem', color: '#666', marginBottom: '20px' }}>
+                            Function Definition <br />
+                            When defining functions, the name of the function, its parameters (if necessary) and its function are specified. For example:
                         </Typography>
                         <pre>
                             <code>
-                                {`func robotUyu(sure: Nat) : async () {
-  // Belirli bir süre uyuma işlemi
-  // ...
+                                {`func robotSleep(duration: Nat) : async () {
+ // Sleeping for a certain period of time
+ //...
 }
 
-func robotHareketEt(hiz: Nat) : async () {
-  // Belirli bir hızda hareket etme işlemi
-  // ...
+func robotMove(speed: Nat) : async () {
+ // The process of moving at a certain speed
+ //...
 }
 `}
                             </code>
                         </pre>
                         <Typography variant="body1" sx={{ fontSize: '1.2rem', color: '#666', marginBottom: '20px' }}>
-                            Fonksiyon Çağrısı <br />
-                            Tanımladığımız fonksiyonları çağırarak, robotların belirli görevleri yerine getirmesini sağlayabiliriz. Örneğin:                       </Typography>
+                            Function Call <br />
+                            By calling functions we define, we can enable robots to perform certain tasks. For example:
+                        </Typography>
                         <pre>
                             <code>
-                                {`robotUyu(5); // Robotu 5 saniye uyut
-robotHareketEt(10); // Robotu 10 birim hızda hareket ettir
+                                {`robotSleep(5); // Put the robot to sleep for 5 seconds
+robotMove(10); // Move the robot at 10 units of speed
 `}
                             </code>
                         </pre>
 
                         <Typography variant="body1" sx={{ fontSize: '1.2rem', color: '#666', marginBottom: '20px' }}>
-                            If-Else İfadeleri <br />
-                            If-else ifadeleri, robotların belirli koşullara göre farklı işlemler yapmasını sağlar. Örneğin:
+                            If-Else Statements<br />
+                            If-else statements enable robots to take different actions based on certain conditions. For example:
                         </Typography>
                         <pre>
                             <code>
-                                {`if (hiz > 0) {
-  robotHareketEt(hiz);
+                                {`if (speed > 0) {
+ robotMove(speed);
 } else {
-  Debug.print("Hız sıfır olduğu için hareket etmiyor.");
+ Debug.print("It does not move because the speed is zero.");
 }
 `}
                             </code>
                         </pre>
                         <Typography variant="body1" sx={{ fontSize: '1.2rem', color: '#666', marginBottom: '20px' }}>
-                            Döngüler <br />
-                            Döngüler, belirli işlemlerin tekrarlanmasını sağlar. Örneğin:
+                            loops <br />
+                            Loops allow certain operations to be repeated. For example:
                         </Typography>
                         <pre>
                             <code>
                                 {`for (i in 1..5) {
-  robotHareketEt(i * 10); // Robotu her seferinde farklı hızda hareket ettir
+ robotMove(i * 10); // Move the robot at different speed each time
 }
 `}
                             </code>
                         </pre>
 
                         <Typography variant="body1" sx={{ fontSize: '1.2rem', color: '#666', marginBottom: '20px' }}>
-                            Switch İfadeleri <br />
-                            Switch ifadeleri, bir değerin farklı durumlarına göre farklı işlemler yapılmasını sağlar. Örneğin:
-
+                            Switch Emotes <br />
+                            Switch statements allow different operations to be performed depending on different states of a value. For example:
                         </Typography>
                         <pre>
                             <code>
-                                {`switch (durum) {
-  case "bekle":
-    robotUyu(10);
-    break;
-  case "hareket_et":
-    robotHareketEt(20);
-    break;
-  default:
-    Debug.print("Bilinmeyen durum.");
+                                {`switch (state) {
+ case "wait":
+ robotSleep(10);
+ break;
+ case "move_act":
+ robotMove(20);
+ break;
+ default:
+ Debug.print("Unknown situation.");
 }
 `}
                             </code>
                         </pre>
                         <Typography variant="body1" sx={{ fontSize: '1.2rem', color: '#666', marginBottom: '20px' }}>
-                            Bu dersle birlikte, robotlarımızın beyinleri olan fonksiyonları ve akış kontrolünü öğrendik. Artık, robotlarımızı istediğimiz şekilde yönlendirebilir ve görevleri yerine getirmelerini sağlayabiliriz.                        </Typography>
-                        <Button variant="contained" color="primary" onClick={nextLesson} style={{ marginTop: '20px' }}>
-                            Sonraki Ders
-                        </Button>
+                            With this lesson, we learned the functions and flow control that are the brains of our robots. Now, we can direct our robots the way we want and have them perform tasks.
+                        </Typography>
                     </div>
                 );
             default:
                 return (
                     <div>
-                        <Typography variant="h4" component="h2" sx={{ fontSize: '2rem', color: '#333', marginBottom: '20px' }}>
-                            Dersler Tamamlandı!
+                        <Typography variant="h4" component="h2" sx={{ fontSize: '2rem', color: '#A301E3', marginBottom: '20px', paddingTop: '80px' }}>
+                            Lesson Not Found
                         </Typography>
                         <Typography variant="body1" sx={{ fontSize: '1.2rem', color: '#666', marginBottom: '20px' }}>
-                            Tüm dersleri başarıyla tamamladın! Motoko dilindeki yolculuğunda başarılar dileriz.
+                            The content for this lesson is not available.
                         </Typography>
                     </div>
                 );
@@ -159,38 +297,49 @@ robotHareketEt(10); // Robotu 10 birim hızda hareket ettir
     };
 
     return (
-        <DemoContainer>
-            <HeroContainer>
-                <EditorContainer>
-                    <TutorialSection>
-                        {renderLessonContent()}
-                    </TutorialSection>
-                    <EditorSection>
-                        <iframe
-                            src="https://embed.motoko.org"
-                            width="100%"
-                            height="500"
-                            style={{ border: 0 }}
-                            title="Motoko code snippet"
-                        />
-                        {/* <Editor
-                            height="90vh"
+        <Container>
+            <ContentWrapper>
+                <LessonContent>
+                    {renderLessonContent()}
+                </LessonContent>
+                <EditorContent>
+                    <EditorHeader>
+                        <Typography variant="h6">Main.mo</Typography>
+                    </EditorHeader>
+                    <EditorWrapper>
+                        <Editor
+                            height="100%"
                             defaultLanguage="motoko"
                             value={code}
                             theme="vs-dark"
                             onMount={handleEditorDidMount}
                             onChange={handleCodeChange}
                         />
-                        <Button variant="contained" color="primary" onClick={runCode} style={{ marginTop: '20px' }}>
-                            Run Code
-                        </Button>
-                        <Button variant="contained" color="secondary" onClick={fetchCodes} style={{ marginTop: '20px' }}>
-                            Check Code
-                        </Button> */}
-                    </EditorSection>
-                </EditorContainer>
-            </HeroContainer>
-        </DemoContainer>
+                    </EditorWrapper>
+                </EditorContent>
+            </ContentWrapper>
+            <EditorFooter>
+                <Button variant="contained" startIcon={<PlayArrow />} onClick={runCode}>
+                    Run Code
+                </Button>
+                <Button variant="contained" startIcon={<Check />} onClick={fetchCodes}>
+                    Check Code
+                </Button>
+                <Box>
+                    <Button variant="contained" startIcon={<ArrowBack />} onClick={previousLesson} sx={{ marginRight: '10px' }}>
+                        Back
+                    </Button>
+                    <Button variant="contained" startIcon={<ArrowForward />} onClick={nextLesson} sx={{ marginRight: '30px' }}>
+                        Next
+                    </Button>
+                </Box>
+            </EditorFooter>
+            {alertMessage && (
+                <Alert severity={alertSeverity} sx={{ position: 'absolute', bottom: 0, left: '50%', transform: 'translateX(-50%)', marginBottom: '60px', zIndex: 1001 }}>
+                    {alertMessage}
+                </Alert>
+            )}
+        </Container>
     );
 }
 

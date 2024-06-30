@@ -354,6 +354,50 @@ actor {
     };
   };
 
+  public func runCode(currentCode : Text) : async Text {
+    Cycles.add(1603118800);
+
+    // Define the request URL
+    let url = "https://play.motoko.org/myeditor";
+
+    // Define request headers
+    let request_headers = [{ name = "Content-Type"; value = "application/json" }];
+    func toJSON(data : Text) : Text {
+      "\"" # data # "\"";
+    };
+    // Create HTTP request arguments
+    let http_request : Types.HttpRequestArgs = {
+      url = url;
+      headers = request_headers;
+      method = #post;
+      body = ?Text.encodeUtf8(toJSON(currentCode)); // Use Text.encodeUtf8 here
+    };
+
+    // Send HTTP request and await response
+    let ic : Types.IC = actor "aaaaa-aa"; // Assuming IC management canister
+    type Status = { #ok; #unknownError; #error : Nat };
+    let http_response : Types.HttpResponsePayload = await ic.http_request(http_request);
+    // Decode response body from Blob to Text
+    let decoded_text : Text = switch (Text.decodeUtf8(http_response.body)) {
+      case (null) { "No value returned" };
+      case (?text) { text };
+    };
+
+    // Handle HTTP response status
+    switch (http_response.status) {
+      case (status) {
+        // Successful response handling
+        Debug.print("Response: " # decoded_text);
+        return "Code executed successfully: " # decoded_text;
+      };
+      case (unknownError) {
+        // Unknown error handling
+        Debug.print("Unknown error occurred");
+        return "Unknown error occurred";
+      };
+    };
+  };
+
   //  public func checkCode(code : Text) : async Text {
   //     let correctCode = "actor { public func hello() : async Text { \"Hello World\" } }";
   //     if (code == correctCode) {
