@@ -40,6 +40,10 @@ const ImageContainer = styled('div')({
     marginLeft: 'auto',
     marginRight: '-30px',
     borderRadius: '12px',
+    '&:hover img': {
+        transform: 'scale(1.05)',
+        transition: 'transform 0.3s ease-in-out',
+    },
 });
 
 const RandomImagesContainer = styled('div')({
@@ -107,6 +111,22 @@ const StyledButton = styled(Button)({
     fontFamily: 'Outfit',
 });
 
+const HoverTypography = styled(Typography)({
+    '&:hover': {
+        color: '#FFD700',
+        transition: 'color 0.3s ease-in-out',
+    },
+});
+
+const Footer = styled('div')({
+    marginTop: 'auto',
+    padding: '20px',
+    backgroundColor: 'rgba(0, 5, 57, 1)',
+    color: '#fff',
+    textAlign: 'center',
+    fontFamily: 'Outfit',
+});
+
 const HomePage = () => {
     const [selectedCourse, setSelectedCourse] = useState('Beginner'); // Başlangıçta "Beginner" seçili
 
@@ -124,14 +144,14 @@ const HomePage = () => {
             <ContentContainer>
                 <Content>
                     <VerticalTextContainer>
-                        <Typography variant="h3" sx={{ marginBottom: '90px', fontFamily: 'Outfit', fontWeight: '500' }}>
+                        <HoverTypography variant="h3" sx={{ marginBottom: '90px', fontFamily: 'Outfit', fontWeight: '500' }}>
                             Featured
-                        </Typography>
+                        </HoverTypography>
                     </VerticalTextContainer>
 
-                    <Typography variant="h2" sx={{ marginBottom: '30px', fontFamily: 'Outfit', fontWeight: '500' }}>
+                    <HoverTypography variant="h2" sx={{ marginBottom: '30px', fontFamily: 'Outfit', fontWeight: '500' }}>
                         Motoko Beginner to<br /> Intermediate Smart Contracts
-                    </Typography>
+                    </HoverTypography>
                 </Content>
                 <ImageContainer>
                     <img src={sliderImage} alt="Slider Image" />
@@ -189,14 +209,15 @@ const HomePage = () => {
                                     Start Now
                                 </Button>
                             </Link>
-
                         </CardActions>
                     </CourseCard>
                 )}
             </CoursesContainer>
+            <Footer>
+                &copy; {new Date().getFullYear()} Your Company. All rights reserved.
+            </Footer>
         </PageContainer>
     );
 };
-
 
 export default HomePage;
