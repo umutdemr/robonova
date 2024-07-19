@@ -18,6 +18,7 @@ const Lesson2 = () => {
     const [alertMessage, setAlertMessage] = useState('');
     const [alertSeverity, setAlertSeverity] = useState('success');
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [playgroundWindow, setPlaygroundWindow] = useState(null);
 
     const handleNextLesson = () => {
         nextLesson(codeValid, currentLesson, setCurrentLesson, navigate, setAlertSeverity, setAlertMessage);

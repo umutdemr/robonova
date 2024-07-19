@@ -156,10 +156,10 @@ const Notes = () => {
             <AccordionDetails>
               <FormControlLabel
                 control={<Checkbox checked={note.completed} onChange={() => handleCompleteNote(note)} sx={{ color: '#ffffff' }} />}
-                label="Tamamlandı"
+                label="Completed"
               />
               <Button variant="outlined" color="error" onClick={() => handleDeleteNote(note)} sx={{ marginLeft: 'auto', color: '#ffffff', borderColor: '#ffffff' }}>
-                Sil
+                Delete
               </Button>
             </AccordionDetails>
           </Accordion>

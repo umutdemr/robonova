@@ -6,7 +6,7 @@ import { Container, ContentWrapper, LessonContent, EditorFooter, CustomButton, T
 import CodeEditor from '../CodeEditor';
 import LessonModal from '../LessonModal';
 import AlertMessage from '../AlertMessage';
-import { fetchCodes6, nextLesson, previousLesson, runCode } from './LessonFunctions';
+import { nextLesson, previousLesson, runCode } from './LessonFunctions';
 import { robonova_backend } from 'declarations/robonova_backend';
 
 const Lesson6 = () => {
@@ -62,18 +62,17 @@ const Lesson6 = () => {
                             🤖 Records, Objects and Classes
                         </Typography>
                         <Typography variant="body1" sx={{ fontSize: '1.2rem', color: '#666', marginBottom: '20px' }}>
-                            Welcome to Lesson 6! In this lesson, we will explore how to create and use Records, Objects, and Classes to define our robots.
+                            Welcome to Lesson 6! In this lesson, we will dive into advanced concepts like Records, Objects, and Classes to give our robots unique personalities and abilities. Just like humans have different jobs and traits, our robots will have their own features and behaviors. Let's explore how we can use these concepts to make our robots more sophisticated and capable!
                         </Typography>
 
-                        <Typography variant="h5" component="h3" sx={{ fontSize: '1.5rem', color: '#A301E3', marginBottom: '20px' }}>
+                        <Typography variant="h5" component="h3" sx={{ fontSize: '1.5rem', color: '#A301E3', marginBottom: '10px', marginTop: '30px', fontFamily: 'Outfit' }}>
                             🏷️ What Are Records?
                         </Typography>
                         <Typography variant="body1" sx={{ fontSize: '1.2rem', color: '#666', marginBottom: '20px' }}>
-                            A <strong>Record</strong> in Motoko groups related data together. Let's create a simple Record for a robot.
-                        </Typography>
-                        <pre>
-                            <code>
-                                {`type Robot = {
+                            In Motoko, a Record is a data structure that allows us to group related data together. Think of a Record as a way to bundle different properties of a robot into one single unit. Records are great for defining what a robot is made of, such as its name, model, and whether it is active or not.
+                            <pre>
+                                <code>
+                                    {`type Robot = {
         name: Text;
         model: Text;
         active: Bool;
@@ -83,44 +82,52 @@ const Lesson6 = () => {
         name = "R2-D2";
         model = "Astromech";
         active = true;
-    };`}
-                            </code>
-                        </pre>
+    };
+    
+    // Print robot's information
+    Debug.print("Robot Name: " # robot1.name);
+    Debug.print("Model: " # robot1.model);
+    Debug.print("Active: " # Debug.show(robot1.active));
+    `}
+                                </code>
+                            </pre>
+                        </Typography>
 
-                        <Typography variant="h5" component="h3" sx={{ fontSize: '1.5rem', color: '#A301E3', marginBottom: '20px' }}>
+                        <Typography variant="h5" component="h3" sx={{ fontSize: '1.5rem', color: '#A301E3', marginBottom: '10px', marginTop: '30px', fontFamily: 'Outfit' }}>
                             🧩 Exploring Objects
                         </Typography>
                         <Typography variant="body1" sx={{ fontSize: '1.2rem', color: '#666', marginBottom: '20px' }}>
-                            <strong>Objects</strong> can store data and methods. Here's an example of a simple object for a robot.
-                        </Typography>
-                        <pre>
-                            <code>
-                                {`actor Robot {
+                            Objects in Motoko are more advanced than Records. They can not only store data but also contain methods (functions) that can operate on that data. Imagine an Object as a robot with specific abilities and actions.
+                            <pre>
+                                <code>
+                                    {`actor Robot {
         var name: Text = "R2-D2";
         var model: Text = "Astromech";
         var active: Bool = true;
     
-        public func printInfo() : async () {
-            Debug.print("Name: " # name);
+        public func printInformation() : async () {
+            Debug.print("Robot Name: " # name);
             Debug.print("Model: " # model);
             Debug.print("Active: " # Debug.show(active));
         };
     };
     
-    let robot = Robot;
-    await robot.printInfo();`}
-                            </code>
-                        </pre>
+    // Create a new Robot and call the method to print its information
+    let robotInstance = Robot;
+    await robotInstance.printInformation();
+    `}
+                                </code>
+                            </pre>
+                        </Typography>
 
-                        <Typography variant="h5" component="h3" sx={{ fontSize: '1.5rem', color: '#A301E3', marginBottom: '20px' }}>
+                        <Typography variant="h5" component="h3" sx={{ fontSize: '1.5rem', color: '#A301E3', marginBottom: '10px', marginTop: '30px', fontFamily: 'Outfit' }}>
                             🏫 Understanding Classes
                         </Typography>
                         <Typography variant="body1" sx={{ fontSize: '1.2rem', color: '#666', marginBottom: '20px' }}>
-                            <strong>Classes</strong> are blueprints for creating objects. Here's a simple class for a robot.
-                        </Typography>
-                        <pre>
-                            <code>
-                                {`class Robot {
+                            Classes in Motoko are templates for creating objects. They define the properties and methods that multiple objects can share. Think of a class as a blueprint for creating robots with similar features but different instances.
+                            <pre>
+                                <code>
+                                    {`class Robot {
         var name: Text;
         var model: Text;
         var active: Bool;
@@ -132,21 +139,94 @@ const Lesson6 = () => {
             return self;
         };
     
-        public func printInfo() : async () {
-            Debug.print("Name: " # name);
+        public func printInformation() : async () {
+            Debug.print("Robot Name: " # name);
             Debug.print("Model: " # model);
             Debug.print("Active: " # Debug.show(active));
         };
     };
     
     let robot1 = Robot("R2-D2", "Astromech", true);
-    await robot1.printInfo();`}
-                            </code>
-                        </pre>
+    let robot2 = Robot("C-3PO", "Protocol", false);
+    
+    // Print information for both robots
+    await robot1.printInformation();
+    await robot2.printInformation();
+    `}
+                                </code>
+                            </pre>
+                        </Typography>
 
+                        <Typography variant="h5" component="h3" sx={{ fontSize: '1.5rem', color: '#A301E3', marginBottom: '10px', marginTop: '30px', fontFamily: 'Outfit' }}>
+                            Summary:
+                        </Typography>
                         <Typography variant="body1" sx={{ fontSize: '1.2rem', color: '#666', marginBottom: '20px' }}>
-                            <strong>Task:</strong><br />
-                            Write a Record for a robot with fields: <code>name</code>, <code>model</code>, and <code>active</code>. Create an Object with a method to print its info, and a Class to manage multiple robots.
+                            In this lesson, we learned how to use Records, Objects, and Classes in Motoko. Records help us to define simple data structures, Objects allow us to encapsulate data and behaviors, and Classes provide a way to create multiple objects with shared features. With these tools, we can now build robots with unique identities, abilities, and functionalities.
+                        </Typography>
+
+                        <Typography variant="h5" component="h3" sx={{ fontSize: '1.5rem', color: '#A301E3', marginBottom: '10px', marginTop: '30px', fontFamily: 'Outfit' }}>
+                            Task:
+                        </Typography>
+                        <Typography variant="body1" sx={{ fontSize: '1.2rem', color: '#666', marginBottom: '20px' }}>
+                            Write a Record for a robot with the following fields: name, model, and active. Then, create an Object with a method to change the active status and a Class to manage multiple robots and print their details.
+                            <pre>
+                                <code>
+                                    {`type RobotRecord = {
+        name: Text;
+        model: Text;
+        active: Bool;
+    };
+    
+    actor RobotObject {
+        var name: Text;
+        var model: Text;
+        var active: Bool;
+    
+        public func new(name: Text, model: Text, active: Bool): RobotObject {
+            name := name;
+            model := model;
+            active := active;
+            return self;
+        };
+    
+        public func setActive(status: Bool) : async () {
+            active := status;
+        };
+    
+        public func printInformation() : async () {
+            Debug.print("Robot Name: " # name);
+            Debug.print("Model: " # model);
+            Debug.print("Active: " # Debug.show(active));
+        };
+    };
+    
+    // Define a class for robots
+    class RobotClass {
+        var name: Text;
+        var model: Text;
+        var active: Bool;
+    
+        public func new(name: Text, model: Text, active: Bool): RobotClass {
+            name := name;
+            model := model;
+            active := active;
+            return self;
+        };
+    
+        public func printInformation() : async () {
+            Debug.print("Robot Name: " # name);
+            Debug.print("Model: " # model);
+            Debug.print("Active: " # Debug.show(active));
+        };
+    };
+    
+    let robot1 = RobotClass("R2-D2", "Astromech", true);
+    let robot2 = RobotClass("C-3PO", "Protocol", false);
+    await robot1.printInformation();
+    await robot2.printInformation();
+    `}
+                                </code>
+                            </pre>
                         </Typography>
                     </div>
                 );
@@ -154,15 +234,16 @@ const Lesson6 = () => {
                 return (
                     <div>
                         <Typography variant="h4" component="h2" sx={{ fontSize: '2rem', color: '#333', marginBottom: '20px' }}>
-                            🎉 Lessons Completed!
+                            Lesson Completed!
                         </Typography>
                         <Typography variant="body1" sx={{ fontSize: '1.2rem', color: '#666', marginBottom: '20px' }}>
-                            Congratulations! You have successfully completed all the lessons. Keep coding and exploring new technologies!
+                            Congratulations on completing the lesson! You are one step closer to becoming a master robot engineer.
                         </Typography>
                     </div>
                 );
         }
     };
+
 
 
 

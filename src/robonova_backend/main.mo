@@ -111,15 +111,16 @@ actor {
       let filteredChars = Iter.filter(
         chars,
         func(c : Char) : Bool {
-          c != ' ' and c != '\n'
+          c != ' ' and c != '\n' and c != '\t' and c != '\r'
         },
       );
       Text.fromIter(filteredChars);
     };
 
     let normalizedCode = normalize(code);
+    let normalizedCorrectCode = normalize(correctCode);
 
-    if (normalizedCode == normalize(correctCode)) {
+    if (normalizedCode == normalizedCorrectCode) {
       return "Code is correct";
     } else {
       return "Code is wrong";

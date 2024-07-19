@@ -10,10 +10,12 @@ import Lesson2 from './Lesson2';
 import { nextLesson, previousLesson, runCode } from './LessonFunctions';
 import { robonova_backend } from 'declarations/robonova_backend';
 
+
 const Lesson1 = () => {
     const navigate = useNavigate();
     const editorRef = useRef(null);
     const [currentLesson, setCurrentLesson] = useState(1);
+    const [playgroundWindow, setPlaygroundWindow] = useState(null);
     const [codeValid, setCodeValid] = useState(false);
     const [alertMessage, setAlertMessage] = useState('');
     const [alertSeverity, setAlertSeverity] = useState('success');
@@ -21,6 +23,14 @@ const Lesson1 = () => {
 
     const handleNextLesson = () => {
         nextLesson(codeValid, currentLesson, setCurrentLesson, navigate, setAlertSeverity, setAlertMessage);
+    };
+
+    const openModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
     };
 
     const handleCheckCode = async () => {
@@ -43,7 +53,6 @@ const Lesson1 = () => {
             setAlertMessage('The code could not be checked. Please try again.');
         }
     };
-
     const renderLessonContent = () => {
         switch (currentLesson) {
             case 1:
@@ -56,6 +65,7 @@ const Lesson1 = () => {
                             Welcome, young robot engineer! 🦾 Today, we begin our adventure in the Robot Factory, where you will learn how to communicate with robots using the Motoko programming language.
                         </Typography>
 
+                        {/* Bölüm 1: Motoko Nedir? */}
                         <Typography variant="h5" component="h3" sx={{ fontSize: '1.5rem', color: '#A301E3', marginBottom: '10px', marginTop: '30px', fontFamily: 'Outfit' }}>
                             What is Motoko? 🤖
                         </Typography>
@@ -72,6 +82,7 @@ const Lesson1 = () => {
                             </ul>
                         </Typography>
 
+                        {/* Bölüm 2: Motoko Kod Yapısı */}
                         <Typography variant="h5" component="h3" sx={{ fontSize: '1.5rem', color: '#A301E3', marginBottom: '10px', marginTop: '30px', fontFamily: 'Outfit' }}>
                             Basic Structure of Motoko Code 🧩
                         </Typography>
@@ -94,6 +105,7 @@ const Lesson1 = () => {
                             - <code>"Hello, World!"</code>: This is what the robot will say when we call the <code>hello</code> function.
                         </Typography>
 
+                        {/* Bölüm 3: Actor Nedir? */}
                         <Typography variant="h5" component="h3" sx={{ fontSize: '1.5rem', color: '#A301E3', marginBottom: '10px', marginTop: '30px', fontFamily: 'Outfit' }}>
                             What is an Actor? 🛠️
                         </Typography>
@@ -107,6 +119,7 @@ const Lesson1 = () => {
                             Just like how we build robots to do different tasks, actors help us build and manage different parts of our programs.
                         </Typography>
 
+                        {/* Bölüm 4: İlk Kod Yazma Egzersizi */}
                         <Typography variant="h5" component="h3" sx={{ fontSize: '1.5rem', color: '#A301E3', marginBottom: '10px', marginTop: '30px', fontFamily: 'Outfit' }}>
                             Your First Coding Challenge! 🏆
                         </Typography>
@@ -130,6 +143,7 @@ const Lesson1 = () => {
                             Create a function named <code>robotGreeting</code> that returns the message "Welcome to the Robot Factory!". Make sure your function works correctly before moving on to the next lesson.
                         </Typography>
 
+                        {/* Bölüm 5: Import Yapısı */}
                         <Typography variant="h5" component="h3" sx={{ fontSize: '1.5rem', color: '#A301E3', marginBottom: '10px', marginTop: '30px', fontFamily: 'Outfit' }}>
                             Understanding the Import Structure 📦
                         </Typography>
@@ -155,9 +169,13 @@ const Lesson1 = () => {
             case 2:
                 return <Lesson2 />;
             default:
-                return <Lesson2 />;
+                return (
+                    <Lesson2 />
+                );
         }
     };
+
+
 
     return (
         <Container>
@@ -168,11 +186,11 @@ const Lesson1 = () => {
                 <CodeEditor editorRef={editorRef} />
             </ContentWrapper>
             <EditorFooter>
-                <TransparentButton startIcon={<MenuBook />} onClick={() => setIsModalOpen(true)} sx={{ marginRight: '10px' }}>
+                <TransparentButton startIcon={<MenuBook />} onClick={openModal} sx={{ marginRight: '10px' }}>
                     Robot Factory Lessons
                 </TransparentButton>
                 <Box display="flex" gap={2}>
-                    <CustomButton variant="contained" startIcon={<PlayArrow />} onClick={() => runCode(editorRef, null, null)}>
+                    <CustomButton variant="contained" startIcon={<PlayArrow />} onClick={() => runCode(editorRef, playgroundWindow, setPlaygroundWindow)}>
                         Run Code
                     </CustomButton>
                     <TransparentButton onClick={handleCheckCode} startIcon={<Check />}>
@@ -191,7 +209,7 @@ const Lesson1 = () => {
             <AlertMessage alertMessage={alertMessage} alertSeverity={alertSeverity} />
             <LessonModal
                 isModalOpen={isModalOpen}
-                closeModal={() => setIsModalOpen(false)}
+                closeModal={closeModal}
                 currentLesson={currentLesson}
                 setCurrentLesson={setCurrentLesson}
                 navigate={navigate}
