@@ -1,18 +1,18 @@
 {
   "canisters": {
-    "mulakatapp_final_backend": {
-      "main": "src/mulakatapp_final_backend/main.mo",
+    "robonova_backend": {
+      "main": "src/robonova_backend/main.mo",
       "type": "motoko"
     },
-    "mulakatapp_final_frontend": {
+    "robonova_frontend": {
       "dependencies": [
-        "mulakatapp_final_backend"
+        "robonova_backend"
       ],
       "source": [
-        "src/mulakatapp_final_frontend/dist"
+        "src/robonova_frontend/dist"
       ],
       "type": "assets",
-      "workspace": "mulakatapp_final_frontend"
+      "workspace": "robonova_frontend"
     }
   },
   "defaults": {
