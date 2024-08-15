@@ -13,13 +13,13 @@ export const nextLesson = (codeValid, currentLesson, setCurrentLesson, navigate,
         }
         else if (currentLesson === 4) {
             setCurrentLesson(5);
-            navigate('/lesson5'); // Burada Lesson4 mevcut değilse kontrol edin
+            navigate('/lesson5'); 
         } else if (currentLesson === 5) {
             setCurrentLesson(6);
-            navigate('/lesson6'); // Burada Lesson4 mevcut değilse kontrol edin
+            navigate('/lesson6'); 
         } else if (currentLesson === 6) {
             setCurrentLesson(7);
-            navigate('/lesson7'); // Burada Lesson4 mevcut değilse kontrol edin
+            navigate('/lesson7'); 
         } else {
             setAlertSeverity('info');
             setAlertMessage('Tüm dersleri tamamladınız!');
@@ -29,8 +29,6 @@ export const nextLesson = (codeValid, currentLesson, setCurrentLesson, navigate,
         setAlertMessage('Your code is not correct. Please check the code.');
     }
 };
-
-
 
 export const previousLesson = (currentLesson, setCurrentLesson, navigate) => {
     if (currentLesson > 1) {
@@ -95,5 +93,15 @@ export const runCode = (editorRef, playgroundWindow, setPlaygroundWindow) => {
             window.removeEventListener('message', responseListener);
             clearInterval(ackInterval);
         };
+    }
+};
+
+export const saveLessonProgress = (currentLesson, whoamiActor, principal) => {
+    if (whoamiActor && principal) {
+        whoamiActor.updateLessonProgress(principal, currentLesson).then(response => {
+            console.log("Lesson progress saved:", response);
+        }).catch(error => {
+            console.error("Error saving lesson progress:", error);
+        });
     }
 };

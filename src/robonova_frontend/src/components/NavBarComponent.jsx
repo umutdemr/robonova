@@ -92,13 +92,13 @@ function NavBarComponent() {
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">
-                    <Link style={{ textDecoration: "none", color: "white" }} to={`/${page}`}>{page}</Link>
+                    <Link style={{ textDecoration: "none", color: "rgba(17,13,22,255)" }} to={`/${page}`}>{page}</Link>
                   </Typography>
                 </MenuItem>
               ))}
               <MenuItem onClick={handleCloseNavMenu}>
                 <Typography textAlign="center">
-                  <Link style={{ textDecoration: "none", color: "white" }} to="/LogInProfile">{isAuthenticated ? 'Profile' : 'Login'}</Link>
+                  <Link style={{ textDecoration: "none", color: "rgba(17,13,22,255)" }} to="/LogInProfile">{isAuthenticated ? 'Profile' : 'Login'}</Link>
                 </Typography>
               </MenuItem>
             </Menu>

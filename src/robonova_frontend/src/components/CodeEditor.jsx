@@ -1,4 +1,3 @@
-// CodeEditor.js
 import React, { useRef } from 'react';
 import { Typography } from '@mui/material';
 import Editor from '@monaco-editor/react';

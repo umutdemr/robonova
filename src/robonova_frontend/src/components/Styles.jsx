@@ -13,13 +13,13 @@ export const ContentWrapper = styled('div')({
     display: 'flex',
     flex: '1',
     overflow: 'hidden',
-    paddingBottom: '80px' // Make room for the footer
+    paddingBottom: '80px' 
 });
 
 export const LessonContent = styled('div')({
     flex: '1',
     padding: '20px',
-    overflowX: 'auto', // Added scroll only for lesson content
+    overflowX: 'auto',
     backgroundColor: 'rgba(8,6,13,255)',
     color: '#ffffff',
 });
