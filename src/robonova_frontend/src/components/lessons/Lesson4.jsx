@@ -8,6 +8,7 @@ import LessonModal from '../LessonModal';
 import AlertMessage from '../AlertMessage';
 import { nextLesson, previousLesson, runCode } from './LessonFunctions';
 import { robonova_backend } from 'declarations/robonova_backend';
+import Lesson4Model from '../models/Lesson4Model';
 
 const Lesson4 = () => {
     const navigate = useNavigate();
@@ -18,6 +19,7 @@ const Lesson4 = () => {
     const [alertMessage, setAlertMessage] = useState('');
     const [alertSeverity, setAlertSeverity] = useState('success');
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [showRobotModel, setShowRobotModel] = useState(false);
 
     const handleNextLesson = () => {
         nextLesson(codeValid, currentLesson, setCurrentLesson, navigate, setAlertSeverity, setAlertMessage);
@@ -192,20 +194,22 @@ var isVerified : Bool = true;
         <Container>
             <ContentWrapper>
                 <LessonContent>
-                    {renderLessonContent()}
+                    {showRobotModel ? <Lesson4Model /> : renderLessonContent()}
                 </LessonContent>
                 <CodeEditor code={code} setCode={setCode} editorRef={editorRef} />
             </ContentWrapper>
             <EditorFooter>
+                <TransparentButton
+                    onClick={() => setShowRobotModel(!showRobotModel)}
+                    sx={{ marginRight: '10px' }}
+                >
+                    {showRobotModel ? 'Show Lesson' : 'See Robot Model'}
+                </TransparentButton>
                 <TransparentButton startIcon={<MenuBook />} onClick={openModal} sx={{ marginRight: '10px' }}>
                     Robot Factory Lessons
                 </TransparentButton>
                 <Box display="flex" gap={2}>
-                    <CustomButton
-                        variant="contained"
-                        startIcon={<PlayArrow />}
-                        onClick={() => runCode(editorRef, playgroundWindow, setPlaygroundWindow)}
-                    >
+                    <CustomButton variant="contained" startIcon={<PlayArrow />} onClick={() => runCode(editorRef, playgroundWindow, setPlaygroundWindow)}>
                         Run Code
                     </CustomButton>
                     <TransparentButton onClick={handleCheckCode} startIcon={<Check />}>
@@ -213,18 +217,10 @@ var isVerified : Bool = true;
                     </TransparentButton>
                 </Box>
                 <Box display="flex" gap={2} sx={{ paddingRight: '20px' }}>
-                    <CustomButton
-                        variant="contained"
-                        startIcon={<ArrowBack />}
-                        onClick={() => previousLesson(currentLesson, setCurrentLesson, navigate)}
-                    >
+                    <CustomButton variant="contained" startIcon={<ArrowBack />} onClick={() => previousLesson(currentLesson, setCurrentLesson, navigate)}>
                         Back
                     </CustomButton>
-                    <CustomButton
-                        variant="contained"
-                        startIcon={<ArrowForward />}
-                        onClick={handleNextLesson}
-                    >
+                    <CustomButton variant="contained" startIcon={<ArrowForward />} onClick={handleNextLesson}>
                         Next
                     </CustomButton>
                 </Box>

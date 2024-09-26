@@ -6,7 +6,7 @@ import randomImage1 from '../../public/image3.png';
 import randomImage2 from '../../public/image4.png';
 import randomImage3 from '../../public/image2.png';
 import avatarImage from '../../public/image3.png';
-import ınternetIdentityImage from '../../public/ınternetIdentity.jpg';
+import identity from '../../public/identity.jpg';
 import { Link } from 'react-router-dom';
 
 const PageContainer = styled('div')({
@@ -141,7 +141,7 @@ const Footer = styled('div')({
 
 const HomePage = () => {
     const [selectedCourse, setSelectedCourse] = useState('Beginner');
-    const [selectedIdentityCourse, setSelectedIdentityCourse] = useState('Beginner'); 
+    const [selectedIdentityCourse, setSelectedIdentityCourse] = useState('Beginner');
 
     const handleCourseSelection = (course) => {
         setSelectedCourse(course);
@@ -154,12 +154,12 @@ const HomePage = () => {
     const handleButtonClick = (event) => {
         event.preventDefault();
         alert('This course is coming soon!');
-      };
+    };
 
     const courseContent = {
         Advanced: [
-        "Robo Nova Advanced Training is designed for experienced developers who are eager to deepen their understanding of the Motoko programming language. This advanced course takes place in the robot factory, where you'll learn to develop complex and powerful robots. The training covers a range of advanced topics, including data structures and algorithms that make robots faster and smarter, and parallel programming techniques that allow you to manage multiple robots simultaneously, enhancing efficiency. You'll also delve into the actor model for managing robots in distributed environments, and gain insight into Motoko's strong typing system, which helps make your code more secure and error-free. Additionally, you'll explore Distributed Ledger Technology (DLT) and how to operate large-scale applications securely on the Internet Computer platform.as performing performance and security optimizations, equipping you with the knowledge and skills needed to elevate your robot army to new heights",
-        
+            "Robo Nova Advanced Training is designed for experienced developers who are eager to deepen their understanding of the Motoko programming language. This advanced course takes place in the robot factory, where you'll learn to develop complex and powerful robots. The training covers a range of advanced topics, including data structures and algorithms that make robots faster and smarter, and parallel programming techniques that allow you to manage multiple robots simultaneously, enhancing efficiency. You'll also delve into the actor model for managing robots in distributed environments, and gain insight into Motoko's strong typing system, which helps make your code more secure and error-free. Additionally, you'll explore Distributed Ledger Technology (DLT) and how to operate large-scale applications securely on the Internet Computer platform.as performing performance and security optimizations, equipping you with the knowledge and skills needed to elevate your robot army to new heights",
+
         ],
         Beginner: "Robo Nova Beginner Training is the ideal starting point for those new to the Motoko language, guiding you from the basics to creating your own robots. This course begins with an introduction to the fundamental building blocks, including variables and data types, which are essential for managing data in your robots. You'll then learn how to control your robots' behavior using conditional statements and loops, followed by lessons on functions to simplify repetitive tasks and improve efficiency. The course also covers arrays and basic data structures, teaching you how to store and process information effectively within your robots. To reinforce your learning, each module includes simple projects that allow you to apply the concepts in real-world scenarios within the robot factory. By the end of this training, you'll be ready to build and program your own simple robots using Motoko, taking your first steps toward assembling a formidable robot army with Robo Nova's beginner course.",
     };
@@ -256,7 +256,7 @@ const HomePage = () => {
                 <CourseCard>
                     <VerticalTextContainer>
                         <StyledAvatar>
-                            <Avatar src={ınternetIdentityImage} alt="Avatar" />
+                            <Avatar src={identity} alt="Avatar" />
                         </StyledAvatar>
                         <VerticalText>INTERNET IDENTITY</VerticalText>
                     </VerticalTextContainer>
@@ -276,9 +276,9 @@ const HomePage = () => {
                         </Typography>
                     </CardContent>
                     <CardActions sx={{ justifyContent: 'center' }}>
-                            <Button onClick={handleButtonClick} variant="contained" color="primary" sx={{ fontFamily: 'Outfit' }}>
-                                Go to Course
-                            </Button>
+                        <Button onClick={handleButtonClick} variant="contained" color="primary" sx={{ fontFamily: 'Outfit' }}>
+                            Go to Course
+                        </Button>
                     </CardActions>
                 </CourseCard>
             </CoursesContainer>

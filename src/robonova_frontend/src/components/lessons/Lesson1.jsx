@@ -9,7 +9,7 @@ import AlertMessage from '../AlertMessage';
 import Lesson2 from './Lesson2';
 import { nextLesson, previousLesson, runCode } from './LessonFunctions';
 import { robonova_backend } from 'declarations/robonova_backend';
-
+import Lesson1Model from '../models/Lesson1Model';
 
 const Lesson1 = () => {
     const navigate = useNavigate();
@@ -20,6 +20,10 @@ const Lesson1 = () => {
     const [alertMessage, setAlertMessage] = useState('');
     const [alertSeverity, setAlertSeverity] = useState('success');
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [showRobotModel, setShowRobotModel] = useState(false);
+    const [code, setCode] = useState("");
+    const [isLightOn, setIsLightOn] = useState(true);
+
 
     const handleNextLesson = () => {
         nextLesson(codeValid, currentLesson, setCurrentLesson, navigate, setAlertSeverity, setAlertMessage);
@@ -31,6 +35,10 @@ const Lesson1 = () => {
 
     const closeModal = () => {
         setIsModalOpen(false);
+    };
+
+    const toggleLight = () => {
+        setIsLightOn(prevState => !prevState);
     };
 
     const handleCheckCode = async () => {
@@ -64,8 +72,6 @@ const Lesson1 = () => {
                         <Typography variant="body1" sx={{ fontSize: '1.2rem', color: '#666', marginBottom: '20px' }}>
                             Welcome, young robot engineer! 🦾 Today, we begin our adventure in the Robot Factory, where you will learn how to communicate with robots using the Motoko programming language.
                         </Typography>
-
-                        {/* Bölüm 1: Motoko Nedir? */}
                         <Typography variant="h5" component="h3" sx={{ fontSize: '1.5rem', color: '#A301E3', marginBottom: '10px', marginTop: '30px', fontFamily: 'Outfit' }}>
                             What is Motoko? 🤖
                         </Typography>
@@ -81,8 +87,6 @@ const Lesson1 = () => {
                                 <li><strong>Actor Model:</strong> This unique feature lets us create independent units (actors) that can interact with each other in our robot world.</li>
                             </ul>
                         </Typography>
-
-                        {/* Bölüm 2: Motoko Kod Yapısı */}
                         <Typography variant="h5" component="h3" sx={{ fontSize: '1.5rem', color: '#A301E3', marginBottom: '10px', marginTop: '30px', fontFamily: 'Outfit' }}>
                             Basic Structure of Motoko Code 🧩
                         </Typography>
@@ -92,10 +96,11 @@ const Lesson1 = () => {
                         <pre>
                             <code>
                                 {`actor {
-        public func hello() : async Text {
-            "Hello, World!"
-        }
-    }`}
+                                      public func hello() : async Text {
+                                         "Hello, World!"
+                                         }
+                                      }`
+                                }
                             </code>
                         </pre>
                         <Typography variant="body1" sx={{ fontSize: '1.2rem', color: '#666', marginBottom: '20px' }}>
@@ -105,7 +110,6 @@ const Lesson1 = () => {
                             - <code>"Hello, World!"</code>: This is what the robot will say when we call the <code>hello</code> function.
                         </Typography>
 
-                        {/* Bölüm 3: Actor Nedir? */}
                         <Typography variant="h5" component="h3" sx={{ fontSize: '1.5rem', color: '#A301E3', marginBottom: '10px', marginTop: '30px', fontFamily: 'Outfit' }}>
                             What is an Actor? 🛠️
                         </Typography>
@@ -119,7 +123,6 @@ const Lesson1 = () => {
                             Just like how we build robots to do different tasks, actors help us build and manage different parts of our programs.
                         </Typography>
 
-                        {/* Bölüm 4: İlk Kod Yazma Egzersizi */}
                         <Typography variant="h5" component="h3" sx={{ fontSize: '1.5rem', color: '#A301E3', marginBottom: '10px', marginTop: '30px', fontFamily: 'Outfit' }}>
                             Your First Coding Challenge! 🏆
                         </Typography>
@@ -142,8 +145,6 @@ const Lesson1 = () => {
                             <strong>Question:</strong> <br />
                             Create a function named <code>robotGreeting</code> that returns the message "Welcome to the Robot Factory!". Make sure your function works correctly before moving on to the next lesson.
                         </Typography>
-
-                        {/* Bölüm 5: Import Yapısı */}
                         <Typography variant="h5" component="h3" sx={{ fontSize: '1.5rem', color: '#A301E3', marginBottom: '10px', marginTop: '30px', fontFamily: 'Outfit' }}>
                             Understanding the Import Structure 📦
                         </Typography>
@@ -181,11 +182,25 @@ const Lesson1 = () => {
         <Container>
             <ContentWrapper>
                 <LessonContent>
-                    {renderLessonContent()}
+                    {showRobotModel ? <Lesson1Model isLightOn={isLightOn} /> : renderLessonContent()}
                 </LessonContent>
-                <CodeEditor editorRef={editorRef} />
+                <CodeEditor code={code} setCode={setCode} editorRef={editorRef} />
             </ContentWrapper>
             <EditorFooter>
+                <TransparentButton
+                    color={isLightOn ? 'primary' : 'secondary'}
+                    onClick={toggleLight}
+                    sx={{ display: showRobotModel ? 'inline-block' : 'none' }}
+                >
+                    {isLightOn ? 'Turn Light Off' : 'Turn Light On'}
+                </TransparentButton>
+
+                <TransparentButton
+                    onClick={() => setShowRobotModel(!showRobotModel)}
+                    sx={{ marginRight: '10px' }}
+                >
+                    {showRobotModel ? 'Show Lesson' : 'See Robot Model'}
+                </TransparentButton>
                 <TransparentButton startIcon={<MenuBook />} onClick={openModal} sx={{ marginRight: '10px' }}>
                     Robot Factory Lessons
                 </TransparentButton>

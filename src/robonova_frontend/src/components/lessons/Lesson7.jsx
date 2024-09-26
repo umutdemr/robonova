@@ -8,6 +8,7 @@ import LessonModal from '../LessonModal';
 import AlertMessage from '../AlertMessage';
 import { nextLesson, previousLesson, runCode } from './LessonFunctions';
 import { robonova_backend } from 'declarations/robonova_backend';
+import Lesson7Model from '../models/Lesson7Model';
 
 const Lesson7 = () => {
     const navigate = useNavigate();
@@ -18,7 +19,8 @@ const Lesson7 = () => {
     const [alertMessage, setAlertMessage] = useState('');
     const [alertSeverity, setAlertSeverity] = useState('success');
     const [isModalOpen, setIsModalOpen] = useState(false);
-
+    const [showRobotModel, setShowRobotModel] = useState(false);
+    const [code, setCode] = useState("");
     const handleNextLesson = () => {
         nextLesson(codeValid, currentLesson, setCurrentLesson, navigate, setAlertSeverity, setAlertMessage);
     };
@@ -218,11 +220,17 @@ const Lesson7 = () => {
         <Container>
             <ContentWrapper>
                 <LessonContent>
-                    {renderLessonContent()}
+                    {showRobotModel ? <Lesson7Model /> : renderLessonContent()}
                 </LessonContent>
-                <CodeEditor editorRef={editorRef} />
+                <CodeEditor code={code} setCode={setCode} editorRef={editorRef} />
             </ContentWrapper>
             <EditorFooter>
+                <TransparentButton
+                    onClick={() => setShowRobotModel(!showRobotModel)}
+                    sx={{ marginRight: '10px' }}
+                >
+                    {showRobotModel ? 'Show Lesson' : 'See Robot Model'}
+                </TransparentButton>
                 <TransparentButton startIcon={<MenuBook />} onClick={openModal} sx={{ marginRight: '10px' }}>
                     Robot Factory Lessons
                 </TransparentButton>
