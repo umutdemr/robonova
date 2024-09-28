@@ -21,6 +21,8 @@ const Lesson2 = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [playgroundWindow, setPlaygroundWindow] = useState(null);
     const [showRobotModel, setShowRobotModel] = useState(false);
+    const [userName, setUserName] = useState('');
+    const [userAge, setUserAge] = useState('');
 
     const handleNextLesson = () => {
         nextLesson(codeValid, currentLesson, setCurrentLesson, navigate, setAlertSeverity, setAlertMessage);
@@ -28,6 +30,30 @@ const Lesson2 = () => {
 
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
+
+
+    const handleSendUserInfo = async () => {
+        try {
+            const currentCode = editorRef.current.getValue();
+            const lines = currentCode.split('\n');
+
+            const name = lines[0] || 'Anonymous';
+            const age = Number(lines[1]) || 0;
+
+            const response = await robonova_backend.getUserInfo(name, age);
+
+            setUserName(name);
+            setUserAge(age);
+
+            setAlertSeverity('success');
+            setAlertMessage(response);
+        } catch (error) {
+            console.error('Error sending user info:', error);
+            setAlertSeverity('error');
+            setAlertMessage('An error occurred while sending user info. Please try again.');
+        }
+    };
+
 
     const handleCheckCode = async () => {
         try {
@@ -186,11 +212,14 @@ const Lesson2 = () => {
         <Container>
             <ContentWrapper>
                 <LessonContent>
-                    {showRobotModel ? <Lesson2Model /> : renderLessonContent()}
+                    {showRobotModel ? <Lesson2Model userName={userName} userAge={userAge} /> : renderLessonContent()}
                 </LessonContent>
                 <CodeEditor code={code} setCode={setCode} editorRef={editorRef} />
             </ContentWrapper>
             <EditorFooter>
+                <TransparentButton onClick={handleSendUserInfo} style={{ display: showRobotModel ? 'block' : 'none' }}>
+                    Send robot infos
+                </TransparentButton>
                 <TransparentButton
                     onClick={() => setShowRobotModel(!showRobotModel)}
                     sx={{ marginRight: '10px' }}

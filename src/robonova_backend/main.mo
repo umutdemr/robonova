@@ -11,8 +11,22 @@ import Principal "mo:base/Principal";
 
 actor {
 
+  let validColors = ["red", "blue", "green", "yellow"];
+
+  public func changeColor(color : Text) : async Text {
+    if (Array.find<Text>(validColors, func(c) { c == color }) != null) {
+      return "success";
+    } else {
+      return "error";
+    };
+  };
+
   public query (message) func greet() : async Principal {
     message.caller;
+  };
+
+  public query func getUserInfo(name : Text, age : Nat) : async Text {
+    return "Name: " # name # ", Age: " # Nat.toText(age);
   };
 
   type Notes = {
@@ -78,7 +92,7 @@ actor {
       url = url;
       headers = request_headers;
       method = #post;
-      body = ?Text.encodeUtf8(toJSON(currentCode)) 
+      body = ?Text.encodeUtf8(toJSON(currentCode));
     };
 
     let ic : Types.IC = actor "aaaaa-aa";

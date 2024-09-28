@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
-const Lesson3Model = () => {
+const Lesson3Model = ({ robotColor }) => {
     const mountRef = useRef(null);
     const robotRef = useRef(null);
 
@@ -15,10 +15,7 @@ const Lesson3Model = () => {
         const renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(window.devicePixelRatio);
-
-        if (mountRef.current) {
-            mountRef.current.appendChild(renderer.domElement);
-        }
+        mountRef.current?.appendChild(renderer.domElement);
 
         const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
         scene.add(ambientLight);
@@ -43,6 +40,7 @@ const Lesson3Model = () => {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
         };
+
         window.addEventListener('resize', handleResize);
 
         const animate = () => {
@@ -54,13 +52,26 @@ const Lesson3Model = () => {
 
         return () => {
             window.removeEventListener('resize', handleResize);
-            if (mountRef.current) {
-                mountRef.current.removeChild(renderer.domElement);
-            }
+            mountRef.current?.removeChild(renderer.domElement);
             controls.dispose();
             renderer.dispose();
         };
     }, []);
+
+    useEffect(() => {
+        if (robotRef.current) {
+            changeRobotColor(robotColor);
+        }
+    }, [robotColor]);
+    const changeRobotColor = (color) => {
+        if (robotRef.current) {
+            robotRef.current.traverse((child) => {
+                if (child.isMesh) {
+                    child.material.color.set(color);
+                }
+            });
+        }
+    };
 
     const loadWallModel = (scene) => {
         const loader = new GLTFLoader();
@@ -89,8 +100,7 @@ const Lesson3Model = () => {
             if (gltf.animations.length > 0) {
                 const mixer = new THREE.AnimationMixer(robotRef.current);
                 gltf.animations.forEach((clip) => {
-                    const action = mixer.clipAction(clip);
-                    action.play();
+                    mixer.clipAction(clip).play();
                 });
 
                 const clock = new THREE.Clock();

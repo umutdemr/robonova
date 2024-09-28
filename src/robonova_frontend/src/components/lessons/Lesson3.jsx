@@ -20,6 +20,7 @@ const Lesson3 = () => {
     const [alertSeverity, setAlertSeverity] = useState('success');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [showRobotModel, setShowRobotModel] = useState(false);
+    const [robotColor, setRobotColor] = useState('');
 
     const handleNextLesson = () => {
         nextLesson(codeValid, currentLesson, setCurrentLesson, navigate, setAlertSeverity, setAlertMessage);
@@ -49,6 +50,30 @@ const Lesson3 = () => {
             setAlertMessage('The code could not be checked. Please try again.');
         }
     };
+
+    const handleCheckColorCode = async () => {
+        try {
+            const currentCode = editorRef.current.getValue();
+            const colorCode = await robonova_backend.changeColor(currentCode);
+
+            if (colorCode === 'success') {
+                setCodeValid(true);
+                setAlertSeverity('success');
+                setAlertMessage('The color is correct! The robot\'s color has been changed.');
+                setRobotColor(currentCode);
+            } else {
+                setCodeValid(false);
+                setAlertSeverity('error');
+                setAlertMessage('Invalid color! Please enter a valid color such as "red", "blue", "green", or "yellow".');
+            }
+        } catch (error) {
+            console.error('Error checking code:', error);
+            setAlertSeverity('error');
+            setAlertMessage('The code could not be checked. Please try again.');
+        }
+    };
+
+
 
     const renderLessonContent = () => (
         <div>
@@ -224,11 +249,14 @@ const Lesson3 = () => {
         <Container>
             <ContentWrapper>
                 <LessonContent>
-                    {showRobotModel ? <Lesson3Model /> : renderLessonContent()}
+                    {showRobotModel ? <Lesson3Model robotColor={robotColor} /> : renderLessonContent()}
                 </LessonContent>
                 <CodeEditor code={code} setCode={setCode} editorRef={editorRef} />
             </ContentWrapper>
             <EditorFooter>
+                <TransparentButton onClick={handleCheckColorCode} style={{ display: showRobotModel ? 'block' : 'none' }}>
+                    Check Color Code
+                </TransparentButton>
                 <TransparentButton
                     onClick={() => setShowRobotModel(!showRobotModel)}
                     sx={{ marginRight: '10px' }}

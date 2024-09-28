@@ -3,12 +3,15 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
-const Lesson2Model = () => {
+const Lesson2Model = ({ userName, userAge }) => {
     const mountRef = useRef(null);
     const robotRef = useRef(null);
+    const spriteRef = useRef(null);
+    const sceneRef = useRef(null);
 
     useEffect(() => {
         const scene = new THREE.Scene();
+        sceneRef.current = scene;
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         camera.position.set(0, 1.5, 3);
 
@@ -58,6 +61,19 @@ const Lesson2Model = () => {
         };
     }, []);
 
+    useEffect(() => {
+        if (sceneRef.current && spriteRef.current) {
+            sceneRef.current.remove(spriteRef.current);
+        }
+
+        const spriteTexture = new THREE.CanvasTexture(createUserInfoCanvas(userName, userAge));
+        const spriteMaterial = new THREE.SpriteMaterial({ map: spriteTexture });
+        const sprite = new THREE.Sprite(spriteMaterial);
+        sprite.position.set(1, 1, -2);
+        sceneRef.current?.add(sprite);
+        spriteRef.current = sprite;
+    }, [userName, userAge]);
+
     const loadWallModel = (scene) => {
         const loader = new GLTFLoader();
         loader.load('/EnvironmentModel/scene.gltf', (gltf) => {
@@ -97,6 +113,31 @@ const Lesson2Model = () => {
             }
         });
     };
+
+    const createUserInfoCanvas = (userName, userAge) => {
+        const canvas = document.createElement('canvas');
+        canvas.width = 400;
+        canvas.height = 200;
+
+        const context = canvas.getContext('2d');
+
+        context.fillStyle = 'rgba(0, 0, 0, 0.7)';
+        context.fillRect(0, 0, canvas.width, canvas.height);
+
+        context.strokeStyle = 'white';
+        context.lineWidth = 5;
+        context.strokeRect(0, 0, canvas.width, canvas.height);
+
+        context.font = '30px Arial';
+        context.fillStyle = 'white';
+        context.textAlign = 'center';
+
+        context.fillText(`İsim: ${userName}`, canvas.width / 2, 80);
+        context.fillText(`Yaş: ${userAge}`, canvas.width / 2, 140);
+
+        return canvas;
+    };
+
 
     return <div ref={mountRef} style={{ width: '100%', height: '100%' }} />;
 };
