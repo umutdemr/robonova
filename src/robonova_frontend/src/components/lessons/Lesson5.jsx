@@ -224,7 +224,9 @@ const Lesson5 = () => {
                 <CodeEditor code={code} setCode={setCode} editorRef={editorRef} />
             </ContentWrapper>
             <EditorFooter>
-                <button onClick={handleRunCode}>Kodu Çalıştır</button>
+                <TransparentButton onClick={handleRunCode} style={{ display: showRobotModel ? "block" : "none" }}>
+                    Start Animation
+                </TransparentButton>
                 <TransparentButton
                     onClick={() => setShowRobotModel(!showRobotModel)}
                     sx={{ marginRight: '10px' }}
