@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
-const Lesson4Model = () => {
+const Lesson4Model = ({ direction }) => { // direction prop'u eklendi
     const mountRef = useRef(null);
     const robotRef = useRef(null);
 
@@ -60,6 +60,13 @@ const Lesson4Model = () => {
             renderer.dispose();
         };
     }, []);
+
+    useEffect(() => {
+        if (robotRef.current) {
+            // Robotu yönüne göre döndür
+            robotRef.current.rotation.y = THREE.MathUtils.degToRad(direction); // Y yönünde döndür
+        }
+    }, [direction]); // direction değiştiğinde robotun yönünü güncelle
 
     const loadWallModel = (scene) => {
         const loader = new GLTFLoader();

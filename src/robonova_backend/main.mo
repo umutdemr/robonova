@@ -8,9 +8,22 @@ import Iter "mo:base/Iter";
 import Array "mo:base/Array";
 import Debug "mo:base/Debug";
 import Principal "mo:base/Principal";
+import Int "mo:base/Int";
 
 actor {
 
+  var currentDirection: Int = 0; // Genel Int tipi kullanılıyor
+
+    public func setDirection(newDirection: Int): async Text {
+        currentDirection := newDirection;
+        return "Direction set to " # Int.toText(newDirection); // Int.toText kullanımı
+    };
+
+    public func getDirection(): async Int {
+        return currentDirection;
+    };
+ 
+ 
   let validColors = ["red", "blue", "green", "yellow"];
 
   public func changeColor(color : Text) : async Text {

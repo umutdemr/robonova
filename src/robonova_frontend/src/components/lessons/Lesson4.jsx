@@ -20,6 +20,7 @@ const Lesson4 = () => {
     const [alertSeverity, setAlertSeverity] = useState('success');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [showRobotModel, setShowRobotModel] = useState(false);
+    const [direction, setDirection] = useState(0);
 
     const handleNextLesson = () => {
         nextLesson(codeValid, currentLesson, setCurrentLesson, navigate, setAlertSeverity, setAlertMessage);
@@ -47,6 +48,29 @@ const Lesson4 = () => {
             console.error('Error checking code:', error);
             setAlertSeverity('error');
             setAlertMessage('The code could not be checked. Please try again.');
+        }
+    };
+
+    const handleRunCode = async () => {
+        try {
+            const currentCode = editorRef.current.getValue();
+            const directionMatch = currentCode.match(/setDirection\((\d+)\)/);
+
+            if (directionMatch) {
+                const newDirection = parseInt(directionMatch[1], 10);
+                const response = await robonova_backend.setDirection(newDirection);
+
+                setDirection(newDirection);
+                setAlertSeverity('success');
+                setAlertMessage(response);
+            } else {
+                setAlertSeverity('error');
+                setAlertMessage('Invalid code! Please ensure you are using setDirection correctly.');
+            }
+        } catch (error) {
+            console.error('Error running code:', error);
+            setAlertSeverity('error');
+            setAlertMessage('The code could not be run. Please try again.');
         }
     };
 
@@ -194,11 +218,14 @@ var isVerified : Bool = true;
         <Container>
             <ContentWrapper>
                 <LessonContent>
-                    {showRobotModel ? <Lesson4Model /> : renderLessonContent()}
+                    {showRobotModel ? <Lesson4Model direction={direction} /> : renderLessonContent()}
                 </LessonContent>
                 <CodeEditor code={code} setCode={setCode} editorRef={editorRef} />
             </ContentWrapper>
             <EditorFooter>
+                <TransparentButton onClick={(handleRunCode)} style={{ display: showRobotModel ? 'block' : 'none' }}>
+                    Set Robot Direction
+                </TransparentButton>
                 <TransparentButton
                     onClick={() => setShowRobotModel(!showRobotModel)}
                     sx={{ marginRight: '10px' }}
