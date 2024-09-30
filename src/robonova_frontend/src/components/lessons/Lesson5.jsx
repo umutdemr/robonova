@@ -21,6 +21,46 @@ const Lesson5 = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [showRobotModel, setShowRobotModel] = useState(false);
     const [code, setCode] = useState('');
+    const [isCorrectCode, setIsCorrectCode] = useState(false);
+
+
+    const handleRunCode = async () => {
+        try {
+            const currentCode = editorRef.current.getValue().trim();
+            let response = "";
+            if (currentCode.includes("fly()")) {
+                response += await robonova_backend.fly() + "\n";
+            }
+            if (currentCode.includes("shoot()")) {
+                response += await robonova_backend.shoot() + "\n";
+            }
+            if (currentCode.includes("transform()")) {
+                response += await robonova_backend.transform() + "\n";
+            }
+
+            if (response === "") {
+                response = "Hatalı kod!";
+            }
+
+            if (response.includes("Robot is flying!")) {
+                setIsCorrectCode(true);
+            } else if (response.includes("Robot is shooting!")) {
+                setIsCorrectCode(true);
+            } else if (response.includes("Robot is transforming into a vehicle!")) {
+                setIsCorrectCode(true);
+            } else {
+                setIsCorrectCode(false);
+            }
+
+            setAlertSeverity(response.includes("Hatalı kod!") ? 'error' : 'success');
+            setAlertMessage(response);
+        } catch (error) {
+            console.error('Kod çalıştırma hatası:', error);
+            setAlertSeverity('error');
+            setAlertMessage('Kod çalıştırılamadı. Lütfen tekrar deneyin.');
+        }
+    };
+
     const handleNextLesson = () => {
         nextLesson(codeValid, currentLesson, setCurrentLesson, navigate, setAlertSeverity, setAlertMessage);
     };
@@ -179,11 +219,12 @@ const Lesson5 = () => {
         <Container>
             <ContentWrapper>
                 <LessonContent>
-                    {showRobotModel ? <Lesson5Model /> : renderLessonContent()}
+                    {showRobotModel ? <Lesson5Model isCorrectCode={isCorrectCode} /> : renderLessonContent()}
                 </LessonContent>
                 <CodeEditor code={code} setCode={setCode} editorRef={editorRef} />
             </ContentWrapper>
             <EditorFooter>
+                <button onClick={handleRunCode}>Kodu Çalıştır</button>
                 <TransparentButton
                     onClick={() => setShowRobotModel(!showRobotModel)}
                     sx={{ marginRight: '10px' }}

@@ -3,9 +3,11 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
-const Lesson5Model = () => {
+const Lesson5Model = ({ isCorrectCode }) => {
     const mountRef = useRef(null);
     const robotRef = useRef(null);
+    const mixerRef = useRef(null);
+    const clockRef = useRef(new THREE.Clock());
 
     useEffect(() => {
         const scene = new THREE.Scene();
@@ -48,6 +50,9 @@ const Lesson5Model = () => {
         const animate = () => {
             requestAnimationFrame(animate);
             controls.update();
+            if (mixerRef.current) {
+                mixerRef.current.update(clockRef.current.getDelta());
+            }
             renderer.render(scene, camera);
         };
         animate();
@@ -88,21 +93,38 @@ const Lesson5Model = () => {
             scene.add(robotRef.current);
 
             if (gltf.animations.length > 0) {
-                const mixer = new THREE.AnimationMixer(robotRef.current);
+                mixerRef.current = new THREE.AnimationMixer(robotRef.current);
+                console.log("Animasyon yüklendi, mixer oluşturuldu:", mixerRef.current);
                 gltf.animations.forEach((clip) => {
-                    const action = mixer.clipAction(clip);
-                    action.play();
+                    const action = mixerRef.current.clipAction(clip);
+                    action.clampWhenFinished = true;
+                    console.log("Animasyon eklendi:", action);
                 });
-
-                const clock = new THREE.Clock();
-                const animateRobot = () => {
-                    requestAnimationFrame(animateRobot);
-                    mixer.update(clock.getDelta());
-                };
-                animateRobot();
+            } else {
+                console.log("Yüklenen GLTF dosyasında animasyon yok.");
             }
         });
     };
+
+
+    const startAnimation = () => {
+        if (mixerRef.current) {
+            mixerRef.current._actions.forEach(action => {
+                action.play();
+            });
+        } else {
+            console.log("Mixer bulunamadı, animasyon başlatılamadı.");
+        }
+    };
+
+
+    useEffect(() => {
+        console.log("isCorrectCode değişti:", isCorrectCode);
+        if (isCorrectCode) {
+            startAnimation();
+        }
+    }, [isCorrectCode]);
+
 
     return <div ref={mountRef} style={{ width: '100%', height: '100%' }} />;
 };

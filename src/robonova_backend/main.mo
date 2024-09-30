@@ -12,17 +12,39 @@ import Int "mo:base/Int";
 
 actor {
 
-  var currentDirection: Int = 0; // Genel Int tipi kullanılıyor
+var currentState: Text = "idle"; 
+
+public func fly(): async Text {
+    currentState := "flying";
+    return "Robot is flying!";
+};
+public func shoot(): async Text {
+    currentState := "shooting";
+    return "Robot is shooting!";
+};
+public func transform(): async Text {
+    currentState := "transforming";
+    return "Robot is transforming into a vehicle!";
+};
+public func runUserCode(code: Text): async Text {
+    switch (code) {
+        case "fly()" { return await fly(); };
+        case "shoot()" { return await shoot(); };
+        case "transform()" { return await transform(); };
+        case _ { return "Hatalı kod!"; };
+    }
+};
+
+  var currentDirection: Int = 0; 
 
     public func setDirection(newDirection: Int): async Text {
         currentDirection := newDirection;
-        return "Direction set to " # Int.toText(newDirection); // Int.toText kullanımı
+        return "Direction set to " # Int.toText(newDirection); 
     };
 
     public func getDirection(): async Int {
         return currentDirection;
     };
- 
  
   let validColors = ["red", "blue", "green", "yellow"];
 
