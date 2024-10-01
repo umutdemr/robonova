@@ -12,6 +12,34 @@ import Int "mo:base/Int";
 
 actor {
 
+type Robot = {
+    name: Text;
+    model: Text;
+    active: Bool;
+};
+
+let _robot1: Robot = {
+    name = "R2-D2";
+    model = "Astromech";
+    active = true;
+};
+
+let _robot2: Robot = {
+    name = "B1 Battle Droid";
+    model = "Mechdroid";
+    active = true;
+};
+
+public func roboCheckCode(code: Text): async ?Robot {
+    if (code == "Astromech") {
+        return ?_robot1; 
+    } else if (code == "Mechdroid") {
+        return ?_robot2; 
+    } else {
+        return null; 
+    }
+};
+
 var currentState: Text = "idle"; 
 
 public func fly(): async Text {

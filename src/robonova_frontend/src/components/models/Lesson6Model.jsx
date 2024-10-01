@@ -3,9 +3,11 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
-const Lesson6Model = () => {
+const Lesson6Model = ({ robotType }) => {
     const mountRef = useRef(null);
     const robotRef = useRef(null);
+    const mixerRef = useRef(null);
+    const clockRef = useRef(new THREE.Clock());
 
     useEffect(() => {
         const scene = new THREE.Scene();
@@ -28,7 +30,7 @@ const Lesson6Model = () => {
         scene.add(dirLight);
 
         loadWallModel(scene);
-        loadRobotModel(scene);
+        loadRobotModel(scene, robotType);
 
         const controls = new OrbitControls(camera, renderer.domElement);
         controls.enableDamping = true;
@@ -48,6 +50,12 @@ const Lesson6Model = () => {
         const animate = () => {
             requestAnimationFrame(animate);
             controls.update();
+
+            const delta = clockRef.current.getDelta();
+            if (mixerRef.current) {
+                mixerRef.current.update(delta);
+            }
+
             renderer.render(scene, camera);
         };
         animate();
@@ -60,7 +68,7 @@ const Lesson6Model = () => {
             controls.dispose();
             renderer.dispose();
         };
-    }, []);
+    }, [robotType]);
 
     const loadWallModel = (scene) => {
         const loader = new GLTFLoader();
@@ -78,9 +86,11 @@ const Lesson6Model = () => {
         });
     };
 
-    const loadRobotModel = (scene) => {
+    const loadRobotModel = (scene, robotType) => {
         const loader = new GLTFLoader();
-        loader.load('/robo6/scene.gltf', (gltf) => {
+        const modelPath = robotType === 'Astromech' ? '/robo6/scene.gltf' : '/robo5/scene.gltf';
+
+        loader.load(modelPath, (gltf) => {
             robotRef.current = gltf.scene;
             robotRef.current.scale.set(7, 7, 7);
             robotRef.current.position.set(0, -15, -20);
@@ -88,18 +98,14 @@ const Lesson6Model = () => {
             scene.add(robotRef.current);
 
             if (gltf.animations.length > 0) {
-                const mixer = new THREE.AnimationMixer(robotRef.current);
+                mixerRef.current = new THREE.AnimationMixer(robotRef.current);
                 gltf.animations.forEach((clip) => {
-                    const action = mixer.clipAction(clip);
+                    const action = mixerRef.current.clipAction(clip);
+                    action.setEffectiveTimeScale(1);
                     action.play();
                 });
-
-                const clock = new THREE.Clock();
-                const animateRobot = () => {
-                    requestAnimationFrame(animateRobot);
-                    mixer.update(clock.getDelta());
-                };
-                animateRobot();
+            } else {
+                console.log("Yüklenen GLTF dosyasında animasyon yok.");
             }
         });
     };

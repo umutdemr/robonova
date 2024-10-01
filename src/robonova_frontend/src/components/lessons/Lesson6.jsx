@@ -21,6 +21,38 @@ const Lesson6 = () => {
     const [alertSeverity, setAlertSeverity] = useState('success');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [showRobotModel, setShowRobotModel] = useState(false);
+    const [robotType, setRobotType] = useState('');
+
+
+    const handleRunCode = async () => {
+        try {
+            const currentCode = editorRef.current.getValue();
+            const fetchedRobot = await robonova_backend.roboCheckCode(currentCode);
+
+            if (fetchedRobot && fetchedRobot.length > 0) {
+                const robot = fetchedRobot[0];
+                console.log("Robot:", robot);
+
+                if (robot.model === "Astromech") {
+                    setRobotType("Astromech");
+                    setAlertMessage('Model Error');
+                } else if (robot.model === "Mechdroid") {
+                    setRobotType("Mechdroid");
+                    setAlertMessage('Model Error');
+                } else {
+                    setAlertSeverity('error');
+                    setAlertMessage('Geçersiz model türü. Lütfen tekrar deneyin.');
+                    setRobotType('');
+                }
+            } else {
+                setAlertSeverity('error');
+                setAlertMessage('Robot bilgisi alınamadı.');
+            }
+        } catch (error) {
+            console.error('Hata:', error);
+            setAlertMessage('Bir hata oluştu. Lütfen tekrar deneyin.');
+        }
+    };
 
     const handleNextLesson = () => {
         nextLesson(codeValid, currentLesson, setCurrentLesson, navigate, setAlertSeverity, setAlertMessage);
@@ -251,11 +283,14 @@ const Lesson6 = () => {
         <Container>
             <ContentWrapper>
                 <LessonContent>
-                    {showRobotModel ? <Lesson6Model /> : renderLessonContent()}
+                    {showRobotModel ? <Lesson6Model robotType={robotType} /> : renderLessonContent()}
                 </LessonContent>
                 <CodeEditor code={code} setCode={setCode} editorRef={editorRef} />
             </ContentWrapper>
             <EditorFooter>
+                <TransparentButton onClick={handleRunCode} style={{ display: showRobotModel ? "block" : "none" }}>
+                    Change Robot Model
+                </TransparentButton>
                 <TransparentButton
                     onClick={() => setShowRobotModel(!showRobotModel)}
                     sx={{ marginRight: '10px' }}
