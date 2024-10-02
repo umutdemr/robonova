@@ -21,6 +21,29 @@ const Lesson7 = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [showRobotModel, setShowRobotModel] = useState(false);
     const [code, setCode] = useState("");
+    const [isCopied, setIsCopied] = useState(false);
+
+    const handleRunCode = async () => {
+        try {
+            const currentCode = editorRef.current.getValue();
+            const isCommandValid = await robonova_backend.validateCommand(currentCode);
+
+            console.log("Backend Yanıtı:", isCommandValid);
+
+            if (isCommandValid === true) {
+                setIsCopied(true);
+                console.log("Robot başarıyla kopyalandı!");
+            } else {
+                setIsCopied(false);
+                console.log("Kopyalama komutu başarısız.");
+            }
+        } catch (error) {
+            console.error("Kod doğrulama hatası:", error);
+        }
+    };
+
+
+
     const handleNextLesson = () => {
         nextLesson(codeValid, currentLesson, setCurrentLesson, navigate, setAlertSeverity, setAlertMessage);
     };
@@ -220,11 +243,14 @@ const Lesson7 = () => {
         <Container>
             <ContentWrapper>
                 <LessonContent>
-                    {showRobotModel ? <Lesson7Model /> : renderLessonContent()}
+                    {showRobotModel ? <Lesson7Model isCopied={isCopied} /> : renderLessonContent()}
                 </LessonContent>
                 <CodeEditor code={code} setCode={setCode} editorRef={editorRef} />
             </ContentWrapper>
             <EditorFooter>
+                <TransparentButton onClick={handleRunCode} style={{ display: showRobotModel ? "block" : "none" }}>
+                    Copy Robot
+                </TransparentButton>
                 <TransparentButton
                     onClick={() => setShowRobotModel(!showRobotModel)}
                     sx={{ marginRight: '10px' }}

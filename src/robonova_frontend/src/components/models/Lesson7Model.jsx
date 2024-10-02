@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
-const Lesson7Model = () => {
+const Lesson7Model = ({ isCopied }) => {
     const mountRef = useRef(null);
     const robotRef = useRef(null);
 
@@ -28,7 +28,12 @@ const Lesson7Model = () => {
         scene.add(dirLight);
 
         loadWallModel(scene);
-        loadRobotModel(scene);
+        loadRobotModel(scene, -15, -20);
+
+
+        if (isCopied) {
+            loadRobotModel(scene, 10, -20);
+        }
 
         const controls = new OrbitControls(camera, renderer.domElement);
         controls.enableDamping = true;
@@ -60,7 +65,7 @@ const Lesson7Model = () => {
             controls.dispose();
             renderer.dispose();
         };
-    }, []);
+    }, [isCopied]);
 
     const loadWallModel = (scene) => {
         const loader = new GLTFLoader();
@@ -78,17 +83,17 @@ const Lesson7Model = () => {
         });
     };
 
-    const loadRobotModel = (scene) => {
+    const loadRobotModel = (scene, x = 0, y = -15) => {
         const loader = new GLTFLoader();
         loader.load('/robo7/scene.gltf', (gltf) => {
-            robotRef.current = gltf.scene;
-            robotRef.current.scale.set(7, 7, 7);
-            robotRef.current.position.set(0, -15, -20);
+            const robot = gltf.scene;
+            robot.scale.set(7, 7, 7);
+            robot.position.set(x, y, -20);
 
-            scene.add(robotRef.current);
+            scene.add(robot);
 
             if (gltf.animations.length > 0) {
-                const mixer = new THREE.AnimationMixer(robotRef.current);
+                const mixer = new THREE.AnimationMixer(robot);
                 gltf.animations.forEach((clip) => {
                     const action = mixer.clipAction(clip);
                     action.play();

@@ -12,6 +12,14 @@ import Int "mo:base/Int";
 
 actor {
 
+  public func validateCommand(userInput: Text): async Bool {
+        if (userInput == "COPY_ROBOT") {
+            return true;  
+        } else {
+            return false; 
+        }
+    };
+
 type Robot = {
     name: Text;
     model: Text;
