@@ -176,8 +176,6 @@ const Lesson1 = () => {
         }
     };
 
-
-
     return (
         <Container>
             <ContentWrapper>

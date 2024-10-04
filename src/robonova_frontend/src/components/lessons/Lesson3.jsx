@@ -64,7 +64,7 @@ const Lesson3 = () => {
             } else {
                 setCodeValid(false);
                 setAlertSeverity('error');
-                setAlertMessage('Invalid color! Please enter a valid color such as "red", "blue", "green", or "yellow".');
+                setAlertMessage('Invalid color! Please enter a valid color such.');
             }
         } catch (error) {
             console.error('Error checking code:', error);

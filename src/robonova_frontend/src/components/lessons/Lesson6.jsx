@@ -22,7 +22,8 @@ const Lesson6 = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [showRobotModel, setShowRobotModel] = useState(false);
     const [robotType, setRobotType] = useState('');
-
+    const [robotName, setRobotName] = useState('');
+    const [robotActive, setRobotActive] = useState(false);
 
     const handleRunCode = async () => {
         try {
@@ -33,24 +34,35 @@ const Lesson6 = () => {
                 const robot = fetchedRobot[0];
                 console.log("Robot:", robot);
 
-                if (robot.model === "Astromech") {
-                    setRobotType("Astromech");
-                    setAlertMessage('Model Error');
-                } else if (robot.model === "Mechdroid") {
-                    setRobotType("Mechdroid");
-                    setAlertMessage('Model Error');
+                if (robot.active) {
+                    setRobotName(robot.name);
+                    setRobotActive(true);
+                    setAlertSeverity('success');
+                    setAlertMessage(`${robot.name} active and ready to use!`);
+
+                    // Model türüne göre robotu güncelle
+                    if (robot.model === "Astromech") {
+                        setRobotType("Astromech");
+                    } else if (robot.model === "Mechdroid") {
+                        setRobotType("Mechdroid");
+                    } else {
+                        setAlertSeverity('error');
+                        setAlertMessage('Invalid model type. Please try again.');
+                        setRobotType('');
+                    }
                 } else {
-                    setAlertSeverity('error');
-                    setAlertMessage('Geçersiz model türü. Lütfen tekrar deneyin.');
-                    setRobotType('');
+                    setRobotName(robot.name);
+                    setRobotActive(false);
+                    setAlertSeverity('warning');
+                    setAlertMessage(`${robot.name} is not active at the moment.`);
                 }
             } else {
                 setAlertSeverity('error');
-                setAlertMessage('Robot bilgisi alınamadı.');
+                setAlertMessage('No robot information was received.');
             }
         } catch (error) {
-            console.error('Hata:', error);
-            setAlertMessage('Bir hata oluştu. Lütfen tekrar deneyin.');
+            console.error('Error:', error);
+            setAlertMessage('An error has occurred. Please try again.');
         }
     };
 
@@ -262,6 +274,14 @@ const Lesson6 = () => {
                                 </code>
                             </pre>
                         </Typography>
+                        <div style={{ position: 'absolute', bottom: '20px', left: '20px' }}>
+                            <div>
+                                <strong>Robot Adı:</strong> {robotName} {/* Robot ismini ekranda göster */}
+                            </div>
+                            <div>
+                                <strong>Durum:</strong> {robotActive ? 'Aktif' : 'Aktif Değil'} {/* Aktiflik durumu */}
+                            </div>
+                        </div>
                     </div>
                 );
             default:
@@ -283,7 +303,7 @@ const Lesson6 = () => {
         <Container>
             <ContentWrapper>
                 <LessonContent>
-                    {showRobotModel ? <Lesson6Model robotType={robotType} /> : renderLessonContent()}
+                    {showRobotModel ? <Lesson6Model robotType={robotType} robotName={robotName} robotActive={true} /> : renderLessonContent()}
                 </LessonContent>
                 <CodeEditor code={code} setCode={setCode} editorRef={editorRef} />
             </ContentWrapper>

@@ -28,17 +28,15 @@ const Lesson7 = () => {
             const currentCode = editorRef.current.getValue();
             const isCommandValid = await robonova_backend.validateCommand(currentCode);
 
-            console.log("Backend Yanıtı:", isCommandValid);
-
             if (isCommandValid === true) {
                 setIsCopied(true);
-                console.log("Robot başarıyla kopyalandı!");
+                setAlertMessage("Robot successfully replicated!");
             } else {
                 setIsCopied(false);
-                console.log("Kopyalama komutu başarısız.");
+                setAlertMessage("Copy command failed.");
             }
         } catch (error) {
-            console.error("Kod doğrulama hatası:", error);
+            setAlertMessage("Code validation error:", error);
         }
     };
 

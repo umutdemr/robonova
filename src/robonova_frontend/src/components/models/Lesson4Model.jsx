@@ -1,11 +1,13 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import InfoIcon from '@mui/icons-material/Info';
 
-const Lesson4Model = ({ direction }) => { // direction prop'u eklendi
+const Lesson4Model = ({ direction }) => {
     const mountRef = useRef(null);
     const robotRef = useRef(null);
+    const [showMessage, setShowMessage] = useState(true);
 
     useEffect(() => {
         const scene = new THREE.Scene();
@@ -63,10 +65,9 @@ const Lesson4Model = ({ direction }) => { // direction prop'u eklendi
 
     useEffect(() => {
         if (robotRef.current) {
-            // Robotu yönüne göre döndür
-            robotRef.current.rotation.y = THREE.MathUtils.degToRad(direction); // Y yönünde döndür
+            robotRef.current.rotation.y = THREE.MathUtils.degToRad(direction);
         }
-    }, [direction]); // direction değiştiğinde robotun yönünü güncelle
+    }, [direction]);
 
     const loadWallModel = (scene) => {
         const loader = new GLTFLoader();
@@ -110,7 +111,53 @@ const Lesson4Model = ({ direction }) => { // direction prop'u eklendi
         });
     };
 
-    return <div ref={mountRef} style={{ width: '100%', height: '100%' }} />;
+    return (
+        <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+            <div ref={mountRef} style={{ width: '100%', height: '100%' }} />
+
+            {showMessage && (
+                <div style={{
+                    position: 'absolute',
+                    bottom: '20px',
+                    left: '20px',
+                    background: 'linear-gradient(45deg, rgba(33, 33, 33, 0.8), rgba(66, 66, 66, 0.9))',
+                    color: 'white',
+                    padding: '20px',
+                    borderRadius: '12px',
+                    boxShadow: '0px 0px 15px rgba(0, 0, 0, 0.3)',
+                    fontSize: '16px',
+                    maxWidth: '400px',
+                    zIndex: 10,
+                }}>
+                    To change the direction of your robot, you must use the setDirection(degrees) command! With this command, you can turn your robot to any angle you want. For example, with setDirection(90), your robot will turn 90 degrees to the right, or with setDirection(180), you can turn it back. After entering the command, the robot's direction will change instantly!                    <button style={{
+                        position: 'absolute',
+                        top: '5px',
+                        right: '10px',
+                        background: 'transparent',
+                        border: 'none',
+                        color: 'white',
+                        cursor: 'pointer',
+                        fontSize: '16px',
+                    }}
+                        onClick={() => setShowMessage(false)}>X</button>
+                </div>
+            )}
+
+            {!showMessage && (
+                <InfoIcon
+                    style={{
+                        position: 'absolute',
+                        bottom: '20px',
+                        left: '20px',
+                        fontSize: '30px',
+                        color: 'white',
+                        cursor: 'pointer'
+                    }}
+                    onClick={() => setShowMessage(true)}
+                />
+            )}
+        </div>
+    );
 };
 
 export default Lesson4Model;

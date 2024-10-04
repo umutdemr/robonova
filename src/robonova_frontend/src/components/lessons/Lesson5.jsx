@@ -39,7 +39,7 @@ const Lesson5 = () => {
             }
 
             if (response === "") {
-                response = "Hatalı kod!";
+                response = "Wrong code!";
             }
 
             if (response.includes("Robot is flying!")) {
@@ -52,12 +52,12 @@ const Lesson5 = () => {
                 setIsCorrectCode(false);
             }
 
-            setAlertSeverity(response.includes("Hatalı kod!") ? 'error' : 'success');
+            setAlertSeverity(response.includes("Wrong code!") ? 'error' : 'success');
             setAlertMessage(response);
         } catch (error) {
-            console.error('Kod çalıştırma hatası:', error);
+            console.error('Code execution error:', error);
             setAlertSeverity('error');
-            setAlertMessage('Kod çalıştırılamadı. Lütfen tekrar deneyin.');
+            setAlertMessage('The code could not be executed. Please try again.');
         }
     };
 

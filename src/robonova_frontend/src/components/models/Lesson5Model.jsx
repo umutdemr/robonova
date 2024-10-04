@@ -1,13 +1,15 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import InfoIcon from '@mui/icons-material/Info';
 
 const Lesson5Model = ({ isCorrectCode }) => {
     const mountRef = useRef(null);
     const robotRef = useRef(null);
     const mixerRef = useRef(null);
     const clockRef = useRef(new THREE.Clock());
+    const [showMessage, setShowMessage] = useState(true);
 
     useEffect(() => {
         const scene = new THREE.Scene();
@@ -94,14 +96,12 @@ const Lesson5Model = ({ isCorrectCode }) => {
 
             if (gltf.animations.length > 0) {
                 mixerRef.current = new THREE.AnimationMixer(robotRef.current);
-                console.log("Animasyon yüklendi, mixer oluşturuldu:", mixerRef.current);
                 gltf.animations.forEach((clip) => {
                     const action = mixerRef.current.clipAction(clip);
                     action.clampWhenFinished = true;
-                    console.log("Animasyon eklendi:", action);
                 });
             } else {
-                console.log("Yüklenen GLTF dosyasında animasyon yok.");
+                console.log("There is no animation in the uploaded GLTF file.");
             }
         });
     };
@@ -126,7 +126,66 @@ const Lesson5Model = ({ isCorrectCode }) => {
     }, [isCorrectCode]);
 
 
-    return <div ref={mountRef} style={{ width: '100%', height: '100%' }} />;
+    return (
+        <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+            <div ref={mountRef} style={{ width: '100%', height: '100%' }} />
+
+            {showMessage && (
+                <div
+                    style={{
+                        position: 'absolute',
+                        bottom: '20px',
+                        left: '20px',
+                        background: 'linear-gradient(45deg, rgba(33, 33, 33, 0.8), rgba(66, 66, 66, 0.9))',
+                        color: 'white',
+                        padding: '20px',
+                        borderRadius: '12px',
+                        boxShadow: '0px 0px 15px rgba(0, 0, 0, 0.3)',
+                        fontSize: '16px',
+                        maxWidth: '400px',
+                        zIndex: 10,
+                    }}
+                >
+                    You have to enter the correct command to start the animation of your robot! If you want to make your robot fly, you can use fly(), shoot() to shoot, or transform() to transform. When you enter these commands correctly, your robot will start moving lively!
+                    <button
+                        onClick={() => setShowMessage(false)}
+                        style={{
+                            position: 'absolute',
+                            top: '5px',
+                            right: '10px',
+                            background: 'transparent',
+                            border: 'none',
+                            color: 'white',
+                            cursor: 'pointer',
+                            fontSize: '16px',
+                        }}
+                    >
+                        X
+                    </button>
+                </div>
+            )}
+
+            {!showMessage && (
+                <div
+                    style={{
+                        position: 'absolute',
+                        bottom: '20px',
+                        left: '20px',
+                        zIndex: 10,
+                    }}
+                >
+                    <InfoIcon
+                        onClick={() => setShowMessage(true)}
+                        style={{
+                            color: 'white',
+                            fontSize: '32px',
+                            cursor: 'pointer',
+                        }}
+                    />
+                </div>
+            )}
+        </div>
+    );
 };
 
 export default Lesson5Model;

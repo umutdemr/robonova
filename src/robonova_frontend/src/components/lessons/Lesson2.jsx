@@ -22,7 +22,7 @@ const Lesson2 = () => {
     const [playgroundWindow, setPlaygroundWindow] = useState(null);
     const [showRobotModel, setShowRobotModel] = useState(false);
     const [userName, setUserName] = useState('');
-    const [userAge, setUserAge] = useState('');
+    const [power, setPower] = useState('');
 
     const handleNextLesson = () => {
         nextLesson(codeValid, currentLesson, setCurrentLesson, navigate, setAlertSeverity, setAlertMessage);
@@ -38,12 +38,12 @@ const Lesson2 = () => {
             const lines = currentCode.split('\n');
 
             const name = lines[0] || 'Anonymous';
-            const age = Number(lines[1]) || 0;
+            const power = Number(lines[1]) || 0;
 
-            const response = await robonova_backend.getUserInfo(name, age);
+            const response = await robonova_backend.getUserInfo(name, power);
 
             setUserName(name);
-            setUserAge(age);
+            setPower(power);
 
             setAlertSeverity('success');
             setAlertMessage(response);
@@ -212,7 +212,7 @@ const Lesson2 = () => {
         <Container>
             <ContentWrapper>
                 <LessonContent>
-                    {showRobotModel ? <Lesson2Model userName={userName} userAge={userAge} /> : renderLessonContent()}
+                    {showRobotModel ? <Lesson2Model userName={userName} power={power} /> : renderLessonContent()}
                 </LessonContent>
                 <CodeEditor code={code} setCode={setCode} editorRef={editorRef} />
             </ContentWrapper>
