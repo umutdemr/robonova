@@ -136,9 +136,9 @@ const Lesson3Model = ({ robotColor }) => {
                         zIndex: 10,
                     }}
                 >
-                    Use <code>setColor("color")</code> to change the color of the robot!
+                    Use <code>color</code> to change the color of the robot!
                     <br />
-                    Example: You can make the robot red with <code>setColor("red")</code>.
+                    Example: You can make the robot red with <code>red</code>.
                     <button
                         onClick={() => setShowInfoMessage(false)}
                         style={{

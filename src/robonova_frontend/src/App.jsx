@@ -15,6 +15,7 @@ import Lesson6 from './components/lessons/Lesson6';
 import Lesson7 from './components/lessons/Lesson7';
 import LogInProfile from './components/LogInProfile';
 import LoginPrompt from './components/LoginPrompt';
+import AllRobotsModel from './components/models/AllRobotsModel';
 
 function App() {
   const { isAuthenticated } = useAuth();
@@ -45,6 +46,7 @@ function App() {
             <Route path='/Lesson5' element={<Lesson5 />} />
             <Route path='/Lesson6' element={<Lesson6 />} />
             <Route path='/Lesson7' element={<Lesson7 />} />
+            <Route path='/AllRobotsModel' element={<AllRobotsModel />} />
             <Route path='/Notes' element={<Notes />} />
           </>
         ) : (

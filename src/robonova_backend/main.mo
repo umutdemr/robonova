@@ -82,7 +82,7 @@ public func runUserCode(code: Text): async Text {
         return currentDirection;
     };
  
-  let validColors = ["red", "blue", "green", "yellow"];
+  let validColors = ["red", "blue", "green", "yellow", "white", "black", "orange", "pink", "brown", "purple", "grey", "silver"];
 
   public func changeColor(color : Text) : async Text {
     if (Array.find<Text>(validColors, func(c) { c == color }) != null) {
@@ -96,8 +96,8 @@ public func runUserCode(code: Text): async Text {
     message.caller;
   };
 
-  public query func getUserInfo(name : Text, age : Nat) : async Text {
-    return "Name: " # name # ", Age: " # Nat.toText(age);
+  public query func getUserInfo(name : Text, power : Nat) : async Text {
+    return "Name: " # name # ", Power: " # Nat.toText(power);
   };
 
   type Notes = {

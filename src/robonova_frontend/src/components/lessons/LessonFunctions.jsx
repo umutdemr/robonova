@@ -13,14 +13,17 @@ export const nextLesson = (codeValid, currentLesson, setCurrentLesson, navigate,
         }
         else if (currentLesson === 4) {
             setCurrentLesson(5);
-            navigate('/lesson5'); 
+            navigate('/lesson5');
         } else if (currentLesson === 5) {
             setCurrentLesson(6);
-            navigate('/lesson6'); 
+            navigate('/lesson6');
         } else if (currentLesson === 6) {
             setCurrentLesson(7);
-            navigate('/lesson7'); 
-        } else {
+            navigate('/lesson7');
+        } else if (currentLesson === 7) {
+            navigate('/allRobotsModel');
+        }
+        else {
             setAlertSeverity('info');
             setAlertMessage('Tüm dersleri tamamladınız!');
         }

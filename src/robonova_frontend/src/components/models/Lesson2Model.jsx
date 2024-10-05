@@ -159,8 +159,7 @@ const Lesson2Model = ({ userName, power }) => {
                         zIndex: 10,
                     }}
                 >
-                    Use the setName("name") and setPower(power) commands to add a personal touch to your robot! Give your robot a name of your choice and set its power level. For example, you can set your robot's name to 'Nova' by typing setName("Nova") and set your robot's power to 9000 with the setPower(9000) command. Your robot will immediately take on this new name and power information!
-                    <button
+                    Use the commands to add a personal touch to your robot! Give your robot a name of your choice and set its power level. For example, you can set your robot's name to 'Nova' and set your robot's power to 9000. Your robot will immediately take on this new name and power information!                    <button
                         onClick={() => setShowMessage(false)}
                         style={{
                             position: 'absolute',
