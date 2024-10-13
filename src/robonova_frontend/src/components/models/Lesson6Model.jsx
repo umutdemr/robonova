@@ -90,7 +90,7 @@ const Lesson6Model = ({ robotType, robotName, robotActive }) => {
 
     const loadRobotModel = (scene, robotType, robotActive) => {
         const loader = new GLTFLoader();
-        const modelPath = robotType === 'Astromech' ? '/robo6/scene.gltf' : '/robo1/scene.gltf';
+        const modelPath = robotType === 'Astromech' ? '/robo6/scene.gltf' : '/robo2/scene.gltf';
 
         loader.load(modelPath, (gltf) => {
             robotRef.current = gltf.scene;

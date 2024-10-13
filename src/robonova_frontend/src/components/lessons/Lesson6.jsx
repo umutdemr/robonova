@@ -13,7 +13,7 @@ import Lesson6Model from '../models/Lesson6Model';
 const Lesson6 = () => {
     const navigate = useNavigate();
     const editorRef = useRef(null);
-    const [code, setCode] = useState(`actor { public func hello() : async Text { "Hello World" } }`);
+    const [code, setCode] = useState(``);
     const [currentLesson, setCurrentLesson] = useState(6);
     const [playgroundWindow, setPlaygroundWindow] = useState(null);
     const [codeValid, setCodeValid] = useState(false);

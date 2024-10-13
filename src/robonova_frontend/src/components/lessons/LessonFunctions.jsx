@@ -3,23 +3,23 @@ export const nextLesson = (codeValid, currentLesson, setCurrentLesson, navigate,
     if (codeValid) {
         if (currentLesson === 1) {
             setCurrentLesson(2);
-            navigate('/lesson2');
+            navigate('/Lesson2');
         } else if (currentLesson === 2) {
             setCurrentLesson(3);
-            navigate('/lesson3');
+            navigate('/Lesson3');
         } else if (currentLesson === 3) {
             setCurrentLesson(4);
-            navigate('/lesson4');
+            navigate('/Lesson4');
         }
         else if (currentLesson === 4) {
             setCurrentLesson(5);
-            navigate('/lesson5');
+            navigate('/Lesson5');
         } else if (currentLesson === 5) {
             setCurrentLesson(6);
-            navigate('/lesson6');
+            navigate('/Lesson6');
         } else if (currentLesson === 6) {
             setCurrentLesson(7);
-            navigate('/lesson7');
+            navigate('/Lesson7');
         } else if (currentLesson === 7) {
             navigate('/allRobotsModel');
         }
@@ -36,7 +36,7 @@ export const nextLesson = (codeValid, currentLesson, setCurrentLesson, navigate,
 export const previousLesson = (currentLesson, setCurrentLesson, navigate) => {
     if (currentLesson > 1) {
         setCurrentLesson(currentLesson - 1);
-        navigate(`/lesson${currentLesson - 1}`);
+        navigate(`/Lesson${currentLesson - 1}`);
     }
 };
 

@@ -3,11 +3,11 @@ import { Box, Typography, Modal, List, ListItem, ListItemText } from '@mui/mater
 import { Book } from '@mui/icons-material';
 
 const LessonModal = ({ isModalOpen, closeModal, currentLesson, setCurrentLesson, navigate }) => {
-    
+
     const handleLessonClick = (lesson) => {
         setCurrentLesson(lesson);
         closeModal();
-        navigate(`/lesson${lesson}`);
+        navigate(`/Lesson${lesson}`);
         localStorage.setItem('currentLesson', lesson);
     };
 

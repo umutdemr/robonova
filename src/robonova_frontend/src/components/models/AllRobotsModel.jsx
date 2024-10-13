@@ -161,8 +161,10 @@ const AllRobotsModel = () => {
                     maxWidth: '400px',
                     zIndex: 10,
                 }}>
-                    This view shows all robot models! You can rotate and zoom to explore each robot.
-                    <button style={{
+                    Congratulations! You've successfully completed all the lessons and become a true Motoko master! 🤖
+                    This view showcases all the robot models you've earned as a symbol of your hard work and progress.
+                    Each robot is a memory of your achievements throughout the course. Now, they belong to you!
+                    Feel free to rotate and zoom in to explore each robot and reflect on how far you've come in your Motoko journey!                    <button style={{
                         position: 'absolute',
                         top: '5px',
                         right: '10px',
